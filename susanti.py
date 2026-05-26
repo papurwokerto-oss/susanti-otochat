@@ -1,4 +1,4 @@
-# santi_faiss_memory_temp_silent.py
+# susanti_faiss_memory_temp_silent.py
 
 import os
 import numpy as np
@@ -35,12 +35,13 @@ paragraphs = [p.strip() for p in sumber_teks.split("\n\n") if p.strip()]
 # === BUAT EMBEDDING ===
 @st.cache_resource(show_spinner=False)
 def buat_faiss_index(paragraphs):
-    model = "models/gemini-embedding-2"
+    model_name = "text-embedding-004" # Menggunakan model embedding Google terbaru & stabil
     embeddings = []
     for para in paragraphs:
         try:
-            emb = genai.embed_content(model=model, content=para)["embedding"]
-            embeddings.append(emb)
+            # Perbaikan: Menggunakan client.models.embed_content
+            res = client.models.embed_content(model=model_name, contents=para)
+            embeddings.append(res.embeddings[0].values)
         except Exception:
             embeddings.append(np.zeros(768))
 
@@ -54,11 +55,12 @@ index, embeddings, paragraphs = buat_faiss_index(paragraphs)
 # === SEMANTIC SEARCH ===
 def cari_konteks_semantik(query, index, paragraphs, top_k=3):
     try:
-        result = genai.embed_content(
-            model="models/gemini-embedding-2",
-            content=query
+        # Perbaikan: Menggunakan client.models.embed_content
+        res = client.models.embed_content(
+            model="text-embedding-004",
+            contents=query
         )
-        query_emb = np.array([result["embedding"]], dtype=np.float32)
+        query_emb = np.array([res.embeddings[0].values], dtype=np.float32)
 
         D, I = index.search(query_emb, top_k)
         hasil = "\n\n".join([paragraphs[i] for i in I[0] if i != -1])
@@ -69,10 +71,6 @@ def cari_konteks_semantik(query, index, paragraphs, top_k=3):
 
 # === BUAT JAWABAN (DENGAN MEMORY + TEMPERATUR) ===
 def jawab_gemini(pertanyaan, konteks, riwayat_chat):
-    # Ambil API key dari secrets
-    api_key_asli = st.secrets["GOOGLE_API_KEY"]
-    client = genai.Client(api_key=api_key_asli)
-
     # Gabungkan riwayat chat
     chat_history = "\n".join(
         [f"{'User' if r=='user' else 'SANTI'}: {m}" for r, m in riwayat_chat[-5:]]
@@ -88,7 +86,7 @@ TUGAS ANDA:
 1. Jawablah pertanyaan pengguna HANYA berdasarkan konteks dokumen di bawah ini:
 2. Jika jawaban ada di konteks, jelaskan dengan bahasa yang mudah dipahami.
 3. Jika jawaban TIDAK ADA di konteks, cukup katakan: "Hmm, kayaknya untuk hal itu kamu langsung datang aja deh ke Pengadilan Agama Purwokerto agar lebih jelas." dan jangan berikan informasi tambahan lain.
-4. Jangan pernah merusak karakter Anda sebagai SANTI.
+4. Jangan pernah merusak karakter Anda sebagai SUSANTI.
 
 === RIWAYAT CHAT ===
 {chat_history}
@@ -104,13 +102,14 @@ Tambahkan tawaran bantuan di akhir jawaban.
 """
 
     try:
-        # Pemanggilan model dengan konfigurasi temperatur
-        response = model.generate_content(
-            prompt,
-            generation_config=genai.types.GenerationConfig(
-                temperature=0.7,
-                max_output_tokens=2048
-            )
+        # Perbaikan: Menggunakan struktur pemanggilan client baru
+        response = client.models.generate_content(
+            model='gemini-2.0-flash',
+            contents=prompt,
+            config={
+                'temperature': TEMPERATURE,
+                'max_output_tokens': 2048
+            }
         )
         return response.text.strip()
     except Exception as e:
@@ -119,8 +118,6 @@ Tambahkan tawaran bantuan di akhir jawaban.
 
 # === BOOTSTRAP + AVATAR + ANIMASI + DARK MODE + ENTER SEND ===
 import datetime
-
-# Hapus baris 'from streamlit.components.v1 import html' di sini
 
 # Deteksi waktu lokal (gelap setelah jam 18.00)
 hour = datetime.datetime.now().hour
@@ -134,7 +131,7 @@ bubble_bot_bg = "#2e2e2e" if is_dark else "#e9ecef"
 bubble_user_color = "#ffffff" if is_dark else "#0f5132"
 bubble_bot_color = "#f1f1f1" if is_dark else "#212529"
 
-# Menggunakan st.markdown untuk CSS dan JS (Ini cara yang benar di 2026)
+# Menggunakan st.markdown untuk CSS dan JS
 st.markdown(f"""
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
@@ -195,7 +192,6 @@ body {{
 </style>
 
 <script>
-// Fungsi otomatis scroll ke bawah setiap ada pesan baru
 const chatBody = window.parent.document.querySelector('.chat-body');
 if (chatBody) {{
     chatBody.scrollTop = chatBody.scrollHeight;
@@ -248,7 +244,6 @@ if (t) {
     t.style.margin = '10px auto';
     t.style.display = 'block';
     t.style.backgroundColor = 'white';
-    // Tekan Enter langsung kirim (tanpa Shift)
     t.addEventListener('keydown', e => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
