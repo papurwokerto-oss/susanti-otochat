@@ -1,0 +1,281 @@
+# santi_faiss_memory_temp_silent.py
+
+import os
+import numpy as np
+import faiss
+import streamlit as st
+import google.generativeai as genai
+
+# === KONFIGURASI DASAR ===
+st.set_page_config(page_title="SUSANTI", page_icon="💬", layout="centered")
+
+# === API KEY GOOGLE ===
+if "GOOGLE_API_KEY" in st.secrets:
+    api_key_asli = st.secrets["GOOGLE_API_KEY"]
+    genai.configure(api_key=api_key_asli)
+else:
+    st.error("Kunci API tidak terbaca di sistem Secrets!")
+    st.stop()
+
+DOC_FILENAME = "sumber.txt"
+
+# === ATUR TEMPERATUR MODEL ===
+TEMPERATURE = 0.9  # 0.0 = faktual, 1.0 = kreatif
+
+# === LOAD DOKUMEN SUMBER ===
+if not os.path.exists(DOC_FILENAME):
+    st.error(f"❌ File '{DOC_FILENAME}' tidak ditemukan.")
+    st.stop()
+
+with open(DOC_FILENAME, "r", encoding="utf-8") as f:
+    sumber_teks = f.read()
+
+paragraphs = [p.strip() for p in sumber_teks.split("\n\n") if p.strip()]
+
+# === BUAT EMBEDDING ===
+@st.cache_resource(show_spinner=False)
+def buat_faiss_index(paragraphs):
+    model = "models/gemini-embedding-2"
+    embeddings = []
+    for para in paragraphs:
+        try:
+            emb = genai.embed_content(model=model, content=para)["embedding"]
+            embeddings.append(emb)
+        except Exception:
+            embeddings.append(np.zeros(768))
+
+    embeddings = np.array(embeddings, dtype=np.float32)
+    index = faiss.IndexFlatL2(embeddings.shape[1])
+    index.add(embeddings)
+    return index, embeddings, paragraphs
+
+index, embeddings, paragraphs = buat_faiss_index(paragraphs)
+
+# === SEMANTIC SEARCH ===
+def cari_konteks_semantik(query, index, paragraphs, top_k=3):
+    try:
+        result = genai.embed_content(
+            model="models/gemini-embedding-2",
+            content=query
+        )
+        query_emb = np.array([result["embedding"]], dtype=np.float32)
+
+        D, I = index.search(query_emb, top_k)
+        hasil = "\n\n".join([paragraphs[i] for i in I[0] if i != -1])
+        return hasil
+    except Exception as e:
+        print(f"Error embedding: {e}")
+        return ""
+
+# === BUAT JAWABAN (DENGAN MEMORY + TEMPERATUR) ===
+def jawab_gemini(pertanyaan, konteks, riwayat_chat):
+    # Ambil API key dari secrets
+    api_key_asli = st.secrets["GOOGLE_API_KEY"]
+    genai.configure(api_key=api_key_asli)
+
+    # Buat model Gemini
+    model = genai.GenerativeModel("models/gemini-2.0-flash")
+
+    # Gabungkan riwayat chat
+    chat_history = "\n".join(
+        [f"{'User' if r=='user' else 'SANTI'}: {m}" for r, m in riwayat_chat[-5:]]
+    )
+
+    # Prompt utama
+    prompt = f"""
+Anda berperan sebagai asisten virtual yang cerdas. 
+Nama lengkap Anda "SUSANTI, biasa dipanggil SANTI - Asisten Layanan Informasi Pengadilan Agama Purwokerto".
+Sifat Anda: Ramah, lucu, menarik, dan selalu memberikan pujian singkat sebelum menjawab.
+
+TUGAS ANDA:
+1. Jawablah pertanyaan pengguna HANYA berdasarkan konteks dokumen di bawah ini:
+2. Jika jawaban ada di konteks, jelaskan dengan bahasa yang mudah dipahami.
+3. Jika jawaban TIDAK ADA di konteks, cukup katakan: "Hmm, kayaknya untuk hal itu kamu langsung datang aja deh ke Pengadilan Agama Purwokerto agar lebih jelas." dan jangan berikan informasi tambahan lain.
+4. Jangan pernah merusak karakter Anda sebagai SANTI.
+
+=== RIWAYAT CHAT ===
+{chat_history}
+
+=== DOKUMEN SUMBER ===
+{konteks}
+
+=== PERTANYAAN BARU ===
+{pertanyaan}
+
+Jawablah sopan, ringkas, dan mudah dimengerti. 
+Tambahkan tawaran bantuan di akhir jawaban.
+"""
+
+    try:
+        # Pemanggilan model dengan konfigurasi temperatur
+        response = model.generate_content(
+            prompt,
+            generation_config=genai.types.GenerationConfig(
+                temperature=0.7,
+                max_output_tokens=2048
+            )
+        )
+        return response.text.strip()
+    except Exception as e:
+        return f"⚠️ Terjadi kesalahan: {e}"
+
+
+# === BOOTSTRAP + AVATAR + ANIMASI + DARK MODE + ENTER SEND ===
+import datetime
+
+# Hapus baris 'from streamlit.components.v1 import html' di sini
+
+# Deteksi waktu lokal (gelap setelah jam 18.00)
+hour = datetime.datetime.now().hour
+is_dark = hour >= 18 or hour <= 5
+
+bg_color = "#121212" if is_dark else "#f8f9fa"
+header_color = "#0d6efd" if not is_dark else "#1f6feb"
+text_color = "#f1f1f1" if is_dark else "#212529"
+bubble_user_bg = "#3aafa9" if is_dark else "#d1e7dd"
+bubble_bot_bg = "#2e2e2e" if is_dark else "#e9ecef"
+bubble_user_color = "#ffffff" if is_dark else "#0f5132"
+bubble_bot_color = "#f1f1f1" if is_dark else "#212529"
+
+# Menggunakan st.markdown untuk CSS dan JS (Ini cara yang benar di 2026)
+st.markdown(f"""
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body {{
+    background-color: {bg_color};
+    font-family: "Poppins", sans-serif;
+    color: {text_color};
+}}
+.chat-body {{
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}}
+.chat-message {{
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 12px;
+    animation: fadeIn 0.4s ease-in;
+}}
+.chat-message.user {{
+    flex-direction: row-reverse;
+}}
+.chat-avatar {{
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 8px;
+}}
+.chat-avatar img {{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}}
+.chat-bubble {{
+    max-width: 70%;
+    padding: 10px 15px;
+    border-radius: 18px;
+    font-size: 15px;
+    line-height: 1.4;
+}}
+.user .chat-bubble {{
+    background-color: {bubble_user_bg};
+    color: {bubble_user_color};
+    border-radius: 18px 18px 0 18px;
+}}
+.bot .chat-bubble {{
+    background-color: {bubble_bot_bg};
+    color: {bubble_bot_color};
+    border-radius: 18px 18px 18px 0;
+}}
+@keyframes fadeIn {{
+    from {{ opacity: 0; transform: translateY(10px); }}
+    to {{ opacity: 1; transform: translateY(0); }}
+}}
+</style>
+
+<script>
+// Fungsi otomatis scroll ke bawah setiap ada pesan baru
+const chatBody = window.parent.document.querySelector('.chat-body');
+if (chatBody) {{
+    chatBody.scrollTop = chatBody.scrollHeight;
+}}
+</script>
+""", unsafe_allow_html=True)
+
+# === CHAT STRUCTURE ===
+st.markdown("<div class='chat-body'>", unsafe_allow_html=True)
+
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []
+
+AVATAR_USER = "https://cdn-icons-png.flaticon.com/512/847/847969.png"
+AVATAR_BOT = "https://cdn-icons-png.flaticon.com/512/4712/4712100.png"
+
+for role, msg in st.session_state.chat_history:
+    if role == "user":
+        st.markdown(f"""
+        <div class="chat-message user">
+            <div class="chat-avatar"><img src="{AVATAR_USER}"></div>
+            <div class="chat-bubble">{msg}</div>
+        </div>
+        """, unsafe_allow_html=True)
+    else:
+        st.markdown(f"""
+        <div class="chat-message bot">
+            <div class="chat-avatar"><img src="{AVATAR_BOT}"></div>
+            <div class="chat-bubble">{msg}</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+st.markdown("</div>", unsafe_allow_html=True)
+
+
+# === INPUT TANPA PLACEHOLDER, ENTER UNTUK KIRIM ===
+user_input = st.chat_input("", key="chat_input_field")
+
+# JavaScript untuk hapus placeholder dan kirim pakai Enter
+html_code = """
+<script>
+const t = window.parent.document.querySelector('textarea');
+if (t) {
+    t.placeholder = '';
+    t.style.minHeight = '38px';
+    t.style.fontSize = '15px';
+    t.style.borderRadius = '10px';
+    t.style.padding = '8px 10px';
+    t.style.width = '95%';
+    t.style.margin = '10px auto';
+    t.style.display = 'block';
+    t.style.backgroundColor = 'white';
+    // Tekan Enter langsung kirim (tanpa Shift)
+    t.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            const btn = window.parent.document.querySelector('button[kind="secondaryFormSubmit"]');
+            if (btn) btn.click();
+        }
+    });
+}
+</script>
+"""
+st.markdown(html_code, unsafe_allow_html=True)
+
+
+# === PROSES CHAT ===
+if user_input:
+    st.session_state.chat_history.append(("user", user_input))
+
+    with st.spinner("🤖 SANTI sedang berpikir..."):
+        konteks = cari_konteks_semantik(user_input, index, paragraphs)
+        jawaban = jawab_gemini(user_input, konteks, st.session_state.chat_history)
+
+    st.session_state.chat_history.append(("bot", jawaban))
+
+    if "chat_input_field" in st.session_state:
+        del st.session_state["chat_input_field"]
+
+    st.rerun()
