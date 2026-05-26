@@ -4,7 +4,7 @@ import os
 import numpy as np
 import faiss
 import streamlit as st
-import google.generativeai as genai
+from google import genai
 
 # === KONFIGURASI DASAR ===
 st.set_page_config(page_title="SUSANTI", page_icon="💬", layout="centered")
@@ -12,7 +12,7 @@ st.set_page_config(page_title="SUSANTI", page_icon="💬", layout="centered")
 # === API KEY GOOGLE ===
 if "GOOGLE_API_KEY" in st.secrets:
     api_key_asli = st.secrets["GOOGLE_API_KEY"]
-    genai.configure(api_key=api_key_asli)
+    client = genai.Client(api_key=api_key_asli)
 else:
     st.error("Kunci API tidak terbaca di sistem Secrets!")
     st.stop()
