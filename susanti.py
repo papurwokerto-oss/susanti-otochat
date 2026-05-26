@@ -71,10 +71,7 @@ def cari_konteks_semantik(query, index, paragraphs, top_k=3):
 def jawab_gemini(pertanyaan, konteks, riwayat_chat):
     # Ambil API key dari secrets
     api_key_asli = st.secrets["GOOGLE_API_KEY"]
-    genai.configure(api_key=api_key_asli)
-
-    # Buat model Gemini
-    model = genai.GenerativeModel("models/gemini-2.0-flash")
+    client = genai.Client(api_key=api_key_asli)
 
     # Gabungkan riwayat chat
     chat_history = "\n".join(
