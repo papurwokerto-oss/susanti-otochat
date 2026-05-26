@@ -1,4 +1,4 @@
-# susanti_faiss_memory_temp_silent.py
+# santi_faiss_memory_temp_silent.py
 
 import os
 import numpy as np
@@ -18,6 +18,7 @@ else:
     st.stop()
 
 DOC_FILENAME = "sumber.txt"
+INDEX_FILENAME = "santi_index.faiss"
 
 # === ATUR TEMPERATUR MODEL ===
 TEMPERATURE = 0.9  # 0.0 = faktual, 1.0 = kreatif
@@ -32,30 +33,47 @@ with open(DOC_FILENAME, "r", encoding="utf-8") as f:
 
 paragraphs = [p.strip() for p in sumber_teks.split("\n\n") if p.strip()]
 
-# === BUAT EMBEDDING ===
+# === BUAT & SIMPAN EMBEDDING (HEMAT KUOTA) ===
 @st.cache_resource(show_spinner=False)
 def buat_faiss_index(paragraphs):
-    model_name = "text-embedding-004" # Menggunakan model embedding Google terbaru & stabil
+    model_name = "text-embedding-004" # Model embedding Google stabil terbaru
+    
+    # JIKA INDEKS LOKAL SUDAH ADA: Langsung muat dari server (0 Kuota API!)
+    if os.path.exists(INDEX_FILENAME):
+        try:
+            index = faiss.read_index(INDEX_FILENAME)
+            return index, paragraphs
+        except Exception as e:
+            st.warning(f"Gagal membaca indeks lokal, membuat ulang... Error: {e}")
+
+    # JIKA INDEKS LOKAL BELUM ADA: Buat baru dengan memanggil API Google (Hanya jalan 1x)
     embeddings = []
     for para in paragraphs:
         try:
-            # Perbaikan: Menggunakan client.models.embed_content
             res = client.models.embed_content(model=model_name, contents=para)
             embeddings.append(res.embeddings[0].values)
         except Exception:
+            # Fallback jika baris tertentu gagal di-embed
             embeddings.append(np.zeros(768))
 
     embeddings = np.array(embeddings, dtype=np.float32)
     index = faiss.IndexFlatL2(embeddings.shape[1])
     index.add(embeddings)
-    return index, embeddings, paragraphs
+    
+    # Simpan indeks secara permanen ke file lokal server
+    try:
+        faiss.write_index(index, INDEX_FILENAME)
+    except Exception as e:
+        print(f"Gagal menyimpan indeks lokal: {e}")
+        
+    return index, paragraphs
 
-index, embeddings, paragraphs = buat_faiss_index(paragraphs)
+# Inisialisasi indeks FAISS hemat kuota
+index, paragraphs = buat_faiss_index(paragraphs)
 
 # === SEMANTIC SEARCH ===
 def cari_konteks_semantik(query, index, paragraphs, top_k=3):
     try:
-        # Perbaikan: Menggunakan client.models.embed_content
         res = client.models.embed_content(
             model="text-embedding-004",
             contents=query
@@ -66,12 +84,12 @@ def cari_konteks_semantik(query, index, paragraphs, top_k=3):
         hasil = "\n\n".join([paragraphs[i] for i in I[0] if i != -1])
         return hasil
     except Exception as e:
-        print(f"Error embedding: {e}")
+        print(f"Error embedding query: {e}")
         return ""
 
 # === BUAT JAWABAN (DENGAN MEMORY + TEMPERATUR) ===
 def jawab_gemini(pertanyaan, konteks, riwayat_chat):
-    # Gabungkan riwayat chat
+    # Gabungkan riwayat chat (5 pesan terakhir)
     chat_history = "\n".join(
         [f"{'User' if r=='user' else 'SANTI'}: {m}" for r, m in riwayat_chat[-5:]]
     )
@@ -86,7 +104,7 @@ TUGAS ANDA:
 1. Jawablah pertanyaan pengguna HANYA berdasarkan konteks dokumen di bawah ini:
 2. Jika jawaban ada di konteks, jelaskan dengan bahasa yang mudah dipahami.
 3. Jika jawaban TIDAK ADA di konteks, cukup katakan: "Hmm, kayaknya untuk hal itu kamu langsung datang aja deh ke Pengadilan Agama Purwokerto agar lebih jelas." dan jangan berikan informasi tambahan lain.
-4. Jangan pernah merusak karakter Anda sebagai SUSANTI.
+4. Jangan pernah merusak karakter Anda sebagai SANTI.
 
 === RIWAYAT CHAT ===
 {chat_history}
@@ -102,7 +120,6 @@ Tambahkan tawaran bantuan di akhir jawaban.
 """
 
     try:
-        # Perbaikan: Menggunakan struktur pemanggilan client baru
         response = client.models.generate_content(
             model='gemini-2.0-flash',
             contents=prompt,
