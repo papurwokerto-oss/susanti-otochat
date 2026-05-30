@@ -234,7 +234,7 @@ div[data-testid="stChatMessage"]:not(:has(span[data-testid="stChatMessageAvatar"
 div[data-testid="stChatInput"] {
     bottom: 35px !important; 
     background-color: #ffffff !important; 
-    border-top: 1px solid #e2e8fo !important; 
+    border-top: 1px solid #e2e8f0 !important; 
     padding: 15px 0 !important;
     z-index: 9999;
 }
