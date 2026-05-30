@@ -93,215 +93,37 @@ Tambahkan tawaran bantuan di akhir jawaban Anda.
     except Exception as e:
         return "Aduh maaf ya... Koneksi SANTI sedang sedikit terganggu nih sehingga sulit membaca dokumen. Coba kirimkan pertanyaan Anda sekali lagi ya! SANTI siap membantu."
 
-
 # === 6. INISIALISASI STATE ===
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
-
-# === 7. SUNTIKAN CSS PREMIUM (MENIRU TEMPLATE RANI AI) ===
-st.markdown("""
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-/* Reset dasar bawaan Streamlit */
-header, footer, [data-testid="stHeader"] { display: none !important; }
-.stAppDeployButton { display: none !important; }
-
-/* Struktur dasar tubuh halaman */
-.stApp {
-    background-color: #ffffff !important;
-    font-family: 'Inter', sans-serif !important;
-}
-
-/* MENGIKAT WARNA TEKS AGAR TIDAK PUTIH DI MODE GELAP (KUNCI UTAMA PERBAIKAN) */
-.stApp p, 
-.stApp span, 
-.stApp div:not(.custom-header):not(.custom-header-title), 
-.stApp h1, 
-.stApp h2, 
-.stApp h3, 
-.stApp h4, 
-.stApp h5, 
-.stApp h6,
-.stApp li,
-.stApp strong {
-    color: #1e293b !important;
-}
-
-/* HEADER FIX DI ATAS */
-.custom-header {
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    right: 0; 
-    height: 60px; 
-    background-color: #0a5d3f; 
-    display: flex; 
-    align-items: center; 
-    justify-content: space-between; 
-    padding: 0 30px; 
-    z-index: 99999; 
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-.custom-header-title {
-    color: #ffffff !important; 
-    font-size: 1.4rem !important; 
-    font-weight: 800 !important; 
-    font-family: 'Inter', sans-serif !important;
-    letter-spacing: 1px !important;
-    margin: 0 !important;
-}
-
-/* POSISI TOMBOL HAPUS CHAT STREAMLIT DI DALAM HEADER */
-button[key="btn_hapus_chat"] {
-    position: fixed !important; 
-    top: 14px !important; 
-    right: 30px !important; 
-    z-index: 100000 !important; 
-    background-color: transparent !important; 
-    color: #ffffff !important; 
-    border: 1px solid rgba(255, 255, 255, 0.4) !important; 
-    border-radius: 6px !important; 
-    padding: 6px 12px !important; 
-    font-size: 0.75rem !important; 
-    font-weight: 500 !important; 
-    font-family: 'Inter', sans-serif !important;
-    transition: background 0.2s !important;
-    cursor: pointer !important;
-}
-button[key="btn_hapus_chat"]:hover {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-/* AREA BUNGKUS KONTEN CHAT */
-.stMainBlockContainer {
-    padding-top: 80px !important; 
-    padding-bottom: 140px !important; 
-    max-width: 850px !important; 
-    margin: 0 auto !important;
-}
-
-/* KOTAK SAMBUTAN (WELCOME SCREEN) */
-.welcome-screen {
-    text-align: center;
-    margin: auto;
-    max-width: 450px;
-    padding: 20px;
-    font-family: 'Inter', sans-serif;
-    animation: fadeIn 0.3s ease-out;
-}
-.welcome-screen h2 {
-    font-size: 1.8rem !important;
-    margin-bottom: 12px !important;
-    color: #0a5d3f !important;
-    font-weight: 700 !important;
-}
-.welcome-screen p {
-    color: #64748b !important;
-    line-height: 1.6 !important;
-    font-size: 0.95rem !important;
-}
-
-/* GELEMBUNG PESAN KUSTOM */
-div[data-testid="stChatMessage"] {
-    max-width: 85% !important;
-    padding: 14px 18px !important;
-    border-radius: 15px !important;
-    font-size: 0.95rem !important;
-    line-height: 1.6 !important;
-    margin-bottom: 15px !important;
-    box-shadow: none !important;
-    border: none !important;
-    animation: fadeIn 0.3s ease-out;
-}
-
-/* Gelembung Pengguna (User) */
-div[data-testid="stChatMessage"]:has(span[data-testid="stChatMessageAvatar"] img[alt="user"]), 
-div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"]) {
-    align-self: flex-end !important;
-    background: #0a5d3f !important;
-    border-bottom-right-radius: 2px !important;
-    margin-left: auto !important;
-}
-div[data-testid="stChatMessage"]:has(span[data-testid="stChatMessageAvatar"] img[alt="user"]) *,
-div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"]) * {
-    color: #ffffff !important;
-}
-
-/* Gelembung Bot (SANTI) */
-div[data-testid="stChatMessage"]:not(:has(span[data-testid="stChatMessageAvatar"] img[alt="user"])):not(:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"])) {
-    align-self: flex-start !important;
-    background: #f1f5f9 !important;
-    border: 1px solid rgba(0, 0, 0, 0.05) !important;
-    border-bottom-left-radius: 2px !important;
-    margin-right: auto !important;
-}
-div[data-testid="stChatMessage"]:not(:has(span[data-testid="stChatMessageAvatar"] img[alt="user"])):not(:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"])) * {
-    color: #1e293b !important;
-}
-
-/* INPUT AREA MELAYANG DI BAWAH */
-div[data-testid="stChatInput"] {
-    bottom: 35px !important; 
-    background-color: #ffffff !important; 
-    border-top: 1px solid #e2e8f0 !important; 
-    padding: 15px 0 !important;
-    z-index: 9999;
-}
-div[data-testid="stChatInput"] > div {
-    background: #f8fafc !important;
-    border: 1px solid #cbd5e1 !important;
-    border-radius: 12px !important;
-    padding: 4px 8px !important;
-    transition: border-color 0.2s;
-}
-div[data-testid="stChatInput"] > div:focus-within {
-    border-color: #0a5d3f !important;
-}
-div[data-testid="stChatInput"] textarea {
-    font-size: 1rem !important;
-    color: #1e293b !important;
-    line-height: 1.5 !important;
-    background-color: transparent !important;
-}
-div[data-testid="stChatInput"] button {
-    background-color: #0a5d3f !important; 
-    color: #ffffff !important; 
-    border-radius: 12px !important;
-    padding: 12px 20px !important;
-    font-weight: 600 !important;
-    transition: background 0.2s !important;
-}
-div[data-testid="stChatInput"] button:hover {
-    background-color: #136b4e !important;
-}
-
-/* FOOTER HAK CIPTA */
-.custom-footer {
-    position: fixed; 
-    bottom: 0; 
-    left: 0; 
-    right: 0; 
-    height: 35px; 
-    background-color: #ffffff; 
-    text-align: center; 
-    font-size: 0.75rem; 
-    color: #64748b !important; 
-    line-height: 35px; 
-    border-top: 1px solid #e2e8f0; 
-    z-index: 99998;
-    letter-spacing: 0.3px;
-    font-family: 'Inter', sans-serif;
-}
-
-/* ANIMASI MUNCUL */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-</style>
-""", unsafe_allow_html=True)
-
+# === 7. SUNTIKAN CSS PREMIUM (MENIRU TEMPLATE RANI AI DENGAN LATAR BELAKANG GELAP) ===
+st.markdown("""<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>
+header, footer, [data-testid="stHeader"] {display: none !important;}
+.stAppDeployButton {display: none !important;}
+.stApp, [data-testid="stAppViewContainer"], [data-testid="stMainBlockContainer"] {background-color: #052217 !important;}
+.stApp p, .stApp span, .stApp div:not(.custom-header):not(.custom-header-title), .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6, .stApp li, .stApp strong {color: #f8fafc !important;}
+.custom-header {position: fixed; top: 0; left: 0; right: 0; height: 60px; background-color: #0a5d3f; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; z-index: 99999; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); border-bottom: 2px solid #e6a119;}
+.custom-header-title {color: #ffffff !important; font-size: 1.4rem !important; font-weight: 800 !important; font-family: 'Inter', sans-serif !important; letter-spacing: 1px !important; margin: 0 !important;}
+button[key="btn_hapus_chat"] {position: fixed !important; top: 14px !important; right: 30px !important; z-index: 100000 !important; background-color: transparent !important; color: #ffffff !important; border: 1px solid rgba(255, 255, 255, 0.4) !important; border-radius: 6px !important; padding: 6px 12px !important; font-size: 0.75rem !important; font-weight: 500 !important; font-family: 'Inter', sans-serif !important; transition: background 0.2s !important; cursor: pointer !important;}
+button[key="btn_hapus_chat"]:hover {background-color: rgba(255, 255, 255, 0.1) !important;}
+.stMainBlockContainer {padding-top: 80px !important; padding-bottom: 140px !important; max-width: 850px !important; margin: 0 auto !important;}
+.welcome-screen {text-align: center; margin: auto; max-width: 450px; padding: 20px; font-family: 'Inter', sans-serif;}
+.welcome-screen h2 {font-size: 1.8rem !important; margin-bottom: 12px !important; color: #e6a119 !important; font-weight: 700 !important;}
+.welcome-screen p {color: #94a3b8 !important; line-height: 1.6 !important; font-size: 0.95rem !important;}
+div[data-testid="stChatMessage"] {max-width: 85% !important; padding: 14px 18px !important; border-radius: 15px !important; font-size: 0.95rem !important; line-height: 1.6 !important; margin-bottom: 15px !important; box-shadow: none !important; border: none !important;}
+div[data-testid="stChatMessage"]:has(span[data-testid="stChatMessageAvatar"] img[alt="user"]), div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"]) {align-self: flex-end !important; background: #0a5d3f !important; border-bottom-right-radius: 2px !important; margin-left: auto !important;}
+div[data-testid="stChatMessage"]:has(span[data-testid="stChatMessageAvatar"] img[alt="user"]) *, div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"]) * {color: #ffffff !important;}
+div[data-testid="stChatMessage"]:not(:has(span[data-testid="stChatMessageAvatar"] img[alt="user"])):not(:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"])) {align-self: flex-start !important; background: #1e293b !important; border: 1px solid rgba(255, 255, 255, 0.05) !important; border-bottom-left-radius: 2px !important; margin-right: auto !important;}
+div[data-testid="stChatMessage"]:not(:has(span[data-testid="stChatMessageAvatar"] img[alt="user"])):not(:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"])) * {color: #f8fafc !important;}
+div[data-testid="stChatInput"] {bottom: 35px !important; background-color: #052217 !important; border-top: 1px solid #0a5d3f !important; padding: 15px 0 !important; z-index: 9999;}
+div[data-testid="stChatInput"] > div {background: #1e293b !important; border: 1px solid #0a5d3f !important; border-radius: 12px !important; padding: 4px 8px !important; transition: border-color 0.2s;}
+div[data-testid="stChatInput"] > div:focus-within {border-color: #e6a119 !important;}
+div[data-testid="stChatInput"] textarea {font-size: 1rem !important; color: #f8fafc !important; line-height: 1.5 !important; background-color: transparent !important;}
+div[data-testid="stChatInput"] button {background-color: #0a5d3f !important; color: #ffffff !important; border-radius: 12px !important; padding: 12px 20px !important; font-weight: 600 !important; transition: background 0.2s !important;}
+div[data-testid="stChatInput"] button:hover {background-color: #136b4e !important;}
+.custom-footer {position: fixed; bottom: 0; left: 0; right: 0; height: 35px; background-color: #052217; text-align: center; font-size: 0.75rem; color: #94a3b8 !important; line-height: 35px; border-top: 1px solid #0a5d3f; z-index: 99998; letter-spacing: 0.3px; font-family: 'Inter', sans-serif;}
+</style>""", unsafe_allow_html=True)
 
 # === 8. KONTROL HEADER DAN TOMBOL HAPUS ===
 st.markdown("""
@@ -310,11 +132,9 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Tombol Hapus Chat asli Streamlit diposisikan secara presisi lewat CSS di pojok kanan atas
 if st.button("Hapus Chat", key="btn_hapus_chat"):
     st.session_state.chat_history = []
     st.rerun()
-
 
 # === 9. AREA RENDER CHAT DINAMIS ===
 if len(st.session_state.chat_history) == 0:
@@ -330,7 +150,6 @@ else:
         with st.chat_message(role, avatar=avatar):
             st.write(msg)
 
-
 # === 10. FOOTER HAK CIPTA STATIS ===
 st.markdown("""
 <div class="custom-footer">
@@ -338,30 +157,23 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-
 # === 11. INPUT CHAT UTAMA & LOGIKA PENGIRIMAN PESAN ===
 user_input = st.chat_input("Ketik pertanyaan Anda di sini...")
 
 if user_input:
-    # UX Langkah 1: Langsung masukkan input user ke riwayat agar segera tampil di layar
     st.session_state.chat_history.append(("user", user_input))
     st.rerun()
 
-# Deteksi giliran menjawab SANTI
 if len(st.session_state.chat_history) > 0 and st.session_state.chat_history[-1][0] == "user":
     user_msg_terakhir = st.session_state.chat_history[-1][1]
     
     with st.spinner("SANTI sedang membaca dokumen..."):
-        # Langkah 2: Lakukan pencarian segmen dokumen (Retrieval) yang relevan
         konteks_terpilih = ambil_konteks_relevan(user_msg_terakhir, sumber_teks, top_n=3)
-        
-        # Langkah 3: Kirim prompt yang telah disanitasi ke model Gemini
         jawaban = jawab_gemini(
             user_msg_terakhir, 
             konteks_terpilih, 
             st.session_state.chat_history[:-1]
         )
 
-    # Langkah 4: Simpan jawaban SANTI ke state histori dan segarkan tampilan halaman
     st.session_state.chat_history.append(("bot", jawaban))
     st.rerun()
