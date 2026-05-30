@@ -37,45 +37,41 @@ sumber_teks = sumber_teks.replace("\r\n", "\n")
 raw_paragraphs = sumber_teks.split("\n\n") if "\n\n" in sumber_teks else sumber_teks.split("\n")
 paragraphs = [p.strip() for p in raw_paragraphs if len(p.strip()) > 5]
 
-# === BUAT & SIMPAN EMBEDDING (DENGAN PELACAK EROR) ===
+# === BUAT & SIMPAN EMBEDDING (SUDAH DIPERBAIKI) ===
 @st.cache_resource(show_spinner=False)
 def buat_faiss_index(paragraphs):
-    # Gunakan nama model standar tanpa prefix 'models/'
     model_name = "text-embedding-004" 
     
-    for i, para in enumerate(paragraphs):
-        try:
-            # Perbaikan struktur pemanggilan untuk API v1beta
-            res = client.models.embed_content(
-                model=model_name,
-                contents=para
-            )
-            embeddings.append(res.embeddings[0].values)
-    
+    # LAKUKAN INI PERTAMA: Cek apakah file indeks lama sudah ada di server
     if os.path.exists(INDEX_FILENAME):
         try:
             index = faiss.read_index(INDEX_FILENAME)
             return index, paragraphs
         except Exception as e:
-            st.warning(f"Gagal membaca indeks lokal: {e}")
+            st.warning(f"Gagal membaca indeks lokal, membuat ulang... Error: {e}")
+            if os.path.exists(INDEX_FILENAME):
+                os.remove(INDEX_FILENAME)
 
+    # LAKUKAN INI KEDUA: Siapkan wadah kosong SEBELUM proses looping dimulai
     embeddings = []
     
-    # Membuat container untuk menampilkan proses di Streamlit
     status_box = st.empty()
     status_box.info(f"🔄 Sedang memproses {len(paragraphs)} paragraf dari dokumen...")
 
+    # LAKUKAN INI KETIGA: Lakukan looping untuk mengambil embedding dari API Google
     for i, para in enumerate(paragraphs):
         try:
-            res = client.models.embed_content(model=model_name, contents=para)
+            res = client.models.embed_content(
+                model=model_name,
+                contents=para
+            )
             embeddings.append(res.embeddings[0].values)
         except Exception as e:
-            # JIKA GAGAL, KITA TAMPILKAN EROR ASLINYA KE LAYAR STREAMLIT
+            # Sekarang blok 'try' sudah memiliki pasangan 'except' yang valid
             status_box.empty()
             st.error(f"❌ Gagal membuat embedding pada paragraf ke-{i+1}.")
             st.error(f"Detail Pesan Eror: {e}")
-            st.info("💡 Solusi: Periksa apakah kuota API Gemini Anda habis (Error 429) atau API Key salah.")
-            st.stop() # Hentikan program agar eror terlihat
+            st.stop()
 
     status_box.empty()
 
@@ -83,10 +79,12 @@ def buat_faiss_index(paragraphs):
         st.error("❌ Dokumen kosong atau tidak ada teks yang berhasil diproses.")
         st.stop()
 
+    # LAKUKAN INI KEEMPAT: Ubah menjadi array dan masukkan ke FAISS
     embeddings = np.array(embeddings, dtype=np.float32)
     index = faiss.IndexFlatL2(embeddings.shape[1])
     index.add(embeddings)
     
+    # LAKUKAN INI KELIMA: Simpan indeks ke file lokal agar tidak memotong kuota lagi nanti
     try:
         faiss.write_index(index, INDEX_FILENAME)
         st.success(f"✅ Berhasil membuat database! File '{INDEX_FILENAME}' telah tersimpan.")
