@@ -129,6 +129,7 @@ st.markdown(style_html, unsafe_allow_html=True)
 # === 8. KONTROL HEADER ===
 st.markdown("""
 <div class="custom-header">
+    <img src="app/static/santi.png" class="custom-header-img" alt="SANTI">
     <div class="custom-header-title">SUSANTI</div>
 </div>
 """, unsafe_allow_html=True)
