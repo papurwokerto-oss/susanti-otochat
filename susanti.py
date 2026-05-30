@@ -40,7 +40,17 @@ paragraphs = [p.strip() for p in raw_paragraphs if len(p.strip()) > 5]
 # === BUAT & SIMPAN EMBEDDING (DENGAN PELACAK EROR) ===
 @st.cache_resource(show_spinner=False)
 def buat_faiss_index(paragraphs):
-    model_name = "models/text-embedding-001"
+    # Gunakan nama model standar tanpa prefix 'models/'
+    model_name = "text-embedding-004" 
+    
+    for i, para in enumerate(paragraphs):
+        try:
+            # Perbaikan struktur pemanggilan untuk API v1beta
+            res = client.models.embed_content(
+                model=model_name,
+                contents=para
+            )
+            embeddings.append(res.embeddings[0].values)
     
     if os.path.exists(INDEX_FILENAME):
         try:
@@ -92,7 +102,7 @@ index, paragraphs = buat_faiss_index(paragraphs)
 def cari_konteks_semantik(query, index, paragraphs, top_k=3):
     try:
         res = client.models.embed_content(
-            model="models/text-embedding-001",
+            model="text-embedding-004", # Samakan dengan yang di atas
             contents=query
         )
         query_emb = np.array([res.embeddings[0].values], dtype=np.float32)
