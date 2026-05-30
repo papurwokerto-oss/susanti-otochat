@@ -148,14 +148,15 @@ if len(st.session_state.chat_history) == 0:
     """, unsafe_allow_html=True)
 else:
     for role, msg in st.session_state.chat_history:
-        # Menggunakan susanti.png untuk user, dan emoji untuk bot
-        avatar_user = "Susanti.png" if role == "user" else None
-        avatar_bot = "🤖" if role == "bot" else None
-        with st.chat_message(role, avatar=avatar_user if role == "user" else avatar_bot):
+        # Menggunakan susanti.png sebagai avatar untuk bot (assistant), dan user diwakili emoji
+        avatar_bot = "Susanti.png" if role == "bot" else None
+        avatar_user = "👤" if role == "user" else None
+        
+        with st.chat_message(role, avatar=avatar_bot if role == "bot" else avatar_user):
             st.write(msg)
             
     if st.session_state.chat_history[-1][0] == "user":
-        with st.chat_message("assistant", avatar="🤖"):
+        with st.chat_message("assistant", avatar="Susanti.png"):
             with st.spinner("Mohon bersabar, Santi inyong tak mikir disit..."):
                 user_msg_terakhir = st.session_state.chat_history[-1][1]
                 konteks_terpilih = ambil_konteks_relevan(user_msg_terakhir, sumber_teks, top_n=3)
