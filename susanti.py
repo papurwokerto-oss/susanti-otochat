@@ -151,35 +151,6 @@ header, footer, [data-testid="stHeader"] {display: none !important;}
     text-transform: uppercase;
 }
 
-/* Memaksa kontainer pembungkus bawaan Streamlit melayang sejajar di header */
-div[data-testid="stElementContainer"]:has(button[key="btn_hapus_chat"]),
-.element-container:has(button[key="btn_hapus_chat"]) {
-    position: fixed !important; 
-    top: 16px !important; 
-    right: 40px !important; 
-    z-index: 100000 !important;
-    width: auto !important;
-}
-
-/* Tombol Hapus Chat Kustom */
-button[key="btn_hapus_chat"] {
-    background-color: rgba(255, 255, 255, 0.12) !important; 
-    color: #ffffff !important; 
-    border: 1px solid rgba(255, 255, 255, 0.3) !important; 
-    border-radius: 30px !important; 
-    padding: 6px 18px !important; 
-    font-size: 13px !important; 
-    font-weight: 600 !important; 
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
-}
-button[key="btn_hapus_chat"]:hover {
-    background-color: #e6a119 !important; 
-    color: #0b4e36 !important;
-    border-color: #e6a119 !important;
-    transform: translateY(-1px) !important;
-}
-
 /* Container Utama */
 .stMainBlockContainer {
     padding-top: 100px !important; 
@@ -343,6 +314,57 @@ div[data-testid="stChatInput"] button:hover {
     }
 }
 </style>
+
+<!-- Skrip JavaScript untuk memindahkan tombol hapus pesan secara otomatis ke header kanan atas -->
+<script>
+const tempatkanTombolHapus = () => {
+    const targetDoc = window.parent ? window.parent.document : document;
+    const semuaTombol = targetDoc.querySelectorAll('button');
+    let tombolHapus = null;
+    
+    for (const tombol of semuaTombol) {
+        if (tombol.textContent.trim() === 'Hapus Chat') {
+            tombolHapus = tombol;
+            break;
+        }
+    }
+    
+    if (tombolHapus) {
+        // Atur gaya letak dan visual agar sejajar rapi di dalam header hijau
+        tombolHapus.style.position = 'fixed';
+        tombolHapus.style.top = '17px';
+        tombolHapus.style.right = '40px';
+        tombolHapus.style.zIndex = '999999';
+        tombolHapus.style.backgroundColor = 'rgba(255, 255, 255, 0.12)';
+        tombolHapus.style.color = '#ffffff';
+        tombolHapus.style.border = '1px solid rgba(255, 255, 255, 0.3)';
+        tombolHapus.style.borderRadius = '30px';
+        tombolHapus.style.padding = '6px 18px';
+        tombolHapus.style.fontSize = '13px';
+        tombolHapus.style.fontWeight = '600';
+        tombolHapus.style.cursor = 'pointer';
+        tombolHapus.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        
+        // Efek Hover kustom
+        tombolHapus.onmouseover = () => {
+            tombolHapus.style.backgroundColor = '#e6a119';
+            tombolHapus.style.color = '#0b4e36';
+            tombolHapus.style.borderColor = '#e6a119';
+            tombolHapus.style.transform = 'translateY(-1px)';
+        };
+        tombolHapus.onmouseout = () => {
+            tombolHapus.style.backgroundColor = 'rgba(255, 255, 255, 0.12)';
+            tombolHapus.style.color = '#ffffff';
+            tombolHapus.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+            tombolHapus.style.transform = 'translateY(0)';
+        };
+    }
+};
+
+// Jalankan pencarian berkala untuk mengantisipasi perubahan DOM saat rerun Streamlit
+setTimeout(tempatkanTombolHapus, 100);
+setInterval(tempatkanTombolHapus, 1000);
+</script>
 """, unsafe_allow_html=True)
 
 
