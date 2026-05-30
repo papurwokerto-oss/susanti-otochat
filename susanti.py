@@ -274,14 +274,17 @@ if (t) {
 st.markdown(html_code, unsafe_allow_html=True)
 
 
-# === PROSES CHAT ===
+# === PROSES CHAT (VERSI PERBAIKAN) ===
 if user_input:
-    st.session_state.chat_history.append(("user", user_input))
-
     with st.spinner("🤖 SANTI sedang berpikir..."):
+        # 1. Cari konteks dari dokumen menggunakan input user SAJA sebelum dimasukkan ke riwayat
         konteks = cari_konteks_semantik(user_input, index, paragraphs)
+        
+        # 2. Ambil jawaban dari Gemini (masukkan riwayat yang belum ditambah pertanyaan baru)
         jawaban = jawab_gemini(user_input, konteks, st.session_state.chat_history)
 
+    # 3. Setelah jawaban didapat, baru masukkan pertanyaan dan jawaban sekaligus ke riwayat aplikasi
+    st.session_state.chat_history.append(("user", user_input))
     st.session_state.chat_history.append(("bot", jawaban))
 
     if "chat_input_field" in st.session_state:
