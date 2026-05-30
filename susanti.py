@@ -101,51 +101,71 @@ if "chat_history" not in st.session_state:
 style_html = """
 <link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap' rel='stylesheet'>
 <style>
-/* CSS kamu di sini */
+.stApp, [data-testid='stAppViewContainer'], [data-testid='stMainBlockContainer'] {
+    background-color: #052217 !important;
+}
+.stApp p, .stApp span, .stApp div, .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6, .stApp li, .stApp strong {
+    color: #f8fafc !important;
+}
+.custom-header {
+    position: fixed; top: 0; left: 0; right: 0; height: 60px;
+    background-color: #0a5d3f; display: flex; align-items: center; justify-content: center;
+    z-index: 99999; box-shadow: 0 2px 10px rgba(0,0,0,0.3); border-bottom: 2px solid #e6a119;
+}
+.custom-header-title {
+    color: #ffffff !important; font-size: 1.4rem !important; font-weight: 800 !important;
+    font-family: 'Inter', sans-serif !important; letter-spacing: 1px !important; margin: 0 !important;
+}
+div[data-testid='stChatInput'] {
+    position: fixed !important; bottom: 85px !important; left: 0; right: 0;
+    padding: 0 20px !important; background: transparent !important; z-index: 9999;
+    max-width: 850px; margin: 0 auto !important;
+}
+div[data-testid='stChatInput'] > div {
+    background: #1e293b !important; border: 1px solid #0a5d3f !important; border-radius: 12px !important;
+}
 .custom-delete-container {
-    position: fixed;
-    bottom: 40px;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    z-index: 99999;
+    position: fixed; bottom: 40px; left: 0; right: 0;
+    display: flex; justify-content: center; z-index: 99999;
 }
 button[key='btn_hapus_chat'] {
-    background-color: #1e293b !important;
-    color: #ffffff !important;
-    border: 1px solid #0a5d3f !important;
-    border-radius: 20px !important;
-    padding: 6px 18px !important;
-    font-size: 0.8rem !important;
-    font-weight: 600 !important;
-    font-family: 'Inter', sans-serif !important;
-    cursor: pointer !important;
-    transition: all 0.2s !important;
+    background-color: #1e293b !important; color: #ffffff !important;
+    border: 1px solid #0a5d3f !important; border-radius: 20px !important;
+    padding: 6px 18px !important; font-size: 0.8rem !important; font-weight: 600 !important;
+    font-family: 'Inter', sans-serif !important; cursor: pointer !important; transition: all 0.2s !important;
 }
 button[key='btn_hapus_chat']:hover {
-    background-color: #e6a119 !important;
-    border-color: #e6a119 !important;
-    color: #052217 !important;
+    background-color: #e6a119 !important; border-color: #e6a119 !important; color: #052217 !important;
 }
 .custom-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 35px;
-    background-color: #052217;
-    text-align: center;
-    border-top: 1px solid #0a5d3f;
-    z-index: 99998;
+    position: fixed; bottom: 0; left: 0; right: 0; height: 35px;
+    background-color: #052217; text-align: center; border-top: 1px solid #0a5d3f; z-index: 99998;
 }
 .footer-text {
-    font-size: 0.7rem !important;
-    color: #94a3b8 !important;
-    line-height: 35px !important;
-    font-family: 'Inter', sans-serif;
-    margin: 0 !important;
+    font-size: 0.7rem !important; color: #94a3b8 !important; line-height: 35px !important;
+    font-family: 'Inter', sans-serif; margin: 0 !important;
 }
 </style>
 """
 st.markdown(style_html, unsafe_allow_html=True)
+
+# === 8. HEADER ===
+st.markdown("""
+<div class="custom-header">
+    <div class="custom-header-title">SANTI</div>
+</div>
+""", unsafe_allow_html=True)
+
+# === 9. TOMBOL HAPUS CHAT DI BAWAH ===
+with st.container():
+    if st.button("Hapus Chat", key="btn_hapus_chat"):
+        st.session_state.chat_history = []
+        st.rerun()
+st.markdown('<div class="custom-delete-container"></div>', unsafe_allow_html=True)
+
+# === 10. FOOTER ===
+st.markdown("""
+<div class="custom-footer">
+    <div class="footer-text">&copy; 2026 - Pengadilan Agama Purwokerto</div>
+</div>
+""", unsafe_allow_html=True)
