@@ -56,7 +56,7 @@ def jawab_gemini(pertanyaan, konteks_terpilih, riwayat_chat):
     prompt = f"""
 Anda berperan sebagai asisten virtual yang cerdas. 
 Nama lengkap Anda "SUSANTI, biasa dipanggil SANTI - Asisten Layanan Informasi Pengadilan Agama Purwokerto".
-Sifat Anda: Ramah, lucu, menarik, dan selalu memberikan pujian singkat sebelum menjawab.
+Sifat Anda: Ramah, lucu, menarik, and selalu memberikan pujian singkat sebelum menjawab.
 
 TUGAS ANDA:
 1. Jawablah pertanyaan pengguna HANYA berdasarkan data di dalam blok <konteks_dokumen> di bawah ini.
@@ -113,6 +113,21 @@ header, footer, [data-testid="stHeader"] { display: none !important; }
     font-family: 'Inter', sans-serif !important;
 }
 
+/* MENGIKAT WARNA TEKS AGAR TIDAK PUTIH DI MODE GELAP (KUNCI UTAMA PERBAIKAN) */
+.stApp p, 
+.stApp span, 
+.stApp div:not(.custom-header):not(.custom-header-title), 
+.stApp h1, 
+.stApp h2, 
+.stApp h3, 
+.stApp h4, 
+.stApp h5, 
+.stApp h6,
+.stApp li,
+.stApp strong {
+    color: #1e293b !important;
+}
+
 /* HEADER FIX DI ATAS */
 .custom-header {
     position: fixed; 
@@ -129,12 +144,12 @@ header, footer, [data-testid="stHeader"] { display: none !important; }
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 .custom-header-title {
-    color: #ffffff; 
-    font-size: 1.4rem; 
-    font-weight: 800; 
-    font-family: 'Inter', sans-serif;
-    letter-spacing: 1px;
-    margin: 0;
+    color: #ffffff !important; 
+    font-size: 1.4rem !important; 
+    font-weight: 800 !important; 
+    font-family: 'Inter', sans-serif !important;
+    letter-spacing: 1px !important;
+    margin: 0 !important;
 }
 
 /* POSISI TOMBOL HAPUS CHAT STREAMLIT DI DALAM HEADER */
@@ -176,15 +191,15 @@ button[key="btn_hapus_chat"]:hover {
     animation: fadeIn 0.3s ease-out;
 }
 .welcome-screen h2 {
-    font-size: 1.8rem;
-    margin-bottom: 12px;
-    color: #0a5d3f;
-    font-weight: 700;
+    font-size: 1.8rem !important;
+    margin-bottom: 12px !important;
+    color: #0a5d3f !important;
+    font-weight: 700 !important;
 }
 .welcome-screen p {
-    color: #64748b;
-    line-height: 1.6;
-    font-size: 0.95rem;
+    color: #64748b !important;
+    line-height: 1.6 !important;
+    font-size: 0.95rem !important;
 }
 
 /* GELEMBUNG PESAN KUSTOM */
@@ -205,14 +220,11 @@ div[data-testid="stChatMessage"]:has(span[data-testid="stChatMessageAvatar"] img
 div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"]) {
     align-self: flex-end !important;
     background: #0a5d3f !important;
-    color: #ffffff !important;
     border-bottom-right-radius: 2px !important;
     margin-left: auto !important;
 }
-div[data-testid="stChatMessage"]:has(span[data-testid="stChatMessageAvatar"] img[alt="user"]) p,
-div[data-testid="stChatMessage"]:has(span[data-testid="stChatMessageAvatar"] img[alt="user"]) span,
-div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"]) p,
-div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"]) span {
+div[data-testid="stChatMessage"]:has(span[data-testid="stChatMessageAvatar"] img[alt="user"]) *,
+div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"]) * {
     color: #ffffff !important;
 }
 
@@ -220,13 +232,11 @@ div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatar"] [dat
 div[data-testid="stChatMessage"]:not(:has(span[data-testid="stChatMessageAvatar"] img[alt="user"])):not(:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"])) {
     align-self: flex-start !important;
     background: #f1f5f9 !important;
-    color: #1e293b !important;
     border: 1px solid rgba(0, 0, 0, 0.05) !important;
     border-bottom-left-radius: 2px !important;
     margin-right: auto !important;
 }
-div[data-testid="stChatMessage"]:not(:has(span[data-testid="stChatMessageAvatar"] img[alt="user"])):not(:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"])) p,
-div[data-testid="stChatMessage"]:not(:has(span[data-testid="stChatMessageAvatar"] img[alt="user"])):not(:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"])) span {
+div[data-testid="stChatMessage"]:not(:has(span[data-testid="stChatMessageAvatar"] img[alt="user"])):not(:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"])) * {
     color: #1e293b !important;
 }
 
@@ -276,7 +286,7 @@ div[data-testid="stChatInput"] button:hover {
     background-color: #ffffff; 
     text-align: center; 
     font-size: 0.75rem; 
-    color: #64748b; 
+    color: #64748b !important; 
     line-height: 35px; 
     border-top: 1px solid #e2e8f0; 
     z-index: 99998;
