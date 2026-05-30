@@ -1,3 +1,5 @@
+Cerai dalam bahasa jawa disebut juga pegatan atau pirakan atau rapak adalah putusnya ikatan perkawinan yang sah antara suami dan istri melalui putusan pengadilan. Secara hukum di Indonesia, perceraian hanya dianggap sah dan berkekuatan hukum apabila diproses serta diputus dalam sidang pengadilan, baik di Pengadilan Agama (bagi yang beragama Islam) maupun Pengadilan Negeri.
+
 1. LAYANAN DAN SYARAT ADMINISTRASI PERKARA
 A. SYARAT PERKARA CERAI GUGAT (Gugatan perceraian yang diajukan oleh istri)
 1.  Surat gugatan yang ditujukan kepada Ketua Pengadilan Agama Purwokerto..
@@ -869,5 +871,18 @@ a. Sebagai peradilan khusus yang memastikan transaksi sesuai syariat Islam.
 b. Memberikan kepastian hukum bagi pelaku ekonomi syariah (nasabah, bank, koperasi, investor).
 c. Menjadi pengawal agar lembaga keuangan syariah tidak hanya formalitas, tapi benar-benar sesuai prinsip syariah.
 Ringkasnya: Pengadilan Agama di Indonesia punya kewenangan menyelesaikan sengketa ekonomi syariah, mulai dari perbankan, asuransi, pasar modal syariah, sampai zakat, infak, sedekah, dan wakaf, berdasarkan UU Peradilan Agama dan UU Perbankan Syariah.
+ 
+EAC (Elektronik Akta Cerai) adalah inovasi Mahkamah Agung berupa dokumen akta cerai digital yang menggantikan cetakan fisik, memungkinkan masyarakat mengunduhnya langsung secara online tanpa harus datang ke Pengadilan Agama. Layanan ini resmi berlaku dan terus dioptimalkan berdasarkan kebijakan Dirjen Badilag.
+
+Sistem Elektronik Akta Cerai (EAC) resmi digunakan di seluruh Pengadilan Agama di Indonesia sejak 1 Juli 2025. Gugatan perceraian yang dikabulkan dan mempunyai hukum tetap /Inkrah (Inkracht van Gewijsde) atau perkara cerai talak yang telah dilaksanakan ikrar talak oleh Pemohon sejak tanggal 1 Juli 2025 maka akta cerainya menggunakan Akta Cerai Elektronik (EAC).
+
+Dasar Hukum Penerapan Pemberlakuan e-Akta Cerai ini didasarkan pada Surat Keputusan Direktur Jenderal Badan Peradilan Agama (Dirjen Badilag) Mahkamah Agung RI Nomor 932/DJA/SK.TI1.3.3/VII/2025. Surat keputusan tersebut mengatur tentang Petunjuk Pelaksanaan Administrasi Penerbitan Salinan Putusan dan Akta Cerai di Lingkungan Peradilan Agama Secara Elektronik.
+
+1. EAC (Electronic Akta Cerai) adalah sistem dan dokumen digital yang sah secara hukum, setara dengan akta cerai fisik konvensional. Dokumen ini dilengkapi dengan QR Code khusus agar instansi atau lembaga terkait bisa melakukan verifikasi keasliannya secara langsung.
+2. Keunggulan EAC adalah Praktis : Tidak perlu antre atau bolak-balik datang ke kantor Pengadilan Agama. Akses Fleksibel: Bisa diunduh kapan saja dan di mana saja melalui ponsel pintar atau komputer. Aman & Sah: Dilengkapi dengan tanda tangan elektronik panitera dan QR code anti-pemalsuan.
+3. Cara Mengunduh Akta Cerai Elektronik Setelah putusan berkekuatan hukum tetap, pihak berperkara akan menerima notifikasi pesan (biasanya WhatsApp) dari Mahkamah Agung bahwa EAC sudah siap diunduh. Akses portal resmi di https://eac.mahkamahagung.go.id/. Lakukan pendaftaran akun dengan mengisi data diri dan informasi nomor perkara Anda.Gunakan username dan password yang dikirimkan melalui email resmi untuk masuk ke dalam akun.Cek ketersediaan dokumen Anda, lalu buat kode bayar PNBP untuk mengunduh.Lakukan pembayaran PNBP sesuai petunjuk dan unduh EAC Anda.
+4. Biaya EAC. Proses penerbitan EAC dikenakan biaya PNBP (Penerimaan Negara Bukan Pajak) sebesar Rp 10.000,00. Pembayarannya dilakukan secara nontunai melalui Virtual Account (VA) yang di-generate langsung di dalam akun EAC Anda.
+5. EAC tidak wajib dicetak Sendiri. EAC dalam bentuk file digital (PDF) sudah sah secara hukum untuk keperluan administratif. Namun, jika Anda memerlukan bentuk fisik untuk keperluan persyaratan tertentu, Anda dapat mencetaknya sendiri di atas kertas ukuran A4, 80 gram.
+Untuk mengetahui status putusan Anda secara spesifik : Nomor Perkara yang sedang diproses dan Nama Pengadilan Agama tempat bersidang.
 
 
