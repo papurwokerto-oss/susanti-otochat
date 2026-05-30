@@ -74,10 +74,17 @@ Jawablah dengan sopan, ringkas, dan mudah dimengerti.
 Tambahkan tawaran bantuan di akhir jawaban Anda.
 """
     try:
-        response = client.models.generate_content(model='gemini-2.5-flash', contents=prompt)
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt,
+            config={
+                'temperature': TEMPERATURE,
+                'max_output_tokens': 1024
+            }
+        )
         return response.text.strip()
-    except:
-        return "Aduh maaf ya... Koneksi SANTI sedang terganggu. Coba lagi nanti ya!"
+    except Exception as e:
+        return "Aduh maaf ya... Koneksi SANTI sedang sedikit terganggu nih sehingga sulit membaca dokumen. Coba kirimkan pertanyaan Anda sekali lagi ya! SANTI siap membantu."
 
 # === 5. CSS PREMIUM ===
 st.markdown("""
