@@ -23,7 +23,7 @@ INDEX_FILENAME = "santi_index.faiss"
 # === ATUR TEMPERATUR MODEL ===
 TEMPERATURE = 0.9  # 0.0 = faktual, 1.0 = kreatif
 
-# === LOAD DOKUMEN SUMBER ===
+# === LOAD DOKUMEN SUMBER (PERBAIKAN) ===
 if not os.path.exists(DOC_FILENAME):
     st.error(f"❌ File '{DOC_FILENAME}' tidak ditemukan.")
     st.stop()
@@ -31,36 +31,55 @@ if not os.path.exists(DOC_FILENAME):
 with open(DOC_FILENAME, "r", encoding="utf-8") as f:
     sumber_teks = f.read()
 
-paragraphs = [p.strip() for p in sumber_teks.split("\n\n") if p.strip()]
+# Perbaikan pemotongan teks: Membersihkan karakter \r (Windows) dan memotong dengan aman
+sumber_teks = sumber_teks.replace("\r\n", "\n")
+# Memotong berdasarkan double enter ATAU single enter jika barisnya cukup panjang
+raw_paragraphs = sumber_teks.split("\n\n") if "\n\n" in sumber_teks else sumber_teks.split("\n")
+paragraphs = [p.strip() for p in raw_paragraphs if len(p.strip()) > 5]
 
-# === BUAT & SIMPAN EMBEDDING (HEMAT KUOTA) ===
+# === BUAT & SIMPAN EMBEDDING (OTOMATIS REFRESH JIKA TEKS BERUBAH) ===
 @st.cache_resource(show_spinner=False)
 def buat_faiss_index(paragraphs):
-    model_name = "text-embedding-004" # Model embedding Google stabil terbaru
+    model_name = "text-embedding-004"
     
-    # JIKA INDEKS LOKAL SUDAH ADA: Langsung muat dari server (0 Kuota API!)
+    # JIKA INDEKS LOKAL SUDAH ADA: Muat dari server
     if os.path.exists(INDEX_FILENAME):
         try:
             index = faiss.read_index(INDEX_FILENAME)
-            return index, paragraphs
+            # Validasi apakah jumlah paragraf sama dengan jumlah data di indeks
+            if index.ntotal == len(paragraphs):
+                return index, paragraphs
+            else:
+                # Jika jumlahnya beda (artinya file sumber.txt habis diedit), hapus index lama
+                os.remove(INDEX_FILENAME)
         except Exception as e:
-            st.warning(f"Gagal membaca indeks lokal, membuat ulang... Error: {e}")
+            if os.path.exists(INDEX_FILENAME):
+                os.remove(INDEX_FILENAME)
 
-    # JIKA INDEKS LOKAL BELUM ADA: Buat baru dengan memanggil API Google (Hanya jalan 1x)
+    # JIKA BELUM ADA / HABIS DIUBAH: Buat baru ke API Google
     embeddings = []
+    status_text = st.empty()
+    status_text.info("🔄 Menyelaraskan dokumen sumber baru, mohon tunggu...")
+    
     for para in paragraphs:
         try:
             res = client.models.embed_content(model=model_name, contents=para)
             embeddings.append(res.embeddings[0].values)
-        except Exception:
+        except Exception as e:
             # Fallback jika baris tertentu gagal di-embed
             embeddings.append(np.zeros(768))
+
+    status_text.empty() # Hapus notifikasi jika selesai
+
+    if len(embeddings) == 0:
+        st.error("❌ Gagal membaca dokumen. Tidak ada teks yang berhasil diproses.")
+        st.stop()
 
     embeddings = np.array(embeddings, dtype=np.float32)
     index = faiss.IndexFlatL2(embeddings.shape[1])
     index.add(embeddings)
     
-    # Simpan indeks secara permanen ke file lokal server
+    # Simpan indeks secara permanen
     try:
         faiss.write_index(index, INDEX_FILENAME)
     except Exception as e:
@@ -68,7 +87,7 @@ def buat_faiss_index(paragraphs):
         
     return index, paragraphs
 
-# Inisialisasi indeks FAISS hemat kuota
+# Inisialisasi ulang
 index, paragraphs = buat_faiss_index(paragraphs)
 
 # === SEMANTIC SEARCH ===
