@@ -42,6 +42,11 @@ def ambil_konteks_relevan(pertanyaan, dokumen, top_n=3):
     return "\n\n".join(paragraf_list[:top_n])
 
 def jawab_gemini(pertanyaan, konteks_terpilih, riwayat_chat):
+    # Mengambil 5 pesan terakhir untuk menjaga konteks
+    chat_history_slice = "\n".join(
+        [f"{'User' if r=='user' else 'SANTI'}: {m}" for r, m in riwayat_chat[-5:]]
+    )
+    
     prompt = f"""
 Anda berperan sebagai asisten virtual yang cerdas. 
 Nama lengkap Anda "SUSANTI, biasa dipanggil SANTI - Asisten Layanan Informasi Pengadilan Agama Purwokerto".
