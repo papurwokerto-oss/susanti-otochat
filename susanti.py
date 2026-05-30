@@ -96,7 +96,7 @@ Tambahkan tawaran bantuan di akhir jawaban Anda.
             contents=prompt,
             config={
                 'temperature': TEMPERATURE,
-                'max_output_tokens': 1024
+                'max_output_tokens': 2048
             }
         )
         return response.text.strip()
