@@ -40,7 +40,7 @@ paragraphs = [p.strip() for p in raw_paragraphs if len(p.strip()) > 5]
 # === BUAT & SIMPAN EMBEDDING (SUDAH DIPERBAIKI) ===
 @st.cache_resource(show_spinner=False)
 def buat_faiss_index(paragraphs):
-    model_name = "models/text-embedding-004" 
+    model_name = "text-embedding-004" 
     
     # LAKUKAN INI PERTAMA: Cek apakah file indeks lama sudah ada di server
     if os.path.exists(INDEX_FILENAME):
@@ -100,7 +100,7 @@ index, paragraphs = buat_faiss_index(paragraphs)
 def cari_konteks_semantik(query, index, paragraphs, top_k=3):
     try:
         res = client.models.embed_content(
-            model="models/text-embedding-004", # Samakan dengan yang di atas
+            model="text-embedding-004", # Samakan dengan yang di atas
             contents=query
         )
         query_emb = np.array([res.embeddings[0].values], dtype=np.float32)
