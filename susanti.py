@@ -4,7 +4,7 @@ from google import genai
 
 # === 1. KONFIGURASI HALAMAN UTAMA ===
 st.set_page_config(
-    page_title="SUSANTI - Pengadilan Agama Purwokerto", 
+    page_title="SANTI AI", 
     page_icon="💬", 
     layout="wide",
     initial_sidebar_state="collapsed"
@@ -29,12 +29,8 @@ if not os.path.exists(DOC_FILENAME):
 with open(DOC_FILENAME, "r", encoding="utf-8") as f:
     sumber_teks = f.read()
 
-# === 4. SISTEM RETRIEVAL SEDERHANA (MEMBATASI KONTEKS UNTUK HEMAT TOKEN) ===
+# === 4. SISTEM RETRIEVAL SEDERHANA ===
 def ambil_konteks_relevan(pertanyaan, dokumen, top_n=3):
-    """
-    Membagi dokumen panjang menjadi paragraf-paragraf dan memilih 
-    paragraf yang paling banyak mengandung kata kunci dari pertanyaan pengguna.
-    """
     paragraf_list = [p.strip() for p in dokumen.split("\n\n") if p.strip()]
     if not paragraf_list:
         return dokumen
@@ -51,7 +47,7 @@ def ambil_konteks_relevan(pertanyaan, dokumen, top_n=3):
     paragraf_terpilih = [p for skor, p in skor_paragraf[:top_n]]
     return "\n\n".join(paragraf_terpilih)
 
-# === 5. FUNGSI JAWABAN GEMINI (DENGAN SANITASI & ERROR HANDLING) ===
+# === 5. FUNGSI JAWABAN GEMINI ===
 def jawab_gemini(pertanyaan, konteks_terpilih, riwayat_chat):
     chat_history_slice = "\n".join(
         [f"{'User' if r=='user' else 'SANTI'}: {m}" for r, m in riwayat_chat[-5:]]
@@ -103,204 +99,174 @@ if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
 
-# === 7. SUNTIKAN CSS PREMIUM & MODERN (MENCEGAH TEKS PUTIH DI DARK MODE) ===
+# === 7. SUNTIKAN CSS PREMIUM (MENIRU TEMPLATE RANI AI) ===
 st.markdown("""
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* Reset Dasar */
-header, footer, [data-testid="stHeader"] {display: none !important;}
+/* Reset dasar bawaan Streamlit */
+header, footer, [data-testid="stHeader"] { display: none !important; }
+.stAppDeployButton { display: none !important; }
+
+/* Struktur dasar tubuh halaman */
 .stApp {
-    background-color: #f3f4f6 !important; /* Mengubah latar belakang menjadi warna abu-abu netral modern */
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    background-color: #ffffff !important;
+    font-family: 'Inter', sans-serif !important;
 }
 
-/* Header Premium */
+/* HEADER FIX DI ATAS */
 .custom-header {
     position: fixed; 
     top: 0; 
     left: 0; 
     right: 0; 
-    height: 70px; 
-    background: linear-gradient(135deg, #0b4e36 0%, #0d5c40 100%); 
+    height: 60px; 
+    background-color: #0a5d3f; 
     display: flex; 
     align-items: center; 
     justify-content: space-between; 
-    padding: 0 40px; 
+    padding: 0 30px; 
     z-index: 99999; 
-    box-shadow: 0 4px 20px rgba(11, 78, 54, 0.15);
-    border-bottom: 3px solid #e6a119;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 .custom-header-title {
     color: #ffffff; 
-    font-size: 24px; 
+    font-size: 1.4rem; 
     font-weight: 800; 
-    letter-spacing: 0.5px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.custom-header-title span {
-    background: #e6a119;
-    color: #0b4e36;
-    font-size: 11px;
-    font-weight: 800;
-    padding: 3px 8px;
-    border-radius: 20px;
-    text-transform: uppercase;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 1px;
+    margin: 0;
 }
 
-/* Container Utama */
+/* POSISI TOMBOL HAPUS CHAT STREAMLIT DI DALAM HEADER */
+button[key="btn_hapus_chat"] {
+    position: fixed !important; 
+    top: 14px !important; 
+    right: 30px !important; 
+    z-index: 100000 !important; 
+    background-color: transparent !important; 
+    color: #ffffff !important; 
+    border: 1px solid rgba(255, 255, 255, 0.4) !important; 
+    border-radius: 6px !important; 
+    padding: 6px 12px !important; 
+    font-size: 0.75rem !important; 
+    font-weight: 500 !important; 
+    font-family: 'Inter', sans-serif !important;
+    transition: background 0.2s !important;
+    cursor: pointer !important;
+}
+button[key="btn_hapus_chat"]:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* AREA BUNGKUS KONTEN CHAT */
 .stMainBlockContainer {
-    padding-top: 100px !important; 
+    padding-top: 80px !important; 
     padding-bottom: 140px !important; 
     max-width: 850px !important; 
     margin: 0 auto !important;
 }
 
-/* Kotak Sambutan Elegan */
-.welcome-card {
-    background: #ffffff;
-    border: 1px solid #e1e8e5;
-    border-radius: 24px;
-    padding: 40px;
+/* KOTAK SAMBUTAN (WELCOME SCREEN) */
+.welcome-screen {
     text-align: center;
-    box-shadow: 0 10px 30px rgba(11, 78, 54, 0.04);
-    margin-top: 5vh;
-    margin-bottom: 30px;
-    animation: slideUp 0.6s ease-out;
+    margin: auto;
+    max-width: 450px;
+    padding: 20px;
+    font-family: 'Inter', sans-serif;
+    animation: fadeIn 0.3s ease-out;
 }
-.welcome-badge {
-    background-color: rgba(11, 78, 54, 0.08);
-    color: #0b4e36;
-    font-size: 12px;
-    font-weight: 700;
-    padding: 6px 16px;
-    border-radius: 50px;
-    display: inline-block;
-    margin-bottom: 20px;
-    letter-spacing: 0.5px;
-}
-.welcome-title {
-    color: #0b4e36; 
-    font-size: 32px; 
-    font-weight: 800; 
+.welcome-screen h2 {
+    font-size: 1.8rem;
     margin-bottom: 12px;
-    letter-spacing: -0.5px;
-}
-.welcome-desc {
-    color: #61736c; 
-    font-size: 15.5px; 
-    max-width: 580px; 
-    margin: 0 auto; 
-    line-height: 1.6;
-}
-
-/* Saran Pertanyaan */
-.saran-header {
-    text-align: center;
-    color: #8fa199;
-    font-size: 12px;
+    color: #0a5d3f;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 15px;
 }
-div[data-testid="stColumn"] button {
-    width: 100% !important;
-    background-color: #ffffff !important;
-    color: #334d41 !important;
-    border: 1px solid #e2e8e6 !important;
-    border-radius: 16px !important;
-    padding: 14px !important;
-    font-size: 13.5px !important;
-    font-weight: 600 !important;
-    transition: all 0.25s ease !important;
-    box-shadow: 0 4px 12px rgba(11, 78, 54, 0.02) !important;
-    text-align: left !important;
-}
-div[data-testid="stColumn"] button:hover {
-    border-color: #0b4e36 !important;
-    background-color: rgba(11, 78, 54, 0.03) !important;
-    color: #0b4e36 !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 15px rgba(11, 78, 54, 0.06) !important;
+.welcome-screen p {
+    color: #64748b;
+    line-height: 1.6;
+    font-size: 0.95rem;
 }
 
-/* KUSTOMISASI CHAT BUBBLE UNTUK MENCEGAH TEKS PUTIH (WHITE-ON-WHITE) */
+/* GELEMBUNG PESAN KUSTOM */
 div[data-testid="stChatMessage"] {
-    background-color: #ffffff !important; 
-    border: 1px solid #e2e8e5 !important; 
-    border-radius: 20px 20px 20px 4px !important; 
-    padding: 16px 20px !important; 
-    margin-bottom: 18px !important;
-    box-shadow: 0 4px 15px rgba(11, 78, 54, 0.02) !important;
-    animation: slideUp 0.4s ease-out;
+    max-width: 85% !important;
+    padding: 14px 18px !important;
+    border-radius: 15px !important;
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+    margin-bottom: 15px !important;
+    box-shadow: none !important;
+    border: none !important;
+    animation: fadeIn 0.3s ease-out;
 }
 
-/* Memaksa Teks SANTI Selalu Berwarna Hitam Charcoal */
-div[data-testid="stChatMessage"] [data-testid="stMarkdownContainer"] p,
-div[data-testid="stChatMessage"] [data-testid="stMarkdownContainer"] li,
-div[data-testid="stChatMessage"] [data-testid="stMarkdownContainer"] span {
-    color: #2c3e35 !important;
-}
-
-/* Gelembung Pengguna */
+/* Gelembung Pengguna (User) */
 div[data-testid="stChatMessage"]:has(span[data-testid="stChatMessageAvatar"] img[alt="user"]), 
 div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"]) {
-    background: linear-gradient(135deg, #e7f3ee 0%, #dbeee5 100%) !important; 
-    border-color: #c9e2d6 !important; 
-    border-radius: 20px 20px 4px 20px !important;
+    align-self: flex-end !important;
+    background: #0a5d3f !important;
+    color: #ffffff !important;
+    border-bottom-right-radius: 2px !important;
+    margin-left: auto !important;
+}
+div[data-testid="stChatMessage"]:has(span[data-testid="stChatMessageAvatar"] img[alt="user"]) p,
+div[data-testid="stChatMessage"]:has(span[data-testid="stChatMessageAvatar"] img[alt="user"]) span,
+div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"]) p,
+div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"]) span {
+    color: #ffffff !important;
 }
 
-/* Memaksa Teks Pengguna Selalu Berwarna Hijau Tua Pekat */
-div[data-testid="stChatMessage"]:has(span[data-testid="stChatMessageAvatar"] img[alt="user"]) [data-testid="stMarkdownContainer"] p,
-div[data-testid="stChatMessage"]:has(span[data-testid="stChatMessageAvatar"] img[alt="user"]) [data-testid="stMarkdownContainer"] li,
-div[data-testid="stChatMessage"]:has(span[data-testid="stChatMessageAvatar"] img[alt="user"]) [data-testid="stMarkdownContainer"] span,
-div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"]) [data-testid="stMarkdownContainer"] p,
-div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"]) [data-testid="stMarkdownContainer"] li,
-div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"]) [data-testid="stMarkdownContainer"] span {
-    color: #093b29 !important;
+/* Gelembung Bot (SANTI) */
+div[data-testid="stChatMessage"]:not(:has(span[data-testid="stChatMessageAvatar"] img[alt="user"])):not(:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"])) {
+    align-self: flex-start !important;
+    background: #f1f5f9 !important;
+    color: #1e293b !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    border-bottom-left-radius: 2px !important;
+    margin-right: auto !important;
+}
+div[data-testid="stChatMessage"]:not(:has(span[data-testid="stChatMessageAvatar"] img[alt="user"])):not(:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"])) p,
+div[data-testid="stChatMessage"]:not(:has(span[data-testid="stChatMessageAvatar"] img[alt="user"])):not(:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"])) span {
+    color: #1e293b !important;
 }
 
-/* Input Area Melayang di Bawah */
+/* INPUT AREA MELAYANG DI BAWAH */
 div[data-testid="stChatInput"] {
     bottom: 35px !important; 
-    background-color: transparent !important; 
-    border-top: none !important; 
-    padding: 10px 0 !important;
+    background-color: #ffffff !important; 
+    border-top: 1px solid #e2e8fo !important; 
+    padding: 15px 0 !important;
+    z-index: 9999;
 }
 div[data-testid="stChatInput"] > div {
-    background-color: #ffffff !important;
-    border-radius: 20px !important;
-    box-shadow: 0 10px 30px rgba(11, 78, 54, 0.08) !important;
-    border: 1px solid #d2ded9 !important;
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 12px !important;
     padding: 4px 8px !important;
-    transition: all 0.3s ease;
+    transition: border-color 0.2s;
 }
 div[data-testid="stChatInput"] > div:focus-within {
-    border-color: #0b4e36 !important;
-    box-shadow: 0 10px 35px rgba(11, 78, 54, 0.15) !important;
+    border-color: #0a5d3f !important;
 }
 div[data-testid="stChatInput"] textarea {
-    font-size: 15px !important;
-    color: #1a3026 !important; /* Paksa teks ketikan user berwarna gelap */
-    background-color: #ffffff !important;
+    font-size: 1rem !important;
+    color: #1e293b !important;
     line-height: 1.5 !important;
+    background-color: transparent !important;
 }
 div[data-testid="stChatInput"] button {
-    background-color: #0b4e36 !important; 
+    background-color: #0a5d3f !important; 
     color: #ffffff !important; 
-    border-radius: 14px !important;
-    width: 42px !important;
-    height: 42px !important;
-    transition: all 0.2s ease;
+    border-radius: 12px !important;
+    padding: 12px 20px !important;
+    font-weight: 600 !important;
+    transition: background 0.2s !important;
 }
 div[data-testid="stChatInput"] button:hover {
-    background-color: #e6a119 !important;
-    color: #0b4e36 !important;
+    background-color: #136b4e !important;
 }
 
-/* Footer Hak Cipta */
+/* FOOTER HAK CIPTA */
 .custom-footer {
     position: fixed; 
     bottom: 0; 
@@ -309,84 +275,32 @@ div[data-testid="stChatInput"] button:hover {
     height: 35px; 
     background-color: #ffffff; 
     text-align: center; 
-    font-size: 11px; 
-    font-weight: 600;
-    color: #92a49c; 
+    font-size: 0.75rem; 
+    color: #64748b; 
     line-height: 35px; 
-    border-top: 1px solid #eef2f0; 
+    border-top: 1px solid #e2e8f0; 
     z-index: 99998;
     letter-spacing: 0.3px;
+    font-family: 'Inter', sans-serif;
 }
 
-/* Animasi Muncul */
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(12px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* ANIMASI MUNCUL */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 </style>
-
-<!-- Skrip JavaScript untuk memindahkan tombol hapus pesan secara otomatis ke header kanan atas -->
-<script>
-const tempatkanTombolHapus = () => {
-    const targetDoc = window.parent ? window.parent.document : document;
-    const semuaTombol = targetDoc.querySelectorAll('button');
-    let tombolHapus = null;
-    
-    for (const tombol of semuaTombol) {
-        if (tombol.textContent.trim() === 'Hapus Chat') {
-            tombolHapus = tombol;
-            break;
-        }
-    }
-    
-    if (tombolHapus) {
-        tombolHapus.style.position = 'fixed';
-        tombolHapus.style.top = '17px';
-        tombolHapus.style.right = '40px';
-        tombolHapus.style.zIndex = '999999';
-        tombolHapus.style.backgroundColor = 'rgba(255, 255, 255, 0.12)';
-        tombolHapus.style.color = '#ffffff';
-        tombolHapus.style.border = '1px solid rgba(255, 255, 255, 0.3)';
-        tombolHapus.style.borderRadius = '30px';
-        tombolHapus.style.padding = '6px 18px';
-        tombolHapus.style.fontSize = '13px';
-        tombolHapus.style.fontWeight = '600';
-        tombolHapus.style.cursor = 'pointer';
-        tombolHapus.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-        
-        tombolHapus.onmouseover = () => {
-            tombolHapus.style.backgroundColor = '#e6a119';
-            tombolHapus.style.color = '#0b4e36';
-            tombolHapus.style.borderColor = '#e6a119';
-            tombolHapus.style.transform = 'translateY(-1px)';
-        };
-        tombolHapus.onmouseout = () => {
-            tombolHapus.style.backgroundColor = 'rgba(255, 255, 255, 0.12)';
-            tombolHapus.style.color = '#ffffff';
-            tombolHapus.style.borderColor = 'rgba(255, 255, 255, 0.3)';
-            tombolHapus.style.transform = 'translateY(0)';
-        };
-    }
-};
-setTimeout(tempatkanTombolHapus, 100);
-setInterval(tempatkanTombolHapus, 1000);
-</script>
 """, unsafe_allow_html=True)
 
 
 # === 8. KONTROL HEADER DAN TOMBOL HAPUS ===
 st.markdown("""
 <div class="custom-header">
-    <div class="custom-header-title">SANTI <span>Asisten Virtual</span></div>
+    <div class="custom-header-title">SANTI</div>
 </div>
 """, unsafe_allow_html=True)
 
+# Tombol Hapus Chat asli Streamlit diposisikan secara presisi lewat CSS di pojok kanan atas
 if st.button("Hapus Chat", key="btn_hapus_chat"):
     st.session_state.chat_history = []
     st.rerun()
@@ -395,30 +309,11 @@ if st.button("Hapus Chat", key="btn_hapus_chat"):
 # === 9. AREA RENDER CHAT DINAMIS ===
 if len(st.session_state.chat_history) == 0:
     st.markdown("""
-    <div class="welcome-card">
-        <div class="welcome-badge">PENGADILAN AGAMA PURWOKERTO</div>
-        <h1 class="welcome-title">Halo, Saya SANTI!</h1>
-        <p class="welcome-desc">
-            Asisten layanan informasi virtual resmi yang siap membantu memberikan informasi seputar prosedur, 
-            biaya, dan persyaratan hukum di Pengadilan Agama Purwokerto dengan ramah dan cepat.
-        </p>
+    <div class="welcome-screen">
+        <h2>Saya SANTI (Asisten Layanan Informasi Virtual)</h2>
+        <p>Asisten virtual Pengadilan Agama Purwokerto siap membantu Anda memberikan informasi layanan hukum dengan cepat dan akurat.</p>
     </div>
-    <div class="saran-header">Saran Pertanyaan Cepat</div>
     """, unsafe_allow_html=True)
-    
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        if st.button("⚖️ Syarat Ajukan Perceraian", key="saran_syarat"):
-            st.session_state.chat_history.append(("user", "Bagaimana syarat mengajukan perceraian?"))
-            st.rerun()
-    with col2:
-        if st.button("💰 Estimasi Biaya Perkara", key="saran_biaya"):
-            st.session_state.chat_history.append(("user", "Berapa rincian atau estimasi biaya perkara?"))
-            st.rerun()
-    with col3:
-        if st.button("🕒 Jam Pelayanan Pengadilan", key="saran_jam"):
-            st.session_state.chat_history.append(("user", "Jam berapa pelayanan pendaftaran buka?"))
-            st.rerun()
 else:
     for role, msg in st.session_state.chat_history:
         avatar = "👤" if role == "user" else "🤖"
@@ -429,15 +324,16 @@ else:
 # === 10. FOOTER HAK CIPTA STATIS ===
 st.markdown("""
 <div class="custom-footer">
-    © 2026 Pengadilan Agama Purwokerto | Dikembangkan Secara Eksklusif
+    &copy; 2026 - Pengadilan Agama Purwokerto
 </div>
 """, unsafe_allow_html=True)
 
 
 # === 11. INPUT CHAT UTAMA & LOGIKA PENGIRIMAN PESAN ===
-user_input = st.chat_input("Tanyakan sesuatu ke SANTI...")
+user_input = st.chat_input("Ketik pertanyaan Anda di sini...")
 
 if user_input:
+    # UX Langkah 1: Langsung masukkan input user ke riwayat agar segera tampil di layar
     st.session_state.chat_history.append(("user", user_input))
     st.rerun()
 
@@ -446,12 +342,16 @@ if len(st.session_state.chat_history) > 0 and st.session_state.chat_history[-1][
     user_msg_terakhir = st.session_state.chat_history[-1][1]
     
     with st.spinner("SANTI sedang membaca dokumen..."):
+        # Langkah 2: Lakukan pencarian segmen dokumen (Retrieval) yang relevan
         konteks_terpilih = ambil_konteks_relevan(user_msg_terakhir, sumber_teks, top_n=3)
+        
+        # Langkah 3: Kirim prompt yang telah disanitasi ke model Gemini
         jawaban = jawab_gemini(
             user_msg_terakhir, 
             konteks_terpilih, 
             st.session_state.chat_history[:-1]
         )
 
+    # Langkah 4: Simpan jawaban SANTI ke state histori dan segarkan tampilan halaman
     st.session_state.chat_history.append(("bot", jawaban))
     st.rerun()
