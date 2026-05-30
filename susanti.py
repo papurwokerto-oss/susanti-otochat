@@ -107,9 +107,6 @@ style_html = (
     ".stApp p, .stApp span, .stApp div:not(.custom-header):not(.custom-header-title), .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6, .stApp li, .stApp strong {color: #f8fafc !important;}"
     ".custom-header {position: fixed; top: 0; left: 0; right: 0; height: 60px; background-color: #0a5d3f; display: flex; align-items: center; justify-content: center; z-index: 99999; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); border-bottom: 2px solid #e6a119;}"
     ".custom-header-title {color: #ffffff !important; font-size: 1.4rem !important; font-weight: 800 !important; font-family: 'Inter', sans-serif !important; letter-spacing: 1px !important; margin: 0 !important;}"
-    "div:has(> button[key='btn_hapus_chat']) {position: fixed !important; bottom: 45px !important; left: 50% !important; transform: translateX(-50%) !important; z-index: 100000 !important; width: auto !important;}"
-    "button[key='btn_hapus_chat'] {background-color: #1e293b !important; color: #ffffff !important; border: 1px solid #0a5d3f !important; border-radius: 20px !important; padding: 4px 16px !important; font-size: 0.7rem !important; font-weight: 600 !important; font-family: 'Inter', sans-serif !important; transition: all 0.2s !important; cursor: pointer !important;}"
-    "button[key='btn_hapus_chat']:hover {background-color: #e6a119 !important; border-color: #e6a119 !important; color: #052217 !important;}"
     ".stMainBlockContainer {padding-top: 80px !important; padding-bottom: 180px !important; max-width: 850px !important; margin: 0 auto !important;}"
     ".welcome-screen {text-align: center; margin: auto; max-width: 450px; padding: 20px; font-family: 'Inter', sans-serif; margin-top: 5vh;}"
     ".welcome-screen h2 {font-size: 1.8rem !important; margin-bottom: 12px !important; color: #e6a119 !important; font-weight: 700 !important;}"
@@ -119,61 +116,5 @@ style_html = (
     "div[data-testid='stChatMessage']:not(:has(span[data-testid='stChatMessageAvatar'] img[alt='user'])):not(:has(div[data-testid='stChatMessageAvatar'] [data-testid='UserIcon'])) {align-self: flex-start !important; background: #1e293b !important; border-bottom-left-radius: 2px !important; margin-right: auto !important;}"
     "div[data-testid='stChatInput'] {position: fixed !important; bottom: 85px !important; left: 0; right: 0; padding: 0 20px !important; background: transparent !important; z-index: 9999; max-width: 850px; margin: 0 auto !important;}"
     "div[data-testid='stChatInput'] > div {background: #1e293b !important; border: 1px solid #0a5d3f !important; border-radius: 12px !important;}"
-    ".custom-footer {position: fixed; bottom: 0; left: 0; right: 0; height: 35px; background-color: #052217; text-align: center; border-top: 1px solid #0a5d3f; z-index: 99998;}"
-    ".footer-text {font-size: 0.7rem !important; color: #94a3b8 !important; line-height: 35px !important; font-family: 'Inter', sans-serif; margin: 0 !important;}"
-    "</style>"
-)
-st.markdown(style_html, unsafe_allow_html=True)
-
-# === 8. KONTROL HEADER ===
-st.markdown("""
-<div class="custom-header">
-    <div class="custom-header-title">SANTI</div>
-</div>
-""", unsafe_allow_html=True)
-
-# Tombol Hapus Chat (Ditempatkan di area bawah via CSS di atas)
-if st.button("Hapus Chat", key="btn_hapus_chat"):
-    st.session_state.chat_history = []
-    st.rerun()
-
-# === 9. AREA RENDER CHAT DINAMIS ===
-if len(st.session_state.chat_history) == 0:
-    st.markdown("""
-    <div class="welcome-screen">
-        <h2>Saya SANTI (Asisten Layanan Informasi Virtual)</h2>
-        <p>Asisten virtual Pengadilan Agama Purwokerto siap membantu Anda memberikan informasi layanan hukum dengan cepat dan akurat.</p>
-    </div>
-    """, unsafe_allow_html=True)
-else:
-    for role, msg in st.session_state.chat_history:
-        avatar = "👤" if role == "user" else "🤖"
-        with st.chat_message(role, avatar=avatar):
-            st.write(msg)
-            
-    if st.session_state.chat_history[-1][0] == "user":
-        with st.chat_message("assistant", avatar="🤖"):
-            with st.spinner("SANTI sedang membaca dokumen..."):
-                user_msg_terakhir = st.session_state.chat_history[-1][1]
-                konteks_terpilih = ambil_konteks_relevan(user_msg_terakhir, sumber_teks, top_n=3)
-                jawaban = jawab_gemini(
-                    user_msg_terakhir, 
-                    konteks_terpilih, 
-                    st.session_state.chat_history[:-1]
-                )
-        st.session_state.chat_history.append(("bot", jawaban))
-        st.rerun()
-
-# === 10. FOOTER HAK CIPTA STATIS ===
-st.markdown("""
-<div class="custom-footer">
-    <div class="footer-text">&copy; 2026 - Pengadilan Agama Purwokerto</div>
-</div>
-""", unsafe_allow_html=True)
-
-# === 11. INPUT CHAT UTAMA ===
-user_input = st.chat_input("Ketik pertanyaan Anda di sini...")
-
-if user_input:
-    st.session_state.chat_history.append(("user", user_input))
-    st.rerun()
+    ".custom-delete-container {position: fixed; bottom: 40px; left: 0; right: 0; display: flex; justify-content: center; z-index: 99999;}"
+    ".custom-delete-container button {background-color: #1e293b; color: #ffffff; border: 1px solid #0a5d3f; border-radius: 20px; padding: 6px 18px; font-size: 0.8rem; font-weight: 600; font-family: 'Inter',
