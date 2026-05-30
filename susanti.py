@@ -1,5 +1,3 @@
-# susanti.py
-
 import os
 import streamlit as st
 from google import genai
@@ -105,7 +103,7 @@ if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
 
-# === 7. SUNTIKAN CSS PREMIUM & MODERN ===
+# === 7. SUNTIKAN CSS PREMIUM & MODERN (MENCEGAH TEKS PUTIH DI DARK MODE) ===
 st.markdown("""
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -228,7 +226,7 @@ div[data-testid="stColumn"] button:hover {
     box-shadow: 0 6px 15px rgba(11, 78, 54, 0.06) !important;
 }
 
-/* Kustomisasi Chat Bubbles Modern */
+/* KUSTOMISASI CHAT BUBBLE UNTUK MENCEGAH TEKS PUTIH (WHITE-ON-WHITE) */
 div[data-testid="stChatMessage"] {
     background-color: #ffffff !important; 
     border: 1px solid #e2e8e5 !important; 
@@ -238,13 +236,30 @@ div[data-testid="stChatMessage"] {
     box-shadow: 0 4px 15px rgba(11, 78, 54, 0.02) !important;
     animation: slideUp 0.4s ease-out;
 }
+
+/* Memaksa Teks SANTI Selalu Berwarna Hitam Charcoal */
+div[data-testid="stChatMessage"] [data-testid="stMarkdownContainer"] p,
+div[data-testid="stChatMessage"] [data-testid="stMarkdownContainer"] li,
+div[data-testid="stChatMessage"] [data-testid="stMarkdownContainer"] span {
+    color: #2c3e35 !important;
+}
+
 /* Gelembung Pengguna */
 div[data-testid="stChatMessage"]:has(span[data-testid="stChatMessageAvatar"] img[alt="user"]), 
 div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"]) {
     background: linear-gradient(135deg, #e7f3ee 0%, #dbeee5 100%) !important; 
     border-color: #c9e2d6 !important; 
-    color: #093b29 !important;
     border-radius: 20px 20px 4px 20px !important;
+}
+
+/* Memaksa Teks Pengguna Selalu Berwarna Hijau Tua Pekat */
+div[data-testid="stChatMessage"]:has(span[data-testid="stChatMessageAvatar"] img[alt="user"]) [data-testid="stMarkdownContainer"] p,
+div[data-testid="stChatMessage"]:has(span[data-testid="stChatMessageAvatar"] img[alt="user"]) [data-testid="stMarkdownContainer"] li,
+div[data-testid="stChatMessage"]:has(span[data-testid="stChatMessageAvatar"] img[alt="user"]) [data-testid="stMarkdownContainer"] span,
+div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"]) [data-testid="stMarkdownContainer"] p,
+div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"]) [data-testid="stMarkdownContainer"] li,
+div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"]) [data-testid="stMarkdownContainer"] span {
+    color: #093b29 !important;
 }
 
 /* Input Area Melayang di Bawah */
@@ -268,7 +283,8 @@ div[data-testid="stChatInput"] > div:focus-within {
 }
 div[data-testid="stChatInput"] textarea {
     font-size: 15px !important;
-    color: #1a3026 !important;
+    color: #1a3026 !important; /* Paksa teks ketikan user berwarna gelap */
+    background-color: #ffffff !important;
     line-height: 1.5 !important;
 }
 div[data-testid="stChatInput"] button {
@@ -330,7 +346,6 @@ const tempatkanTombolHapus = () => {
     }
     
     if (tombolHapus) {
-        // Atur gaya letak dan visual agar sejajar rapi di dalam header hijau
         tombolHapus.style.position = 'fixed';
         tombolHapus.style.top = '17px';
         tombolHapus.style.right = '40px';
@@ -345,7 +360,6 @@ const tempatkanTombolHapus = () => {
         tombolHapus.style.cursor = 'pointer';
         tombolHapus.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
         
-        // Efek Hover kustom
         tombolHapus.onmouseover = () => {
             tombolHapus.style.backgroundColor = '#e6a119';
             tombolHapus.style.color = '#0b4e36';
@@ -360,8 +374,6 @@ const tempatkanTombolHapus = () => {
         };
     }
 };
-
-// Jalankan pencarian berkala untuk mengantisipasi perubahan DOM saat rerun Streamlit
 setTimeout(tempatkanTombolHapus, 100);
 setInterval(tempatkanTombolHapus, 1000);
 </script>
@@ -394,7 +406,6 @@ if len(st.session_state.chat_history) == 0:
     <div class="saran-header">Saran Pertanyaan Cepat</div>
     """, unsafe_allow_html=True)
     
-    # 3 Kolom Kartu Saran Pertanyaan untuk memicu interaksi awal
     col1, col2, col3 = st.columns(3)
     with col1:
         if st.button("⚖️ Syarat Ajukan Perceraian", key="saran_syarat"):
@@ -427,7 +438,6 @@ st.markdown("""
 user_input = st.chat_input("Tanyakan sesuatu ke SANTI...")
 
 if user_input:
-    # UX Langkah 1: Tampilkan input pengguna secara instan di layar
     st.session_state.chat_history.append(("user", user_input))
     st.rerun()
 
@@ -436,16 +446,12 @@ if len(st.session_state.chat_history) > 0 and st.session_state.chat_history[-1][
     user_msg_terakhir = st.session_state.chat_history[-1][1]
     
     with st.spinner("SANTI sedang membaca dokumen..."):
-        # Langkah 2: Retrieval cerdas hemat token
         konteks_terpilih = ambil_konteks_relevan(user_msg_terakhir, sumber_teks, top_n=3)
-        
-        # Langkah 3: Eksekusi API Gemini
         jawaban = jawab_gemini(
             user_msg_terakhir, 
             konteks_terpilih, 
             st.session_state.chat_history[:-1]
         )
 
-    # Langkah 4: Tambahkan respon bot ke histori dan render ulang halaman
     st.session_state.chat_history.append(("bot", jawaban))
     st.rerun()
