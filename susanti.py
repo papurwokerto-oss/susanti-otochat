@@ -1,8 +1,6 @@
 # santi_faiss_memory_temp_silent.py
 
 import os
-import numpy as np
-import faiss
 import streamlit as st
 from google import genai
 
@@ -18,10 +16,9 @@ else:
     st.stop()
 
 DOC_FILENAME = "sumber.txt"
-INDEX_FILENAME = "santi_index.faiss"
 
 # === ATUR TEMPERATUR MODEL ===
-TEMPERATURE = 0.5  # Diturunkan ke 0.5 agar jawaban SANTI lebih konsisten dan patuh pada dokumen
+TEMPERATURE = 0.5  # 0.5 membuat SANTI konsisten dan patuh pada dokumen
 
 # === LOAD DOKUMEN SUMBER ===
 if not os.path.exists(DOC_FILENAME):
@@ -31,97 +28,30 @@ if not os.path.exists(DOC_FILENAME):
 with open(DOC_FILENAME, "r", encoding="utf-8") as f:
     sumber_teks = f.read()
 
-# Membersihkan karakter \r (Windows) dan memotong dengan aman
-sumber_teks = sumber_teks.replace("\r\n", "\n")
-raw_paragraphs = sumber_teks.split("\n\n") if "\n\n" in sumber_teks else sumber_teks.split("\n")
-paragraphs = [p.strip() for p in raw_paragraphs if len(p.strip()) > 5]
-
-# === BUAT & SIMPAN EMBEDDING ===
-@st.cache_resource(show_spinner=False)
-def buat_faiss_index(paragraphs):
-    model_name = "text-embedding-001" 
-    
-    if os.path.exists(INDEX_FILENAME):
-        try:
-            index = faiss.read_index(INDEX_FILENAME)
-            return index, paragraphs
-        except Exception as e:
-            if os.path.exists(INDEX_FILENAME):
-                os.remove(INDEX_FILENAME)
-
-    embeddings = []
-    status_box = st.empty()
-    status_box.info(f"🔄 Sedang menyelaraskan {len(paragraphs)} bagian dokumen sumber...")
-
-    for i, para in enumerate(paragraphs):
-        try:
-            res = client.models.embed_content(
-                model=model_name,
-                contents=para
-            )
-            embeddings.append(res.embeddings[0].values)
-        except Exception as e:
-            status_box.empty()
-            st.error(f"❌ Gagal memproses dokumen pada baris ke-{i+1}. Detail: {e}")
-            st.stop()
-
-    status_box.empty()
-
-    if len(embeddings) == 0:
-        st.error("❌ Dokumen kosong atau tidak berhasil diproses.")
-        st.stop()
-
-    embeddings = np.array(embeddings, dtype=np.float32)
-    index = faiss.IndexFlatL2(embeddings.shape[1])
-    index.add(embeddings)
-    
-    try:
-        faiss.write_index(index, INDEX_FILENAME)
-    except Exception as e:
-        print(f"Gagal menyimpan indeks: {e}")
-        
-    return index, paragraphs
-
-# Jalankan inisialisasi database FAISS
-index, paragraphs = buat_faiss_index(paragraphs)
-
-# === SEMANTIC SEARCH ===
-def cari_konteks_semantik(query, index, paragraphs, top_k=3):
-    try:
-        res = client.models.embed_content(
-            model="text-embedding-001",
-            contents=query
-        )
-        query_emb = np.array([res.embeddings[0].values], dtype=np.float32)
-
-        D, I = index.search(query_emb, top_k)
-        hasil = "\n\n".join([paragraphs[i] for i in I[0] if i != -1])
-        return hasil
-    except Exception as e:
-        return ""
-
-# === BUAT JAWABAN ===
-def jawab_gemini(pertanyaan, konteks, riwayat_chat):
+# === BUAT JAWABAN (LANGSUNG MEMBACA DOKUMEN UTUH) ===
+def jawab_gemini(pertanyaan, konteks_dokumen, riwayat_chat):
+    # Gabungkan riwayat chat (5 pesan terakhir)
     chat_history = "\n".join(
         [f"{'User' if r=='user' else 'SANTI'}: {m}" for r, m in riwayat_chat[-5:]]
     )
 
+    # Prompt utama dengan memasukkan seluruh isi dokumen sumber
     prompt = f"""
 Anda berperan sebagai asisten virtual yang cerdas. 
 Nama lengkap Anda "SUSANTI, biasa dipanggil SANTI - Asisten Layanan Informasi Pengadilan Agama Purwokerto".
 Sifat Anda: Ramah, lucu, menarik, dan selalu memberikan pujian singkat sebelum menjawab.
 
 TUGAS ANDA:
-1. Jawablah pertanyaan pengguna HANYA berdasarkan konteks dokumen di bawah ini:
-2. Jika jawaban ada di konteks, jelaskan dengan bahasa yang mudah dipahami.
-3. Jika jawaban TIDAK ADA di konteks, cukup katakan: "Hmm, kayaknya untuk hal itu kamu langsung datang aja deh ke Pengadilan Agama Purwokerto agar lebih jelas." dan jangan berikan informasi tambahan lain.
+1. Jawablah pertanyaan pengguna HANYA berdasarkan dokumen sumber di bawah ini:
+2. Jika jawaban ada di dokumen, jelaskan dengan bahasa yang mudah dipahami.
+3. Jika jawaban TIDAK ADA di dokumen, cukup katakan: "Hmm, kayaknya untuk hal itu kamu langsung datang aja deh ke Pengadilan Agama Purwokerto agar lebih jelas." dan jangan berikan informasi tambahan lain.
 4. Jangan pernah merusak karakter Anda sebagai SANTI.
 
 === RIWAYAT CHAT ===
 {chat_history}
 
 === DOKUMEN SUMBER ===
-{konteks}
+{konteks_dokumen}
 
 === PERTANYAAN BARU ===
 {pertanyaan}
@@ -191,20 +121,16 @@ for role, msg in st.session_state.chat_history:
     """, unsafe_allow_html=True)
 st.markdown("</div>", unsafe_allow_html=True)
 
-
-# === INPUT CHAT (BERSIH & RESPONSIF) ===
+# === INPUT CHAT ===
 user_input = st.chat_input("Tanyakan informasi pengadilan di sini...")
 
 # === PROSES LOGIKA CHAT ===
 if user_input:
-    with st.spinner("🤖 SANTI sedang mencari informasi..."):
-        # 1. Cari potongan dokumen yang paling relevan
-        konteks = cari_konteks_semantik(user_input, index, paragraphs)
-        
-        # 2. Kirim ke Gemini untuk menyusun kalimat jawaban ramah ala SANTI
-        jawaban = jawab_gemini(user_input, konteks, st.session_state.chat_history)
+    with st.spinner("🤖 SANTI sedang menganalisis dokumen..."):
+        # Langsung kirim seluruh isi dokumen sumber ke fungsi jawab_gemini
+        jawaban = jawab_gemini(user_input, sumber_teks, st.session_state.chat_history)
 
-    # 3. Masukkan interaksi ke riwayat setelah proses selesai
+    # Masukkan interaksi ke riwayat setelah proses selesai
     st.session_state.chat_history.append(("user", user_input))
     st.session_state.chat_history.append(("bot", jawaban))
 
