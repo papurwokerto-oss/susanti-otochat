@@ -151,12 +151,18 @@ header, footer, [data-testid="stHeader"] {display: none !important;}
     text-transform: uppercase;
 }
 
+/* Memaksa kontainer pembungkus bawaan Streamlit melayang sejajar di header */
+div[data-testid="stElementContainer"]:has(button[key="btn_hapus_chat"]),
+.element-container:has(button[key="btn_hapus_chat"]) {
+    position: fixed !important; 
+    top: 16px !important; 
+    right: 40px !important; 
+    z-index: 100000 !important;
+    width: auto !important;
+}
+
 /* Tombol Hapus Chat Kustom */
 button[key="btn_hapus_chat"] {
-    position: fixed !important; 
-    top: 17px !important; 
-    right: 40px !important; 
-    z-index: 100000 !important; 
     background-color: rgba(255, 255, 255, 0.12) !important; 
     color: #ffffff !important; 
     border: 1px solid rgba(255, 255, 255, 0.3) !important; 
