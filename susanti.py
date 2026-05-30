@@ -62,8 +62,10 @@ st.markdown("""
     .custom-header {position: fixed; top: 0; left: 0; right: 0; height: 60px; background-color: #0a5d3f; display: flex; align-items: center; justify-content: center; z-index: 99999; gap: 12px; border-bottom: 2px solid #e6a119;}
     .custom-header-img {height: 40px; width: 40px; border-radius: 50%; border: 2px solid #ffffff; object-fit: cover;}
     .custom-header-title {color: #ffffff !important; font-size: 1.4rem !important; font-weight: 800 !important;}
-    .stMainBlockContainer {padding-top: 80px !important; padding-bottom: 100px !important;}
+    .stMainBlockContainer {padding-top: 80px !important; padding-bottom: 150px !important;}
+    .welcome-screen {text-align: center; margin-top: 50px; color: #94a3b8;}
     .custom-footer {position: fixed; bottom: 0; left: 0; right: 0; height: 35px; background-color: #052217; text-align: center; border-top: 1px solid #0a5d3f; z-index: 99998; color: #94a3b8; font-size: 0.7rem; line-height: 35px;}
+    .btn-container {text-align: center; margin-top: 80px;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -78,10 +80,26 @@ st.markdown(f"""
 # === 7. CHAT LOGIC ===
 if "chat_history" not in st.session_state: st.session_state.chat_history = []
 
-for role, msg in st.session_state.chat_history:
-    avatar = santi_avatar_url if role == "bot" else "👤"
-    with st.chat_message(role, avatar=avatar):
-        st.write(msg)
+# Tombol Hapus (Ditempatkan di area chat)
+st.markdown('<div class="btn-container">', unsafe_allow_html=True)
+if st.button("Hapus Riwayat Chat"):
+    st.session_state.chat_history = []
+    st.rerun()
+st.markdown('</div>', unsafe_allow_html=True)
+
+# Tampilan Welcome Screen
+if len(st.session_state.chat_history) == 0:
+    st.markdown("""
+    <div class="welcome-screen">
+        <h2>Halo! Saya SUSANTI</h2>
+        <p>Asisten Layanan Informasi PA Purwokerto siap membantu Anda.</p>
+    </div>
+    """, unsafe_allow_html=True)
+else:
+    for role, msg in st.session_state.chat_history:
+        avatar = santi_avatar_url if role == "bot" else "👤"
+        with st.chat_message(role, avatar=avatar):
+            st.write(msg)
 
 user_input = st.chat_input("Ketik pertanyaan Anda di sini...")
 
