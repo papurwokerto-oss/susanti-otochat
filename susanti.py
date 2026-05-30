@@ -151,15 +151,31 @@ else:
 
 user_input = st.chat_input("Ketik pertanyaan Anda di sini...")
 
+# === BAGIAN LOGIKA CHAT YANG DIPERBAIKI ===
 if user_input:
+    # 1. Simpan dan tampilkan pesan user
     st.session_state.chat_history.append(("user", user_input))
-    with st.chat_message("user", avatar="👤"): st.write(user_input)
+    with st.chat_message("user", avatar="👤"): 
+        st.write(user_input)
     
-    konteks = ambil_konteks_relevan(user_input, sumber_teks)
-    jawaban = jawab_gemini(user_input, konteks, st.session_state.chat_history)
-    
+    # 2. Proses jawaban bot dengan spinner
+    with st.chat_message("bot", avatar=santi_avatar_url):
+        with st.spinner("SANTI sedang membaca dokumen..."):
+            # Ambil konteks
+            konteks_terpilih = ambil_konteks_relevan(user_input, sumber_teks, top_n=3)
+            
+            # Panggil fungsi jawab_gemini
+            jawaban = jawab_gemini(
+                user_input, 
+                konteks_terpilih, 
+                st.session_state.chat_history[:-1]
+            )
+            
+            # Tampilkan jawaban
+            st.write(jawaban)
+            
+    # 3. Simpan pesan bot ke riwayat
     st.session_state.chat_history.append(("bot", jawaban))
-    with st.chat_message("bot", avatar=santi_avatar_url): st.write(jawaban)
     st.rerun()
 
 # === 8. FOOTER ===
