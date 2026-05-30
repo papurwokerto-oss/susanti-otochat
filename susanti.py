@@ -91,7 +91,7 @@ Tambahkan tawaran bantuan di akhir jawaban Anda.
         )
         return response.text.strip()
     except Exception as e:
-        return "Aduh maaf ya... Koneksi SANTI sedang sedikit terganggu nih sehingga sulit membaca dokumen. Coba kirimkan pertanyaan Anda sekali lagi ya! SANTI siap membantu."
+        return "Aduh maaf ya... Koneksi SANTI sedang terganggu nih sehingga sulit membaca dokumen. Coba kirimkan pertanyaan Anda sekali lagi ya! SANTI siap membantu."
 
 # === 6. INISIALISASI STATE ===
 if "chat_history" not in st.session_state:
