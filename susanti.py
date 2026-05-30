@@ -1,269 +1,251 @@
-# # santi_faiss_memory_temp_silent.py
+# susanti.py
+# Versi siap-tempel untuk Streamlit + Google GenAI (SANTI)
+# Pastikan: streamlit, google-genai terpasang dan SECRET "GOOGLE_API_KEY" sudah diset di Streamlit Cloud/Secrets
+
 import os
 import streamlit as st
 from google import genai
+import datetime
+from typing import List, Tuple
 
-# === 1. KONFIGURASI HALAMAN UTAMA ===
-st.set_page_config(
-    page_title="SUSANTI - Pengadilan Agama Purwokerto", 
-    page_icon="💬", 
-    layout="wide",
-    initial_sidebar_state="collapsed"
-)
+# -------------------------
+# KONFIGURASI HALAMAN & API
+# -------------------------
+st.set_page_config(page_title="SUSANTI", page_icon="💬", layout="centered")
 
-# === 2. DEFENSIVE CHECK / FALLBACK UNTUK DOKUMEN SUMBER ===
-DOC_FILENAME = "sumber.txt"
-DEFAULT_CONTENT = """=== INFORMASI PENGADILAN AGAMA PURWOKERTO ===
-Alamat: Jl. Jenderal Sudirman No. 45, Purwokerto, Banyumas, Jawa Tengah.
-Jam Pelayanan: Senin - Kamis (08.00 - 15.00 WIB), Jumat (08.00 - 15.30 WIB). Sabtu & Minggu Tutup.
-Layanan Utama: 
-1. Pengajuan Gugatan Cerai (Cerai Gugat & Cerai Talak). Syarat utama: Buku Nikah asli, KTP Penggugat, Surat Gugatan, dan Surat Keterangan Ghoib jika pasangan tidak diketahui keberadaannya.
-2. Permohonan Dispensasi Kawin (bagi yang belum cukup umur).
-3. Permohonan Penetapan Ahli Waris.
-4. Konsultasi Hukum Gratis di Posbakum (Pos Bantuan Hukum) bagi masyarakat kurang mampu dengan membawa SKTM.
-"""
-
-# Jika file tidak ada, buat secara otomatis agar aplikasi tidak langsung error saat dijalankan pertama kali
-if not os.path.exists(DOC_FILENAME):
-    with open(DOC_FILENAME, "w", encoding="utf-8") as f:
-        f.write(DEFAULT_CONTENT)
-
-with open(DOC_FILENAME, "r", encoding="utf-8") as f:
-    sumber_teks = f.read()
-
-# === 3. MANAJEMEN API KEY GOOGLE ===
-api_key_asli = ""
+# Ambil API key dari secrets
 if "GOOGLE_API_KEY" in st.secrets:
     api_key_asli = st.secrets["GOOGLE_API_KEY"]
+    client = genai.Client(api_key=api_key_asli)
 else:
-    # Membuka sidebar secara otomatis jika API key belum dikonfigurasi di Secrets
-    st.sidebar.warning("⚠️ Kunci API tidak terbaca di st.secrets")
-    api_key_asli = st.sidebar.text_input("Masukkan Google API Key Anda:", type="password")
-    if not api_key_asli:
-        st.error("Silakan masukkan Google API Key di sidebar atau konfigurasi .streamlit/secrets.toml Anda untuk memulai obrolan.")
-        st.stop()
+    st.error("Kunci API tidak terbaca di sistem Secrets! Silakan set GOOGLE_API_KEY di Secrets.")
+    st.stop()
 
-# Inisialisasi Google GenAI Client
-client = genai.Client(api_key=api_key_asli)
-TEMPERATURE = 0.5 
+# Nama file dokumen sumber
+DOC_FILENAME = "sumber.txt"
 
-# === 4. FUNGSI JAWABAN GEMINI ===
-def jawab_gemini(pertanyaan, konteks_dokumen, riwayat_chat):
-    # Format riwayat chat (5 pesan terakhir saja untuk memori ringkas)
-    chat_history = "\n".join(
-        [f"{'User' if r=='user' else 'SANTI'}: {m}" for r, m in riwayat_chat[-5:]]
-    )
+# Pengaturan model
+MODEL_NAME = "gemini-2.5-flash"
+TEMPERATURE = 0.5
+MAX_OUTPUT_TOKENS = 1024
+
+# Batas-batas untuk chunking dan prompt
+MAX_CHUNK_CHARS = 2500
+MAX_PROMPT_CHARS = 15000
+MAX_HISTORY_TO_SEND = 5
+TOP_K_CHUNKS = 2
+
+# -------------------------
+# UTIL: load dokumen & chunk
+# -------------------------
+@st.cache_data(show_spinner=False)
+def load_sumber(path: str) -> str | None:
+    if not os.path.exists(path):
+        return None
+    with open(path, "r", encoding="utf-8") as f:
+        return f.read()
+
+def chunk_document(doc: str, max_chars: int = MAX_CHUNK_CHARS) -> List[str]:
+    # Potong berdasarkan paragraf, gabungkan sampai batas max_chars
+    paras = [p.strip() for p in doc.split("\n\n") if p.strip()]
+    chunks: List[str] = []
+    current = ""
+    for p in paras:
+        if not current:
+            current = p
+        elif len(current) + len(p) + 2 <= max_chars:
+            current += "\n\n" + p
+        else:
+            chunks.append(current)
+            current = p
+    if current:
+        chunks.append(current)
+    return chunks
+
+def find_relevant_chunks(question: str, chunks: List[str], top_k: int = TOP_K_CHUNKS) -> List[str]:
+    # Pencocokan kata sederhana; cukup untuk dokumen lokal kecil
+    q_words = set(w.lower() for w in question.split() if len(w) > 2)
+    scored = []
+    for c in chunks:
+        c_words = set(w.lower() for w in c.split())
+        score = len(q_words & c_words)
+        scored.append((score, c))
+    scored.sort(reverse=True, key=lambda x: x[0])
+    selected = [c for s, c in scored[:top_k] if s > 0]
+    if not selected and chunks:
+        # fallback: ambil chunk pertama sebagai ringkasan
+        selected = [chunks[0]]
+    return selected
+
+def promptwrap(text: str, max_chars: int = MAX_PROMPT_CHARS) -> str:
+    return text if len(text) <= max_chars else text[:max_chars]
+
+# -------------------------
+# BUILD PROMPT
+# -------------------------
+def build_prompt(question: str, doc_chunks: List[str], chat_history: List[Tuple[str, str]]) -> str:
+    # Siapkan riwayat (maks MAX_HISTORY_TO_SEND)
+    history_lines = []
+    for role, msg in chat_history[-MAX_HISTORY_TO_SEND:]:
+        who = "User" if role == "user" else "SANTI"
+        history_lines.append(f"{who}: {msg}")
+    history_text = "\n".join(history_lines)
+
+    doc_text = "\n\n---\n\n".join(doc_chunks)
 
     prompt = f"""
-Anda berperan sebagai asisten virtual yang cerdas. 
+Anda berperan sebagai asisten virtual yang cerdas.
 Nama lengkap Anda "SUSANTI, biasa dipanggil SANTI - Asisten Layanan Informasi Pengadilan Agama Purwokerto".
-Sifat Anda: Ramah, sopan, sedikit jenaka, menarik, dan selalu memberikan apresiasi atau pujian singkat yang tulus kepada pengguna sebelum menjawab pertanyaan mereka.
+Sifat Anda: Ramah, lucu, menarik, dan selalu memberikan pujian singkat sebelum menjawab.
 
 TUGAS ANDA:
-1. Jawablah pertanyaan pengguna HANYA berdasarkan dokumen sumber di bawah ini.
-2. Jika jawaban ada di dokumen, jelaskan dengan bahasa yang mudah dipahami secara runut.
-3. Jika jawaban TIDAK ADA di dokumen, cukup katakan secara halus: "Hmm, kayaknya untuk hal itu kamu langsung datang aja deh ke Pengadilan Agama Purwokerto agar lebih jelas." dan jangan berikan informasi atau spekulasi tambahan apa pun.
-4. Jangan pernah merusak karakter Anda sebagai SANTI yang ramah dan melayani dengan hati.
+1. Jawablah pertanyaan pengguna HANYA berdasarkan dokumen sumber di bawah ini:
+2. Jika jawaban ada di dokumen, jelaskan dengan bahasa yang mudah dipahami.
+3. Jika jawaban TIDAK ADA di dokumen, cukup katakan: "Hmm, kayaknya untuk hal itu kamu langsung datang aja deh ke Pengadilan Agama Purwokerto agar lebih jelas." dan jangan berikan informasi tambahan lain.
+4. Jangan pernah merusak karakter Anda sebagai SANTI.
 
 === RIWAYAT CHAT ===
-{chat_history}
+{history_text}
 
-=== DOKUMEN SUMBER ===
-{konteks_dokumen}
+=== DOKUMEN SUMBER (HANYA BAGIAN RELEVAN) ===
+{doc_text}
 
 === PERTANYAAN BARU ===
-{pertanyaan}
+{question}
 
-Jawablah dengan sopan, ringkas, dan mudah dimengerti. 
-Tambahkan penawaran bantuan lain yang ramah di akhir jawaban Anda.
+Jawablah sopan, ringkas, dan mudah dimengerti.
+Tambahkan tawaran bantuan di akhir jawaban.
 """
+    return promptwrap(prompt)
 
+# -------------------------
+# FUNGSI UTAMA: panggil model
+# -------------------------
+def jawab_gemini(question: str, doc_chunks: List[str], chat_history: List[Tuple[str, str]]) -> str:
+    prompt = build_prompt(question, doc_chunks, chat_history)
     try:
         response = client.models.generate_content(
-            model='gemini-2.5-flash',
+            model=MODEL_NAME,
             contents=prompt,
             config={
-                'temperature': TEMPERATURE,
-                'max_output_tokens': 2048
+                "temperature": TEMPERATURE,
+                "max_output_tokens": MAX_OUTPUT_TOKENS
             }
         )
-        return response.text.strip()
+        # Beberapa SDK mengembalikan .text atau .output[0].content; gunakan .text jika tersedia
+        text = getattr(response, "text", None)
+        if text:
+            return text.strip()
+        # fallback: coba ambil dari struktur lain
+        try:
+            return response.output[0].content[0].text.strip()
+        except Exception:
+            return str(response).strip()
     except Exception as e:
-        return f"⚠️ Terjadi kesalahan pada sistem kecerdasan buatan: {e}"
+        # Tangani error API dengan pesan ramah
+        return f"⚠️ Terjadi kesalahan saat memanggil model: {e}"
 
+# -------------------------
+# TAMPILAN (CSS + THEME)
+# -------------------------
+hour = datetime.datetime.now().hour
+is_dark = hour >= 18 or hour <= 5
 
-# === 5. INISIALISASI STATE ===
-if "chat_history" not in st.session_state:
-    st.session_state.chat_history = []
+bg_color = "#121212" if is_dark else "#f8f9fa"
+text_color = "#f1f1f1" if is_dark else "#212529"
+bubble_user_bg = "#3aafa9" if is_dark else "#d1e7dd"
+bubble_bot_bg = "#2e2e2e" if is_dark else "#e9ecef"
+bubble_user_color = "#ffffff" if is_dark else "#0f5132"
+bubble_bot_color = "#f1f1f1" if is_dark else "#212529"
 
-
-# === 6. SUNTIKAN CSS GLOBAL (KUSTOMISASI ANTARMUKA SECARA AMAN) ===
-st.markdown("""<style>
-header, footer, [data-testid="stHeader"] {display: none !important;}
-.stApp {background-color: #ffffff !important;}
-.custom-header {
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    right: 0; 
-    height: 60px; 
-    background-color: #0d4e36; 
-    display: flex; 
-    align-items: center; 
-    justify-content: space-between; 
-    padding: 0 40px; 
-    z-index: 99999; 
-    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-}
-.custom-header-title {
-    color: #ffffff; 
-    font-size: 22px; 
-    font-weight: 700; 
-    font-family: 'Poppins', sans-serif; 
-    letter-spacing: 0.5px;
-}
-button[key="btn_hapus_chat"] {
-    position: fixed !important; 
-    top: 12px !important; 
-    right: 40px !important; 
-    z-index: 100000 !important; 
-    background-color: rgba(255, 255, 255, 0.1) !important; 
-    color: #ffffff !important; 
-    border: 1px solid rgba(255, 255, 255, 0.5) !important; 
-    border-radius: 6px !important; 
-    padding: 4px 14px !important; 
-    font-size: 14px !important; 
-    font-weight: 500 !important; 
-    transition: all 0.2s ease-in-out;
-}
-button[key="btn_hapus_chat"]:hover {
-    background-color: #d32f2f !important; 
-    color: #ffffff !important;
-    border-color: #d32f2f !important;
-}
-.stMainBlockContainer {
-    padding-top: 85px !important; 
-    padding-bottom: 120px !important; 
-    max-width: 900px !important; 
-    margin: 0 auto !important;
-}
-.welcome-box {
-    text-align: center; 
-    margin-top: 12vh; 
-    margin-bottom: 5vh; 
-    font-family: 'Poppins', sans-serif;
-}
-.welcome-title {
-    color: #0d4e36; 
-    font-size: 34px; 
-    font-weight: 700; 
-    margin-bottom: 15px;
-}
-.welcome-desc {
-    color: #555555; 
-    font-size: 16px; 
-    max-width: 650px; 
-    margin: 0 auto; 
-    line-height: 1.6;
-}
-.custom-footer {
-    position: fixed; 
-    bottom: 0; 
-    left: 0; 
-    right: 0; 
-    height: 35px; 
-    background-color: #ffffff; 
-    text-align: center; 
-    font-size: 11px; 
-    color: #888888; 
-    line-height: 35px; 
-    border-top: 1px solid #f1f3f5; 
-    z-index: 99998;
-}
-div[data-testid="stChatMessage"] {
-    background-color: #f8f9fa !important; 
-    border: 1px solid #e9ecef !important; 
-    border-radius: 12px !important; 
-    padding: 12px 16px !important; 
-    margin-bottom: 12px !important;
-}
-div[data-testid="stChatMessage"]:has(span[data-testid="stChatMessageAvatar"] img[alt="user"]), 
-div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"]) {
-    background-color: #e2f0d9 !important; 
-    border-color: #c5e1a5 !important; 
-    color: #1e4620 !important;
-}
-div[data-testid="stChatInput"] {
-    bottom: 35px !important; 
-    background-color: #ffffff !important; 
-    border-top: none !important; 
-    padding: 10px 0 !important;
-}
-div[data-testid="stChatInput"] textarea {
-    border-radius: 12px !important; 
-    border: 1px solid #ced4da !important; 
-    font-size: 14.5px !important;
-}
-div[data-testid="stChatInput"] button {
-    background-color: #0d4e36 !important; 
-    color: #ffffff !important; 
-    border-radius: 8px !important;
-}
-</style>""", unsafe_allow_html=True)
-
-
-# === 7. KONTROL HEADER DAN TOMBOL HAPUS ===
-st.markdown("""
-<div class="custom-header">
-    <div class="custom-header-title">SUSANTI</div>
-</div>
+st.markdown(f"""
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body {{ background-color: {bg_color}; font-family: "Poppins", sans-serif; color: {text_color}; }}
+.chat-body {{ display: flex; flex-direction: column; padding: 10px; }}
+.chat-message {{ display: flex; align-items: flex-end; margin-bottom: 12px; animation: fadeIn 0.3s ease-in; }}
+.chat-message.user {{ flex-direction: row-reverse; }}
+.chat-avatar {{ width: 38px; height: 38px; border-radius: 50%; overflow: hidden; margin: 0 8px; }}
+.chat-avatar img {{ width: 100%; height: 100%; object-fit: cover; }}
+.chat-bubble {{ max-width: 70%; padding: 10px 15px; border-radius: 18px; font-size: 15px; line-height: 1.4; }}
+.user .chat-bubble {{ background-color: {bubble_user_bg}; color: {bubble_user_color}; border-radius: 18px 18px 0 18px; }}
+.bot .chat-bubble {{ background-color: {bubble_bot_bg}; color: {bubble_bot_color}; border-radius: 18px 18px 18px 0; }}
+@keyframes fadeIn {{ from {{ opacity: 0; transform: translateY(5px); }} to {{ opacity: 1; transform: translateY(0); }} }}
+</style>
 """, unsafe_allow_html=True)
 
-# Tombol interaktif untuk menghapus histori percakapan
-if st.button("Hapus Chat", key="btn_hapus_chat"):
-    st.session_state.chat_history = []
-    st.rerun()
+# -------------------------
+# INISIALISASI RIWAYAT CHAT
+# -------------------------
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history: List[Tuple[str, str]] = []
 
+# Muat dokumen sumber
+sumber_teks = load_sumber(DOC_FILENAME)
+if sumber_teks is None:
+    st.error(f"❌ File '{DOC_FILENAME}' tidak ditemukan. Silakan unggah atau letakkan file tersebut di folder aplikasi.")
+    st.stop()
 
-# === 8. AREA RENDER CHAT DINAMIS ===
-if len(st.session_state.chat_history) == 0:
-    st.markdown("""
-    <div class="welcome-box">
-        <h1 class="welcome-title">Saya SANTI 👋</h1>
-        <p class="welcome-desc">
-            Asisten Layanan Informasi Virtual Pengadilan Agama Purwokerto.<br>
-            Saya siap membantu Anda memberikan informasi panduan layanan hukum secara ramah, cepat, dan akurat. Silakan tanyakan hal yang ingin Anda ketahui!
-        </p>
+# Buat chunks (cached)
+if "doc_chunks" not in st.session_state:
+    st.session_state.doc_chunks = chunk_document(sumber_teks, max_chars=MAX_CHUNK_CHARS)
+
+# -------------------------
+# RENDER RIWAYAT CHAT (menggunakan st.chat_message bila tersedia)
+# -------------------------
+st.markdown("<div class='chat-body'>", unsafe_allow_html=True)
+AVATAR_USER = "https://cdn-icons-png.flaticon.com/512/847/847969.png"
+AVATAR_BOT = "https://cdn-icons-png.flaticon.com/512/4712/4712100.png"
+
+# Tampilkan riwayat yang tersimpan
+for role, msg in st.session_state.chat_history:
+    avatar = AVATAR_USER if role == "user" else AVATAR_BOT
+    cls = "user" if role == "user" else "bot"
+    st.markdown(f"""
+    <div class="chat-message {cls}">
+        <div class="chat-avatar"><img src="{avatar}"></div>
+        <div class="chat-bubble">{msg}</div>
     </div>
     """, unsafe_allow_html=True)
-else:
-    for role, msg in st.session_state.chat_history:
-        avatar = "👤" if role == "user" else "🤖"
-        with st.chat_message(role, avatar=avatar):
-            st.write(msg)
+st.markdown("</div>", unsafe_allow_html=True)
 
+# -------------------------
+# INPUT CHAT
+# -------------------------
+user_input = st.chat_input("Tanyakan informasi pengadilan di sini...")
 
-# === 9. FOOTER HAK CIPTA STATIS ===
-st.markdown("""
-<div class="custom-footer">
-    © 2026 - Pengadilan Agama Purwokerto | Menggunakan Google Gemini 2.5 Flash
-</div>
-""", unsafe_allow_html=True)
-
-
-# === 10. INPUT CHAT UTAMA ===
-user_input = st.chat_input("Ketik pertanyaan Anda di sini...")
-
-
-# === 11. PROSES JAWABAN ===
+# -------------------------
+# LOGIKA PANGGILAN
+# -------------------------
 if user_input:
-    # Simpan input pengguna ke riwayat obrolan
+    # 1) Tampilkan pesan user segera (UX)
     st.session_state.chat_history.append(("user", user_input))
-    
-    # Animasi loading saat memproses
-    with st.spinner("SANTI sedang membaca dokumen..."):
-        jawaban = jawab_gemini(user_input, sumber_teks, st.session_state.chat_history[:-1])
+    # Render pesan user secara langsung agar terlihat
+    st.experimental_rerun() if False else None  # no-op; hanya memastikan tidak auto-rerun
 
-    # Simpan jawaban bot ke riwayat obrolan
+    # 2) Cari chunk relevan
+    chunks = st.session_state.doc_chunks
+    relevant = find_relevant_chunks(user_input, chunks, top_k=TOP_K_CHUNKS)
+
+    # 3) Panggil model dengan spinner
+    with st.spinner("🤖 SANTI sedang menganalisis dokumen..."):
+        jawaban = jawab_gemini(user_input, relevant, st.session_state.chat_history)
+
+    # 4) Simpan jawaban ke riwayat dan tampilkan
     st.session_state.chat_history.append(("bot", jawaban))
-    st.rerun()
+
+    # Tampilkan jawaban baru (agar langsung muncul tanpa reload)
+    st.experimental_rerun() if False else None  # no-op
+
+# -------------------------
+# CATATAN PENTING
+# -------------------------
+st.markdown(
+    """
+    <div style="margin-top:12px; font-size:13px; color:gray;">
+    Tips: Aplikasi ini hanya menjawab berdasarkan isi file <b>sumber.txt</b>. 
+    Jika ingin memperbarui informasi, edit file <b>sumber.txt</b> lalu refresh aplikasi.
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
