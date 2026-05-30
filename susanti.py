@@ -148,8 +148,10 @@ if len(st.session_state.chat_history) == 0:
     """, unsafe_allow_html=True)
 else:
     for role, msg in st.session_state.chat_history:
-        avatar = "👤" if role == "user" else "🤖"
-        with st.chat_message(role, avatar=avatar):
+        # Menggunakan susanti.png untuk user, dan emoji untuk bot
+        avatar_user = "susanti.png" if role == "user" else None
+        avatar_bot = "🤖" if role == "bot" else None
+        with st.chat_message(role, avatar=avatar_user if role == "user" else avatar_bot):
             st.write(msg)
             
     if st.session_state.chat_history[-1][0] == "user":
