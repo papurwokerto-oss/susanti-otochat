@@ -110,7 +110,7 @@ st.markdown("""
 /* Reset Dasar */
 header, footer, [data-testid="stHeader"] {display: none !important;}
 .stApp {
-    background-color: #f8faf9 !important;
+    background-color: #f3f4f6 !important; /* Mengubah latar belakang menjadi warna abu-abu netral modern */
     font-family: 'Plus Jakarta Sans', sans-serif !important;
 }
 
