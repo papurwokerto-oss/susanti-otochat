@@ -1,5 +1,4 @@
-# susanti.py
-
+# # santi_faiss_memory_temp_silent.py
 import os
 import streamlit as st
 from google import genai
@@ -12,24 +11,41 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# === 2. API KEY GOOGLE ===
-if "GOOGLE_API_KEY" in st.secrets:
-    api_key_asli = st.secrets["GOOGLE_API_KEY"]
-    client = genai.Client(api_key=api_key_asli)
-else:
-    st.error("Kunci API tidak terbaca di sistem Secrets!")
-    st.stop()
-
+# === 2. DEFENSIVE CHECK / FALLBACK UNTUK DOKUMEN SUMBER ===
 DOC_FILENAME = "sumber.txt"
-TEMPERATURE = 0.5 
+DEFAULT_CONTENT = """=== INFORMASI PENGADILAN AGAMA PURWOKERTO ===
+Alamat: Jl. Jenderal Sudirman No. 45, Purwokerto, Banyumas, Jawa Tengah.
+Jam Pelayanan: Senin - Kamis (08.00 - 15.00 WIB), Jumat (08.00 - 15.30 WIB). Sabtu & Minggu Tutup.
+Layanan Utama: 
+1. Pengajuan Gugatan Cerai (Cerai Gugat & Cerai Talak). Syarat utama: Buku Nikah asli, KTP Penggugat, Surat Gugatan, dan Surat Keterangan Ghoib jika pasangan tidak diketahui keberadaannya.
+2. Permohonan Dispensasi Kawin (bagi yang belum cukup umur).
+3. Permohonan Penetapan Ahli Waris.
+4. Konsultasi Hukum Gratis di Posbakum (Pos Bantuan Hukum) bagi masyarakat kurang mampu dengan membawa SKTM.
+"""
 
-# === 3. LOAD DOKUMEN SUMBER ===
+# Jika file tidak ada, buat secara otomatis agar aplikasi tidak langsung error saat dijalankan pertama kali
 if not os.path.exists(DOC_FILENAME):
-    st.error(f"❌ File '{DOC_FILENAME}' tidak ditemukan.")
-    st.stop()
+    with open(DOC_FILENAME, "w", encoding="utf-8") as f:
+        f.write(DEFAULT_CONTENT)
 
 with open(DOC_FILENAME, "r", encoding="utf-8") as f:
     sumber_teks = f.read()
+
+# === 3. MANAJEMEN API KEY GOOGLE ===
+api_key_asli = ""
+if "GOOGLE_API_KEY" in st.secrets:
+    api_key_asli = st.secrets["GOOGLE_API_KEY"]
+else:
+    # Membuka sidebar secara otomatis jika API key belum dikonfigurasi di Secrets
+    st.sidebar.warning("⚠️ Kunci API tidak terbaca di st.secrets")
+    api_key_asli = st.sidebar.text_input("Masukkan Google API Key Anda:", type="password")
+    if not api_key_asli:
+        st.error("Silakan masukkan Google API Key di sidebar atau konfigurasi .streamlit/secrets.toml Anda untuk memulai obrolan.")
+        st.stop()
+
+# Inisialisasi Google GenAI Client
+client = genai.Client(api_key=api_key_asli)
+TEMPERATURE = 0.5 
 
 # === 4. FUNGSI JAWABAN GEMINI ===
 def jawab_gemini(pertanyaan, konteks_dokumen, riwayat_chat):
@@ -41,13 +57,13 @@ def jawab_gemini(pertanyaan, konteks_dokumen, riwayat_chat):
     prompt = f"""
 Anda berperan sebagai asisten virtual yang cerdas. 
 Nama lengkap Anda "SUSANTI, biasa dipanggil SANTI - Asisten Layanan Informasi Pengadilan Agama Purwokerto".
-Sifat Anda: Ramah, lucu, menarik, dan selalu memberikan pujian singkat sebelum menjawab.
+Sifat Anda: Ramah, sopan, sedikit jenaka, menarik, dan selalu memberikan apresiasi atau pujian singkat yang tulus kepada pengguna sebelum menjawab pertanyaan mereka.
 
 TUGAS ANDA:
-1. Jawablah pertanyaan pengguna HANYA berdasarkan dokumen sumber di bawah ini:
-2. Jika jawaban ada di dokumen, jelaskan dengan bahasa yang mudah dipahami.
-3. Jika jawaban TIDAK ADA di dokumen, cukup katakan: "Hmm, kayaknya untuk hal itu kamu langsung datang aja deh ke Pengadilan Agama Purwokerto agar lebih jelas." dan jangan berikan informasi tambahan lain.
-4. Jangan pernah merusak karakter Anda sebagai SANTI.
+1. Jawablah pertanyaan pengguna HANYA berdasarkan dokumen sumber di bawah ini.
+2. Jika jawaban ada di dokumen, jelaskan dengan bahasa yang mudah dipahami secara runut.
+3. Jika jawaban TIDAK ADA di dokumen, cukup katakan secara halus: "Hmm, kayaknya untuk hal itu kamu langsung datang aja deh ke Pengadilan Agama Purwokerto agar lebih jelas." dan jangan berikan informasi atau spekulasi tambahan apa pun.
+4. Jangan pernah merusak karakter Anda sebagai SANTI yang ramah dan melayani dengan hati.
 
 === RIWAYAT CHAT ===
 {chat_history}
@@ -58,8 +74,8 @@ TUGAS ANDA:
 === PERTANYAAN BARU ===
 {pertanyaan}
 
-Jawablah sopan, ringkas, dan mudah dimengerti. 
-Tambahkan tawaran bantuan di akhir jawaban.
+Jawablah dengan sopan, ringkas, dan mudah dimengerti. 
+Tambahkan penawaran bantuan lain yang ramah di akhir jawaban Anda.
 """
 
     try:
@@ -73,7 +89,7 @@ Tambahkan tawaran bantuan di akhir jawaban.
         )
         return response.text.strip()
     except Exception as e:
-        return f"⚠️ Terjadi kesalahan: {e}"
+        return f"⚠️ Terjadi kesalahan pada sistem kecerdasan buatan: {e}"
 
 
 # === 5. INISIALISASI STATE ===
@@ -81,240 +97,173 @@ if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
 
-# === 6. SUNTIKAN CSS GLOBAL (KUSTOMISASI ANTARMUKA) ===
-st.markdown("""
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<style>
-/* Sembunyikan elemen standar Streamlit agar lebih bersih */
-#MainMenu, header, footer { visibility: hidden; }
-.stAppDeployButton { display: none; }
-[data-testid="stHeader"] { background-color: rgba(0,0,0,0); border-bottom: none; }
-
-/* Mengatur latar belakang aplikasi */
-body, .stApp {
-    background-color: #ffffff !important;
-    font-family: "Poppins", sans-serif;
-}
-
-/* HEADER BESAR STATIS DI ATAS */
+# === 6. SUNTIKAN CSS GLOBAL (KUSTOMISASI ANTARMUKA SECARA AMAN) ===
+st.markdown("""<style>
+header, footer, [data-testid="stHeader"] {display: none !important;}
+.stApp {background-color: #ffffff !important;}
 .custom-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 64px;
-    background-color: #0d4e36; /* Warna Hijau Tua Elegan */
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 40px;
-    z-index: 9999;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    right: 0; 
+    height: 60px; 
+    background-color: #0d4e36; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 0 40px; 
+    z-index: 99999; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
 }
-.header-logo {
-    font-size: 24px;
-    font-weight: 700;
-    letter-spacing: 1px;
+.custom-header-title {
+    color: #ffffff; 
+    font-size: 22px; 
+    font-weight: 700; 
+    font-family: 'Poppins', sans-serif; 
+    letter-spacing: 0.5px;
 }
-
-/* Memposisikan Tombol Hapus Chat Asli Streamlit ke Header Atas */
-div[data-testid="stMarkdownContainer"] + div.element-container:has(button[key="btn_hapus_chat"]) {
-    position: fixed;
-    top: 13px;
-    right: 40px;
-    z-index: 10000;
-    width: auto !important;
-}
-
-/* Mengatur Gaya Tombol Hapus Chat Streamlit agar Menyatu dengan Header */
 button[key="btn_hapus_chat"] {
-    background-color: transparent !important;
-    color: white !important;
-    border: 1px solid rgba(255, 255, 255, 0.4) !important;
-    border-radius: 8px !important;
-    padding: 6px 16px !important;
-    font-size: 14px !important;
-    font-weight: 500 !important;
-    transition: all 0.2s ease;
+    position: fixed !important; 
+    top: 12px !important; 
+    right: 40px !important; 
+    z-index: 100000 !important; 
+    background-color: rgba(255, 255, 255, 0.1) !important; 
+    color: #ffffff !important; 
+    border: 1px solid rgba(255, 255, 255, 0.5) !important; 
+    border-radius: 6px !important; 
+    padding: 4px 14px !important; 
+    font-size: 14px !important; 
+    font-weight: 500 !important; 
+    transition: all 0.2s ease-in-out;
 }
 button[key="btn_hapus_chat"]:hover {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-    border-color: white !important;
+    background-color: #d32f2f !important; 
+    color: #ffffff !important;
+    border-color: #d32f2f !important;
 }
-
-/* AREA BUNGKUS CHAT UTAMA (MENGALIR & BISA SCROLL) */
-.main-chat-container {
-    margin-top: 90px;     /* Jarak aman agar tidak tertimpa header */
-    margin-bottom: 110px; /* Jarak aman agar tidak tertimpa input bottom */
-    padding: 0 15%;
-    display: flex;
-    flex-direction: column;
+.stMainBlockContainer {
+    padding-top: 85px !important; 
+    padding-bottom: 120px !important; 
+    max-width: 900px !important; 
+    margin: 0 auto !important;
 }
-
-@media (max-width: 768px) {
-    .main-chat-container {
-        padding: 0 5%;
-    }
-}
-
-/* TAMPILAN SELAMAT DATANG (WELCOME SCREEN) */
 .welcome-box {
-    text-align: center;
-    margin-top: 10vh;
-    margin-bottom: 5vh;
-    animation: fadeIn 0.6s ease-out;
+    text-align: center; 
+    margin-top: 12vh; 
+    margin-bottom: 5vh; 
+    font-family: 'Poppins', sans-serif;
 }
 .welcome-title {
-    color: #0d4e36;
-    font-size: 36px;
-    font-weight: 700;
-    margin-bottom: 18px;
+    color: #0d4e36; 
+    font-size: 34px; 
+    font-weight: 700; 
+    margin-bottom: 15px;
 }
 .welcome-desc {
-    color: #666666;
-    font-size: 16px;
-    max-width: 650px;
-    margin: 0 auto;
+    color: #555555; 
+    font-size: 16px; 
+    max-width: 650px; 
+    margin: 0 auto; 
     line-height: 1.6;
 }
-
-/* DESAIN GELEMBUNG PESAN */
-.chat-row {
-    display: flex;
-    align-items: flex-end;
-    margin-bottom: 18px;
-    animation: fadeIn 0.3s ease-out;
+.custom-footer {
+    position: fixed; 
+    bottom: 0; 
+    left: 0; 
+    right: 0; 
+    height: 35px; 
+    background-color: #ffffff; 
+    text-align: center; 
+    font-size: 11px; 
+    color: #888888; 
+    line-height: 35px; 
+    border-top: 1px solid #f1f3f5; 
+    z-index: 99998;
 }
-.chat-row.user {
-    flex-direction: row-reverse;
+div[data-testid="stChatMessage"] {
+    background-color: #f8f9fa !important; 
+    border: 1px solid #e9ecef !important; 
+    border-radius: 12px !important; 
+    padding: 12px 16px !important; 
+    margin-bottom: 12px !important;
 }
-.chat-icon-avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin: 0 12px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+div[data-testid="stChatMessage"]:has(span[data-testid="stChatMessageAvatar"] img[alt="user"]), 
+div[data-testid="stChatMessage"]:has(div[data-testid="stChatMessageAvatar"] [data-testid="UserIcon"]) {
+    background-color: #e2f0d9 !important; 
+    border-color: #c5e1a5 !important; 
+    color: #1e4620 !important;
 }
-.chat-icon-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+div[data-testid="stChatInput"] {
+    bottom: 35px !important; 
+    background-color: #ffffff !important; 
+    border-top: none !important; 
+    padding: 10px 0 !important;
 }
-.chat-bubble-box {
-    max-width: 70%;
-    padding: 12px 18px;
-    border-radius: 16px;
-    font-size: 15px;
-    line-height: 1.5;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+div[data-testid="stChatInput"] textarea {
+    border-radius: 12px !important; 
+    border: 1px solid #ced4da !important; 
+    font-size: 14.5px !important;
 }
-.user .chat-bubble-box {
-    background-color: #d1e7dd; /* Hijau Soft khas User */
-    color: #0f5132;
-    border-radius: 16px 16px 0 16px;
+div[data-testid="stChatInput"] button {
+    background-color: #0d4e36 !important; 
+    color: #ffffff !important; 
+    border-radius: 8px !important;
 }
-.bot .chat-bubble-box {
-    background-color: #f8f9fa; /* Abu-abu terang khas Bot */
-    color: #212529;
-    border-radius: 16px 16px 16px 0;
-    border: 1px solid #e9ecef;
-}
-
-/* COPYRIGHT BAR DI BAGIAN PALING BAWAH */
-.custom-footer-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 32px;
-    background-color: #ffffff;
-    text-align: center;
-    font-size: 11px;
-    color: #999999;
-    line-height: 32px;
-    border-top: 1px solid #f1f3f5;
-    z-index: 9998;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-</style>
-""", unsafe_allow_html=True)
+</style>""", unsafe_allow_html=True)
 
 
-# === 7. KONTROL HEADER DAN TOMBOL HAPUS (DI-RENDER ULANG SECARA PROSES) ===
-# Header Visual HTML
+# === 7. KONTROL HEADER DAN TOMBOL HAPUS ===
 st.markdown("""
 <div class="custom-header">
-    <div class="header-logo">SUSANTI</div>
+    <div class="custom-header-title">SUSANTI</div>
 </div>
 """, unsafe_allow_html=True)
 
-# Tombol Streamlit Asli yang diletakkan persis di posisi tombol header via CSS target
+# Tombol interaktif untuk menghapus histori percakapan
 if st.button("Hapus Chat", key="btn_hapus_chat"):
     st.session_state.chat_history = []
     st.rerun()
 
 
 # === 8. AREA RENDER CHAT DINAMIS ===
-st.markdown("<div class='main-chat-container'>", unsafe_allow_html=True)
-
-# Jika riwayat chat kosong, tampilkan Welcome Screen cantik
 if len(st.session_state.chat_history) == 0:
     st.markdown("""
     <div class="welcome-box">
-        <h1 class="welcome-title">Saya SUSANTI (Asisten Layanan Informasi Virtual)</h1>
+        <h1 class="welcome-title">Saya SANTI 👋</h1>
         <p class="welcome-desc">
-            Asisten virtual Pengadilan Agama Purwokerto siap membantu Anda memberikan
-            informasi layanan hukum dengan cepat dan akurat.
+            Asisten Layanan Informasi Virtual Pengadilan Agama Purwokerto.<br>
+            Saya siap membantu Anda memberikan informasi panduan layanan hukum secara ramah, cepat, dan akurat. Silakan tanyakan hal yang ingin Anda ketahui!
         </p>
     </div>
     """, unsafe_allow_html=True)
 else:
-    # Render pesan-pesan dari riwayat chat
-    AVATAR_USER = "https://cdn-icons-png.flaticon.com/512/847/847969.png"
-    AVATAR_BOT = "https://cdn-icons-png.flaticon.com/512/4712/4712100.png"
-    
     for role, msg in st.session_state.chat_history:
-        avatar = AVATAR_USER if role == "user" else AVATAR_BOT
-        cls = "user" if role == "user" else "bot"
-        
-        st.markdown(f"""
-        <div class="chat-row {cls}">
-            <div class="chat-icon-avatar"><img src="{avatar}"></div>
-            <div class="chat-bubble-box">{msg}</div>
-        </div>
-        """, unsafe_allow_html=True)
-
-st.markdown("</div>", unsafe_allow_html=True)
+        avatar = "👤" if role == "user" else "🤖"
+        with st.chat_message(role, avatar=avatar):
+            st.write(msg)
 
 
 # === 9. FOOTER HAK CIPTA STATIS ===
 st.markdown("""
-<div class="custom-footer-bar">
-    © 2026 - Pengadilan Agama Purwokerto
+<div class="custom-footer">
+    © 2026 - Pengadilan Agama Purwokerto | Menggunakan Google Gemini 2.5 Flash
 </div>
 """, unsafe_allow_html=True)
 
 
 # === 10. INPUT CHAT UTAMA ===
-# Streamlit secara otomatis akan mengunci letak widget ini di bagian bawah layar
 user_input = st.chat_input("Ketik pertanyaan Anda di sini...")
 
 
 # === 11. PROSES JAWABAN ===
 if user_input:
-    # Simpan input user terlebih dahulu
+    # Simpan input pengguna ke riwayat obrolan
     st.session_state.chat_history.append(("user", user_input))
     
+    # Animasi loading saat memproses
     with st.spinner("SANTI sedang membaca dokumen..."):
-        # Panggil API Gemini dengan menyertakan memori chat
         jawaban = jawab_gemini(user_input, sumber_teks, st.session_state.chat_history[:-1])
 
-    # Simpan respon SANTI
+    # Simpan jawaban bot ke riwayat obrolan
     st.session_state.chat_history.append(("bot", jawaban))
     st.rerun()
