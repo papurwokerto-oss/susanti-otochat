@@ -106,55 +106,47 @@ Tambahkan tawaran bantuan di akhir jawaban Anda.
     except Exception as e:
         return "Aduh maaf ya... Koneksi SANTI sedang sedikit terganggu nih sehingga jadi telmi alias telat mikir dan sulit membaca dokumen. Coba kirimkan pertanyaan Anda sekali lagi ya! SANTI siap membantu."
 
-# === 5. CSS PREMIUM ===
+# === 5. CSS PREMIUM (DIPERBAIKI UNTUK MOBILE) ===
 st.markdown("""
 <style>
     header, footer, [data-testid='stHeader'] {display: none !important;}
-    .custom-header {position: fixed; top: 0; left: 0; right: 0; height: 60px; background-color: #0a5d3f; display: flex; align-items: center; justify-content: center; z-index: 99999; gap: 12px; border-bottom: 2px solid #e6a119;}
-    .custom-header-img {height: 40px; width: 40px; border-radius: 50%; border: 2px solid #ffffff; object-fit: cover;}
-    .custom-header-title {color: #ffffff !important; font-size: 1.4rem !important; font-weight: 800 !important;}
-    .stMainBlockContainer {padding-top: 80px !important; padding-bottom: 150px !important;}
-    .welcome-screen {text-align: center; margin-top: 50px; color: #94a3b8;}
+    
+    /* Header Responsive */
+    .custom-header {
+        position: fixed; top: 0; left: 0; right: 0; min-height: 80px; 
+        background-color: #0a5d3f; display: flex; align-items: center; 
+        padding: 10px 15px; z-index: 99999; border-bottom: 2px solid #e6a119;
+        gap: 15px;
+    }
+    .custom-header-img {width: 50px; height: 50px; border-radius: 50%; border: 2px solid #ffffff; object-fit: cover;}
+    .custom-header-text {display: flex; flex-direction: column; justify-content: center;}
+    .custom-header-title {color: #ffffff !important; font-size: 1.1rem !important; font-weight: 800 !important; margin: 0 !important; line-height: 1.2;}
+    .custom-header-subtitle {color: #e2e8f0 !important; font-size: 0.75rem !important; margin: 0 !important; line-height: 1.2;}
+
+    @media (max-width: 600px) {
+        .custom-header {min-height: 70px; gap: 10px; padding: 8px 10px;}
+        .custom-header-img {width: 40px; height: 40px;}
+        .custom-header-title {font-size: 0.95rem !important;}
+        .custom-header-subtitle {font-size: 0.65rem !important;}
+    }
+
+    .stMainBlockContainer {padding-top: 100px !important; padding-bottom: 150px !important;}
+    .welcome-screen {text-align: center; margin-top: 20px; color: #94a3b8;}
     .custom-footer {position: fixed; bottom: 0; left: 0; right: 0; height: 35px; background-color: #052217; text-align: center; border-top: 1px solid #0a5d3f; z-index: 99998; color: #94a3b8; font-size: 0.7rem; line-height: 35px;}
-    .btn-container {text-align: center; margin-top: 80px;}
+    .btn-container {text-align: center; margin-top: 20px;}
 </style>
 """, unsafe_allow_html=True)
 
-# === 6. HEADER ===
+# === 6. HEADER (DIPERBAIKI) ===
 st.markdown(f"""
-<style>
-.custom-header {{
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    background-color: #0a5d3f;
-    border-radius: 8px;
-}}
-.custom-header-img {{
-    height: 60px;
-    margin-right: 15px;
-}}
-.custom-header-title {{
-    font-size: 28px;
-    font-weight: bold;
-    color: #fff;
-}}
-.custom-header-desc {{
-    font-size: 16px;
-    color: #fff;
-    margin-top: 5px;
-}}
-</style>
-
 <div class="custom-header">
     <img src="{santi_header_url}" class="custom-header-img">
-    <div>
+    <div class="custom-header-text">
         <div class="custom-header-title">SUSANTI</div>
-        <div class="custom-header-desc">Sistem Unggulan Setara Aparatur Navigatif, Tanggap dan Informatif</div>
+        <div class="custom-header-subtitle">Sistem Unggulan Setara Aparatur Navigatif, Tanggap dan Informatif</div>
     </div>
 </div>
 """, unsafe_allow_html=True)
-
 
 # === 7. CHAT LOGIC ===
 if "chat_history" not in st.session_state: st.session_state.chat_history = []
