@@ -166,10 +166,32 @@ if st.button("Hapus Riwayat Chat"):
     st.rerun()
 st.markdown('</div>', unsafe_allow_html=True)
 
-# Tampilan Welcome Screen
+# Tampilan Welcome Screen dengan animasi fade-in
 if len(st.session_state.chat_history) == 0:
-    st.markdown("""
+    st.markdown(f"""
+    <style>
+    .welcome-screen {{
+        text-align: center;
+        margin-top: 50px;
+        color: #94a3b8;
+    }}
+    .welcome-screen img {{
+        height: 120px;
+        width: 120px;
+        border-radius: 50%;
+        border: 3px solid #0a5d3f;
+        margin-bottom: 20px;
+        opacity: 0;
+        animation: fadeIn 2s forwards;
+    }}
+    @keyframes fadeIn {{
+        from {{ opacity: 0; transform: scale(0.9); }}
+        to {{ opacity: 1; transform: scale(1); }}
+    }}
+    </style>
+
     <div class="welcome-screen">
+        <img src="{santi_header_url}" alt="Santi Logo"/>
         <h2>Halo! Assalamu'alaikum! Saya SUSANTI</h2>
         <p>Sistem Unggulan Setara Aparatur Navigatif, Tanggap dan Informatif</p>
         <p>Sebagai pegawai virtual Pengadilan Agama Purwokerto, saya siap membantu Anda.</p>
@@ -180,6 +202,7 @@ else:
         avatar = santi_avatar_url if role == "bot" else "👤"
         with st.chat_message(role, avatar=avatar):
             st.write(msg)
+
 
 user_input = st.chat_input("Ketik pertanyaan Anda di sini...")
 
