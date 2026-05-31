@@ -137,11 +137,11 @@ st.markdown(f"""
 .custom-header-title {{
     font-size: 28px;
     font-weight: bold;
-    color: #333;
+    color: #fff;
 }}
 .custom-header-desc {{
     font-size: 16px;
-    color: #333;
+    color: #fff;
     margin-top: 5px;
 }}
 </style>
