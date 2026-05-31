@@ -229,3 +229,19 @@ if user_input:
 st.markdown("""
 <div class="custom-footer">&copy; 2026 - Pengadilan Agama Purwokerto</div>
 """, unsafe_allow_html=True)
+
+# === 9. AUTO-SCROLL FIX ===
+import streamlit.components.v1 as components
+
+# Kode JavaScript untuk scroll ke bawah secara otomatis
+components.html(
+    """
+    <script>
+        const scrollBottom = () => {
+            window.parent.document.querySelector('section.main').scrollTo(0, 1000000);
+        };
+        setTimeout(scrollBottom, 100); // Memberi jeda sedikit agar konten selesai di-render
+    </script>
+    """,
+    height=0,
+)
