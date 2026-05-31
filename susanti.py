@@ -192,8 +192,8 @@ if len(st.session_state.chat_history) == 0:
 
     <div class="welcome-screen">
         <img src="{santi_header_url}" alt="Santi Logo"/>
-        <h2>Halo! Assalamu'alaikum! Saya SUSANTI</h2>
-        <p>Sistem Unggulan Setara Aparatur Navigatif, Tanggap dan Informatif</p>
+        <h2>Assalamu'alaikum! Saya SUSANTI</h2>
+        <p>Saya adalah Sistem Unggulan Setara Aparatur yang Navigatif, Tanggap dan Informatif</p>
         <p>Sebagai pegawai virtual Pengadilan Agama Purwokerto, saya siap membantu Anda.</p>
     </div>
     """, unsafe_allow_html=True)
