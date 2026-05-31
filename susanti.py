@@ -122,12 +122,39 @@ st.markdown("""
 
 # === 6. HEADER ===
 st.markdown(f"""
+<style>
+.custom-header {{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}}
+.custom-header-img {{
+    height: 60px;
+    margin-right: 15px;
+}}
+.custom-header-title {{
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+}}
+.custom-header-desc {{
+    font-size: 16px;
+    color: #555;
+    margin-top: 5px;
+}}
+</style>
+
 <div class="custom-header">
     <img src="{santi_header_url}" class="custom-header-img">
-    <div class="custom-header-title">SUSANTI</div>
-    <div class="custom-header-desc">Sistem Unggulan Setara Aparatur Navigatif, Tanggap dan Informatif</div>
-   </div>
+    <div>
+        <div class="custom-header-title">SUSANTI</div>
+        <div class="custom-header-desc">Asisten Virtual Pengadilan Agama Purwokerto</div>
+    </div>
+</div>
 """, unsafe_allow_html=True)
+
 
 # === 7. CHAT LOGIC ===
 if "chat_history" not in st.session_state: st.session_state.chat_history = []
