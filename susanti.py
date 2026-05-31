@@ -127,7 +127,7 @@ st.markdown(f"""
     display: flex;
     align-items: center;
     padding: 10px;
-    background-color: #f5f5f5;
+    background-color: #0a5d3f;
     border-radius: 8px;
 }}
 .custom-header-img {{
