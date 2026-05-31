@@ -150,7 +150,7 @@ st.markdown(f"""
     <img src="{santi_header_url}" class="custom-header-img">
     <div>
         <div class="custom-header-title">SUSANTI</div>
-        <div class="custom-header-desc">Asisten Virtual Pengadilan Agama Purwokerto</div>
+        <div class="custom-header-desc">Sistem Unggulan Setara Aparatur Navigatif, Tanggap dan Informatif</div>
     </div>
 </div>
 """, unsafe_allow_html=True)
