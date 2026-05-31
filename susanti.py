@@ -125,6 +125,7 @@ st.markdown(f"""
 <div class="custom-header">
     <img src="{santi_header_url}" class="custom-header-img">
     <div class="custom-header-title">SUSANTI</div>
+    <div class="custom-header-title">Sistem Unggulan Setara Aparatur Navigatif, Tanggap dan Informatif</div>
 </div>
 """, unsafe_allow_html=True)
 
