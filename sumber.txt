@@ -168,12 +168,10 @@ NB: Semua fotokopi telah dileges dan dinazegelen oleh Kantor POS.
 
 2. PANJAR BIAYA PERKARA E-COURT/SURAT TERCATAT (POS)
 ## Aturan Perhitungan Biaya Perkara
-Total Biaya Perkara = (Biaya Dasar sesuai jenis perkara) + (Biaya Panggilan sesuai kelurahan Penggugat atau Pemohon) + (Biaya Panggilan sesuai kelurahan Tergugat atau Termohon).
+Total Biaya Perkara = (Biaya Dasar sesuai jenis perkara) + (Biaya Panggilan sesuai desa/kelurahan Penggugat atau Pemohon) + (Biaya Panggilan sesuai desa/kelurahan Tergugat atau Termohon).
 A. Perkara Permohonan
 PNBP Pendaftaran = Rp30.000 
-Biaya Proses  = Rp100.000
-Biaya Panggilan Pemohon 1, 2 x panggilan @Rp20.000 = Rp40.000
-Biaya Panggilan Pemohon 2, 2 x panggilan @Rp20.000 = Rp40.000
+Biaya Proses  = Rp125.000
 PNBP Relaas Panggilan Pemohon 1 = Rp10.000
 PNBP Relaas Panggilan Pemohon 2 = Rp10.000
 PNBP Surat Pencabutan Perkara = Rp10.000
@@ -183,9 +181,8 @@ PNBP Relaas Pemberitahuan Isi Putusan kepada Pemohon 1 @Rp10.000 = Rp10.000
 PNBP Relaas Pemberitahuan Isi Putusan kepada Pemohon 2 @Rp10.000 = Rp10.000
 B. Perkara Cerai Gugat
 PNBP Pendaftaran = Rp30.000
-Biaya Proses = Rp100.000
-Biaya Panggilan Penggugat, 3 x panggilan @Rp20.000 = Rp60.000
-Biaya Panggilan Tergugat, 4 x panggilan @Rp20.000 = Rp80.000
+Biaya Proses = Rp125.000
+Biaya Panggilan Tergugat, 3 x panggilan @Rp24.000 = Rp72.000
 PNBP Relaas Panggilan Penggugat dan Tergugat @Rp10.000 = Rp20.000
 PNBP Surat Pencabutan Perkara = Rp10.000
 Biaya Redaksi = Rp10.000
@@ -193,9 +190,8 @@ Meterai = Rp10.000
 PNBP Relaas Pemberitahuan Isi Putusan kepada Penggugat dan Tergugat @Rp10.000 = Rp20.000
 C. Perkara Cerai Talak
 PNBP Pendaftaran = Rp30.000
-Biaya Proses = Rp100.000
-Biaya Panggilan Pemohon, 4 x panggilan @Rp20.000 = Rp80.000
-Biaya Panggilan Termohon, 5 x panggilan @Rp20.000 = Rp100.000
+Biaya Proses = Rp125.000
+Biaya Panggilan Termohon, 4 x panggilan @Rp24.000 = Rp96.000
 PNBP Relaas Panggilan Pemohon dan Termohon @Rp10.000 = Rp20.000
 PNBP Surat Pencabutan Perkara = Rp10.000
 Biaya Redaksi = Rp10.000
@@ -204,31 +200,29 @@ PNBP Relaas Pemberitahuan Isi Putusan kepada Pemohon dan Termohon @Rp10.000 = Rp
 Biaya Kirim Salinan Putusan Kepada Termohon = Rp50.000
 D. Perkara Cerai Gugat Ghaib
 PNBP Pendaftaran = Rp30.000
-Biaya Proses = Rp100.000
-Biaya Panggilan Penggugat, 2 x panggilan @Rp20.000 = Rp40.000
+Biaya Proses = Rp125.000
 PNBP Relaas Panggilan Penggugat dan Tergugat @Rp10.000 = Rp20.000
 PNBP Surat Pencabutan Perkara = Rp10.000
-PNBP Pengumuman Radio (RRI), 2 x pengumuman @Rp250.000 = Rp500.000
+PNBP Pengumuman Radio (RRI), 2 x pengumuman @Rp140.000 = Rp280.000
 Biaya Redaksi = Rp10.000
 Materai = Rp10.000
 PNBP Relaas Pemberitahuan Isi Putusan kepada Penggugat dan Tergugat @Rp10.000 = Rp20.000
 E. Perkara Cerai Talak Ghaib
 PNBP Pendaftaran = Rp30.000
-Biaya Proses = Rp100.000
-Biaya Panggilan Pemohon, 2 x panggilan @Rp20.000 = Rp40.000
+Biaya Proses = Rp125.000
 PNBP Relaas Panggilan Pemohon dan Termohon @Rp10.000 = Rp20.000
 PNBP Surat Pencabutan Perkara = Rp10.000
-PNBP Pengumuman Radio (RRI), 2 x pengumuman @Rp250.000 = Rp500.000
+PNBP Pengumuman Radio (RRI), 2 x pengumuman @Rp140.000 = Rp280.000
 Biaya Redaksi = Rp10.000
 Materai = Rp10.000
 PNBP Relaas Pemberitahuan Isi Putusan kepada Pemohon dan Termohon @Rp10.000 = Rp20.000
-Biaya Pemberitahuan Isi Putusan = Rp175.000
-Panggilan Pengumuman Termohon Ikrar Talak = Rp175.000
+Biaya Pemberitahuan Isi Putusan = Rp140.000
+Panggilan Pengumuman Termohon Ikrar Talak = Rp140.000
 F. Perkara Gugatan Sederhana
 PNBP Pendaftaran = Rp30.000
-Biaya Proses = Rp100.000
+Biaya Proses = Rp125.000
 Biaya Panggilan Penggugat, 1 x panggilan = Rp0
-Biaya Panggilan Tergugat, 2 x panggilan @Rp20.000 = Rp40.000
+Biaya Panggilan Tergugat, 2 x panggilan @Rp24.000 = Rp48.000
 PNBP Relaas Panggilan Penggugat dan Tergugat @Rp10.000 = Rp20.000
 PNBP Surat Pencabutan Perkara = Rp10.000
 Biaya Redaksi = Rp10.000
@@ -238,205 +232,243 @@ Biaya Pemberitahuan Isi Putusan Kepada Penggugat = Rp0
 Biaya Pemberitahuan Isi Putusan Kepada Tergugat = Rp20.000
 G. Perkara Permohonan Keberatan Atas Putusan Gugatan Sederhana (Ecourt -POS)
 PNBP Pendaftaran = Rp30.000
-Biaya Proses = Rp100.000
+Biaya Proses = Rp125.000
 Biaya Panggilan Penggugat, 2 x panggilan = Rp0
-Biaya Panggilan Tergugat, 2 x panggilan @Rp20.000 = Rp40.000
+Biaya Panggilan Tergugat, 2 x panggilan @Rp24.000 = Rp48.000
 PNBP Relaas Panggilan Penggugat dan Tergugat @Rp10.000 = Rp20.000
 PNBP Surat Pencabutan Perkara = Rp10.000
-Biaya Penyampaian Memori Keberatan Kepada Tergugat = Rp20.000
+Biaya Penyampaian Memori Keberatan Kepada Tergugat = Rp24.000
 Biaya Penyampaian Kontra Memori Keberatan Kepada Penggugat = Rp0
 Biaya Redaksi = Rp10.000
 Materai = Rp10.000
 PNBP Relaas Pemberitahuan Isi Putusan kepada Penggugat dan Tergugat @Rp10.000 = Rp20.000
 Biaya Pemberitahuan Isi Putusan Kepada Penggugat = Rp0
-Biaya Pemberitahuan Isi Putusan Kepada Tergugat = Rp20.000
+Biaya Pemberitahuan Isi Putusan Kepada Tergugat = Rp24.000
 I. Perkara Verzet (Ecourt - POS)
 PNBP Pendaftaran = Rp30.000
-Biaya Proses = Rp100.000
+Biaya Proses = Rp125.000
 Biaya Panggilan Penggugat, 1 x panggilan Rp0
-Biaya Panggilan Tergugat, 2 x panggilan @Rp20.000 = Rp40.000
+Biaya Panggilan Tergugat, 2 x panggilan @Rp24.000 = Rp48.000
 PNBP Relaas Panggilan Penggugat dan Tergugat @Rp10.000 = Rp20.000
 PNBP Surat Pencabutan Perkara = Rp10.000
 Biaya Redaksi = Rp10.000
 Materai = Rp10.000
 PNBP Relaas Pemberitahuan Isi Putusan kepada Penggugat dan Tergugat @Rp10.000 = Rp20.000
 Biaya Pemberitahuan Isi Putusan Kepada Penggugat = Rp0
-Biaya Pemberitahuan Isi Putusan Kepada Tergugat = Rp20.000
+Biaya Pemberitahuan Isi Putusan Kepada Tergugat = Rp24.000
 
 
-3. WILAYAH HUKUM PENGADILAN AGAMA Purwokerto
-A. Kecamatan Medan Amplas
-1. Kelurahan Harjosari 1, Biaya Panggilan = Rp20.000
-2. Kelurahan Harjosari 2, Biaya Panggilan = Rp20.000
-3. Kelurahan Timbang Deli, Biaya Panggilan = Rp20.000
-4. Kelurahan Bangun Mulia, Biaya Panggilan = Rp20.000
-5. Kelurahan Sitirejo 2, Biaya Panggilan = Rp20.000
-6. Kelurahan Sitirejo 3, Biaya Panggilan = Rp20.000
-7. Kelurahan Amplas, Biaya Panggilan = Rp20.000
-B. Kecamatan Medan Denai
-1. Kelurahan Tegal Sari Mandala 1, Biaya Panggilan = Rp20.000
-2. Kelurahan Tegal Sari Mandala 2, Biaya Panggilan = Rp20.000
-3. Kelurahan Tegal Sari Mandala 3, Biaya Panggilan = Rp20.000
-4. Kelurahan Denai, Biaya Panggilan = Rp20.000
-5. Kelurahan Binjai, Biaya Panggilan = Rp20.000
-6. Kelurahan Medan Tenggara, Biaya Panggilan = Rp20.000
-C. Kecamatan Medan Maimun
-1. Kelurahan Aur, Biaya Panggilan = Rp20.000
-2. Kelurahan Hamdan, Biaya Panggilan = Rp20.000
-3. Kelurahan Jati, Biaya Panggilan = Rp20.000
-4. Kelurahan Kampung Baru, Biaya Panggilan = Rp20.000
-5. Kelurahan Sei Mati, Biaya Panggilan = Rp20.000
-6. Kelurahan Suka Raja, Biaya Panggilan = Rp20.000
-D. Kecamatan Medan Area
-1. Kelurahan Pandau Hulu 2, Biaya Panggilan = Rp20.000
-2. Kelurahan Sei Renggas 2, Biaya Panggilan = Rp20.000
-3. Kelurahan Sei Renggas Permata, Biaya Panggilan = Rp20.000
-4. Kelurahan Kota Matsum 1, Biaya Panggilan = Rp20.000
-5. Kelurahan Kota Matsum 2, Biaya Panggilan = Rp20.000
-6. Kelurahan Kota Mastum 4, Biaya Panggilan = Rp20.000
-7. Kelurahan Sukaramai 1, Biaya Panggilan = Rp20.000
-8. Kelurahan Sukaramai 2, Biaya Panggilan = Rp20.000
-9. Kelurahan Tegal Sari 1, Biaya Panggilan = Rp20.000
-10. Kelurahan Tegal Sari 2, Biaya Panggilan = Rp20.000
-11. Kelurahan Tegal Sari 3, Biaya Panggilan = Rp20.000
-12. Kelurahan Pasar Merah Timur, Biaya Panggilan = Rp20.000
-E. Kecamatan Medan Johor
-1. Kelurahan Kwala Bekala, Biaya Panggilan = Rp20.000
-2. Kelurahan Pangkalan Mansyur, Biaya Panggilan = Rp20.000
-3. Kelurahan Gedung Johor, Biaya Panggilan = Rp20.000
-4. Kelurahan Kedai Durian, Biaya Panggilan = Rp20.000
-5. Kelurahan Suka Maju, Biaya Panggilan = Rp20.000
-6. Kelurahan Titi Kuning, Biaya Panggilan = Rp20.000
-F. Kecamatan Medan Polonia
-1. Kelurahan Anggrung, Biaya Panggilan = Rp20.000
-2. Kelurahan Madras Hulu, Biaya Panggilan = Rp20.000
-3. Kelurahan Polonia, Biaya Panggilan = Rp20.000
-4. Kelurahan Sari Rejo, Biaya Panggilan = Rp20.000
-5. Kelurahan Suka Damai, Biaya Panggilan = Rp20.000
-G. Kecamatan Medan Barat
-1. Kelurahan Kesawan, Biaya Panggilan = Rp20.000
-2. Kelurahan Silalas, Biaya Panggilan = Rp20.000
-3. Kelurahan Glugur Kota, Biaya Panggilan = Rp20.000
-4. Kelurahan Pulo Brayan Kota, Biaya Panggilan = Rp20.000
-5. Kelurahan Karang Berombak, Biaya Panggilan = Rp20.000
-6. Kelurahan Sei Agul, Biaya Panggilan = Rp20.000
-H. Kecamatan Medan Baru
-1. Kelurahan Darat, Biaya Panggilan = Rp20.000
-2. Kelurahan Petisah Hulu, Biaya Panggilan = Rp20.000
-3. Kelurahan Babura, Biaya Panggilan = Rp20.000
-4. Kelurahan Merdeka, Biaya Panggilan = Rp20.000
-5. Kelurahan Titi Rantai/Rante, Biaya Panggilan = Rp20.000
-I. Kecamatan Medan Kota
-1. Kelurahan Pandau Hulu 1, Biaya Panggilan = Rp20.000
-2. Kelurahan Pasar Baru, Biaya Panggilan = Rp20.000
-3. Kelurahan Pusat Pasar, Biaya Panggilan = Rp20.000
-4. Kelurahan Mesjid, Biaya Panggilan = Rp20.000
-5. Kelurahan Sei Rengas 1, Biaya Panggilan = Rp20.000
-6. Kelurahan Kota Matsum 3, Biaya Panggilan = Rp20.000
-7. Kelurahan Pasar Merah Barat, Biaya Panggilan = Rp20.000
-8. Kelurahan Teladan Barat, Biaya Panggilan = Rp20.000
-9. Kelurahan Teladan Timur, Biaya Panggilan = Rp20.000
-10. Kelurahan Sudi Rejo 1, Biaya Panggilan = Rp20.000
-11. Kelurahan Sudi Rejo 2, Biaya Panggilan = Rp20.000
-12. Kelurahan Siti Rejo 1, Biaya Panggilan = Rp20.000
-J. Kecamatan Medan Timur
-1. Kelurahan Gang Buntu, Biaya Panggilan = Rp20.000
-2. Kelurahan Perintis, Biaya Panggilan = Rp20.000
-3. Kelurahan Sidodadi, Biaya Panggilan = Rp20.000
-4. Kelurahan Durian, Biaya Panggilan = Rp20.000
-5. Kelurahan Gaharu, Biaya Panggilan = Rp20.000
-6. Kelurahan Glugur Darat 1, Biaya Panggilan = Rp20.000
-7. Kelurahan Glugur Darat 2, Biaya Panggilan = Rp20.000
-8. Kelurahan Pulo Brayan Bengkel, Biaya Panggilan = Rp20.000
-9. Kelurahan Pulo Brayan Bengkel Baru, Biaya Panggilan = Rp20.000
-10. Kelurahan Pulo Brayan Darat, Biaya Panggilan = Rp20.000
-11. Kelurahan Pulo Brayan Darat 2, Biaya Panggilan = Rp20.000
-K. Kecamatan Medan Petisah
-1. Kelurahan Petisah Tengah, Biaya Panggilan = Rp20.000
-2. Kelurahan Sekip, Biaya Panggilan = Rp20.000
-3. Kelurahan Sei Putih Barat, Biaya Panggilan = Rp20.000
-4. Kelurahan Sei Putih Tengah, Biaya Panggilan = Rp20.000
-5. Kelurahan Sei Putih Timur 1, Biaya Panggilan = Rp20.000
-6. Kelurahan Sei Putih Timur 2, Biaya Panggilan = Rp20.000
-7. Kelurahan Sei Sikambing D, Biaya Panggilan = Rp20.000
-L. Kecamatan Medan Perjuangan
-1. Kelurahan Pandau Hilir, Biaya Panggilan = Rp20.000
-2. Kelurahan Pahlawan, Biaya Panggilan = Rp20.000
-3. Kelurahan Sei Kera Hulu, Biaya Panggilan = Rp20.000
-4. Kelurahan Sei Kera Hilir 1, Biaya Panggilan = Rp20.000
-5. Kelurahan Sei Kera Hilir 2, Biaya Panggilan = Rp20.000
-6. Kelurahan Sei Kera Hilir 3, Biaya Panggilan = Rp20.000
-7. Kelurahan Sidodame Barat 1, Biaya Panggilan = Rp20.000
-8. Kelurahan Sidodame Barat 2, Biaya Panggilan = Rp20.000
-9. Kelurahan Sidodame Timur, Biaya Panggilan = Rp20.000
-10. Kelurahan Tegal Rejo, Biaya Panggilan = Rp20.000
-M. Kecamatan Medan Helvetia
-1. Kelurahan Dwikora, Biaya Panggilan = Rp20.000
-2. Kelurahan Sei Sikambing C-2, Biaya Panggilan = Rp20.000
-3. Kelurahan Helvetia, Biaya Panggilan = Rp20.000
-4. Kelurahan Helvetia Tengah, Biaya Panggilan = Rp20.000
-5. Kelurahan Helvetia Timur, Biaya Panggilan = Rp20.000
-6. Kelurahan Tanjung Gusta, Biaya Panggilan = Rp20.000
-7. Kelurahan Cinta Damai, Biaya Panggilan = Rp20.000
-N. Kecamatan Medan Selayang
-1. Kelurahan Beringin, Biaya Panggilan = Rp20.000
-2. Kelurahan Padang Bulan Selayang 1, Biaya Panggilan = Rp20.000
-3. Kelurahan Padang Bulan Selayang 2, Biaya Panggilan = Rp20.000
-4. Kelurahan Sempakata, Biaya Panggilan = Rp20.000
-5. Kelurahan Tanjung Sari, Biaya Panggilan = Rp20.000
-6. Kelurahan Asam Kumbang, Biaya Panggilan = Rp20.000
-O. Kecamatan Medan Sunggal
-1. Kelurahan Babura Sunggal, Biaya Panggilan = Rp20.000
-2. Kelurahan Sei Sikambing B, Biaya Panggilan = Rp20.000
-3. Kelurahan Simpang Tanjung, Biaya Panggilan = Rp20.000
-4. Kelurahan Tanjung Rejo, Biaya Panggilan = Rp20.000
-5. Kelurahan Lalang, Biaya Panggilan = Rp20.000
-6. Kelurahan Sunggal, Biaya Panggilan = Rp20.000
-P. Kecamatan Medan Tembung
-1. Kelurahan Indra Kasih, Biaya Panggilan = Rp20.000
-2. Kelurahan Sidorejo, Biaya Panggilan = Rp20.000
-3. Kelurahan Siderojo Hilir, Biaya Panggilan = Rp20.000
-4. Kelurahan Bandar Selamat, Biaya Panggilan = Rp20.000
-5. Kelurahan Bantan, Biaya Panggilan = Rp20.000
-6. Kelurahan Bantan Timur, Biaya Panggilan = Rp20.000
-7. Kelurahan Tembung, Biaya Panggilan = Rp20.000
-Q. Kecamatan Medan Tuntungan
-1. Kelurahan Tanjung Selamat, Biaya Panggilan = Rp20.000
-2. Kelurahan Simalingkar B, Biaya Panggilan = Rp20.000
-3. Kelurahan Simpang Selayang, Biaya Panggilan = Rp20.000
-4. Kelurahan Kemenangan Tani, Biaya Panggilan = Rp20.000
-5. Kelurahan Laucih, Biaya Panggilan = Rp20.000
-6. Kelurahan Namu Gajah, Biaya Panggilan = Rp20.000
-7. Kelurahan Sidomulyo, Biaya Panggilan = Rp20.000
-8. Kelurahan Ladang Bambu, Biaya Panggilan = Rp20.000
-9. Kelurahan Mangga, Biaya Panggilan = Rp20.000
-R. Kecamatan Medan Deli
-1. Kelurahan Tanjung Mulia, Biaya Panggilan = Rp20.000
-2. Kelurahan Tanjung Mulia Hilir, Biaya Panggilan = Rp20.000
-3. Kelurahan Mabar, Biaya Panggilan = Rp20.000
-4. Kelurahan Mabar Hilir, Biaya Panggilan = Rp20.000
-5. Kelurahan Kota Bangun, Biaya Panggilan = Rp20.000
-6. Kelurahan Titi Papan, Biaya Panggilan = Rp20.000
-S. Kecamatan Medan Labuhan
-1. Kelurahan Besar, Biaya Panggilan = Rp20.000
-2. Kelurahan Martubung, Biaya Panggilan = Rp20.000
-3. Kelurahan Sei Mati, Biaya Panggilan = Rp20.000
-4. Kelurahan Pekan Labuhan, Biaya Panggilan = Rp20.000
-5. Kelurahan Nelayan Indah, Biaya Panggilan = Rp20.000
-6. Kelurahan Tangkahan, Biaya Panggilan = Rp20.000
-T. Kecamatan Medan Belawan
-1. Kelurahan Belawan 1, Biaya Panggilan = Rp20.000
-2. Kelurahan Belawan 2, Biaya Panggilan = Rp20.000
-3. Kelurahan Belawan Sicanang, Biaya Panggilan = Rp20.000
-4. Kelurahan Bagan Deli, Biaya Panggilan = Rp20.000
-5. Kelurahan Belawan Bahari, Biaya Panggilan = Rp20.000
-6. Kelurahan Belawan Bahagia, Biaya Panggilan = Rp20.000
-U. Kecamatan Medan Marelan
-1. Kelurahan Tanah Enam Ratus, Biaya Panggilan = Rp20.000
-2. Kelurahan Paya Pasir, Biaya Panggilan = Rp20.000
-3. Kelurahan Labuhan Deli, Biaya Panggilan = Rp20.000
-4. Kelurahan Rengas Pulau, Biaya Panggilan = Rp20.000
-5. Kelurahan Terjun, Biaya Panggilan = Rp20.000
+3. WILAYAH HUKUM (YURISDIKSI) PENGADILAN AGAMA Purwokerto dan biaya panggilan ataupemberitahuan untuk perkara non e-court :
+	1. Kecamatan Ajibarang					
+1	Desa	Ajibarang Kulon	,	Kecamatan Ajibarang	biaya panggilan/pemberitahuan =	Rp120.000,00 
+2	Desa	Ajibarang Wetan	,	Kecamatan Ajibarang	biaya panggilan/pemberitahuan =	Rp120.000,00 
+3	Desa	Banjarsari	,	Kecamatan Ajibarang	biaya panggilan/pemberitahuan =	Rp120.000,00 
+4	Desa	Ciberung	,	Kecamatan Ajibarang	biaya panggilan/pemberitahuan =	Rp140.000,00 
+5	Desa	Darmakradenan	,	Kecamatan Ajibarang	biaya panggilan/pemberitahuan =	Rp140.000,00 
+6	Desa	Jingkang	,	Kecamatan Ajibarang	biaya panggilan/pemberitahuan =	Rp120.000,00 
+7	Desa	Kalibenda	,	Kecamatan Ajibarang	biaya panggilan/pemberitahuan =	Rp120.000,00 
+8	Desa	Karangbawang	,	Kecamatan Ajibarang	biaya panggilan/pemberitahuan =	Rp140.000,00 
+9	Desa	Kracak	,	Kecamatan Ajibarang	biaya panggilan/pemberitahuan =	Rp120.000,00 
+10	Desa	Lesmana	,	Kecamatan Ajibarang	biaya panggilan/pemberitahuan =	Rp120.000,00 
+11	Desa	Pancasan	,	Kecamatan Ajibarang	biaya panggilan/pemberitahuan =	Rp120.000,00 
+12	Desa	Pancurendang	,	Kecamatan Ajibarang	biaya panggilan/pemberitahuan =	Rp120.000,00 
+13	Desa	Pandansari	,	Kecamatan Ajibarang	biaya panggilan/pemberitahuan =	Rp120.000,00 
+14	Desa	Sawangan	,	Kecamatan Ajibarang	biaya panggilan/pemberitahuan =	Rp120.000,00 
+15	Desa	Tipar Kidul	,	Kecamatan Ajibarang	biaya panggilan/pemberitahuan =	Rp140.000,00 
+						
+	2. Kecamatan Baturraden					
+1	Desa	Karangmangu	,	Kecamatan Baturraden	biaya panggilan/pemberitahuan =	Rp140.000,00 
+2	Desa	Karangsalam	,	Kecamatan Baturraden	biaya panggilan/pemberitahuan =	Rp140.000,00 
+3	Desa	Karangtengah	,	Kecamatan Baturraden	biaya panggilan/pemberitahuan =	Rp140.000,00 
+4	Desa	Kebumen	,	Kecamatan Baturraden	biaya panggilan/pemberitahuan =	Rp120.000,00 
+5	Desa	Kemutug Lor	,	Kecamatan Baturraden	biaya panggilan/pemberitahuan =	Rp120.000,00 
+6	Desa	Kemutug Kidul	,	Kecamatan Baturraden	biaya panggilan/pemberitahuan =	Rp120.000,00 
+7	Desa	Ketenger	,	Kecamatan Baturraden	biaya panggilan/pemberitahuan =	Rp120.000,00 
+8	Desa	Kutasari	,	Kecamatan Baturraden	biaya panggilan/pemberitahuan =	Rp120.000,00 
+9	Desa	Pamijen	,	Kecamatan Baturraden	biaya panggilan/pemberitahuan =	Rp120.000,00 
+10	Desa	Pandak	,	Kecamatan Baturraden	biaya panggilan/pemberitahuan =	Rp120.000,00 
+11	Desa	Purwosari	,	Kecamatan Baturraden	biaya panggilan/pemberitahuan =	Rp120.000,00 
+12	Desa	Rempoah	,	Kecamatan Baturraden	biaya panggilan/pemberitahuan =	Rp120.000,00 
+						
+	3. Kecamatan Cilongok					
+1	Desa	Batuanten	,	Kecamatan Cilongok	biaya panggilan/pemberitahuan =	Rp120.000,00 
+2	Desa	Cikidang	,	Kecamatan Cilongok	biaya panggilan/pemberitahuan =	Rp120.000,00 
+3	Desa	Cilongok	,	Kecamatan Cilongok	biaya panggilan/pemberitahuan =	Rp120.000,00 
+4	Desa	Cipete	,	Kecamatan Cilongok	biaya panggilan/pemberitahuan =	Rp120.000,00 
+5	Desa	Gununglurah	,	Kecamatan Cilongok	biaya panggilan/pemberitahuan =	Rp140.000,00 
+6	Desa	Jatisaba	,	Kecamatan Cilongok	biaya panggilan/pemberitahuan =	Rp140.000,00 
+7	Desa	Kalisari	,	Kecamatan Cilongok	biaya panggilan/pemberitahuan =	Rp120.000,00 
+8	Desa	Karanglo	,	Kecamatan Cilongok	biaya panggilan/pemberitahuan =	Rp120.000,00 
+9	Desa	Karangtengah	,	Kecamatan Cilongok	biaya panggilan/pemberitahuan =	Rp140.000,00 
+10	Desa	Kasegeran	,	Kecamatan Cilongok	biaya panggilan/pemberitahuan =	Rp120.000,00 
+11	Desa	Langgongsari	,	Kecamatan Cilongok	biaya panggilan/pemberitahuan =	Rp120.000,00 
+12	Desa	Pageraji	,	Kecamatan Cilongok	biaya panggilan/pemberitahuan =	Rp120.000,00 
+13	Desa	Panembangan	,	Kecamatan Cilongok	biaya panggilan/pemberitahuan =	Rp120.000,00 
+14	Desa	Panusupan	,	Kecamatan Cilongok	biaya panggilan/pemberitahuan =	Rp140.000,00 
+15	Desa	Pejogol	,	Kecamatan Cilongok	biaya panggilan/pemberitahuan =	Rp120.000,00 
+16	Desa	Pernasidi	,	Kecamatan Cilongok	biaya panggilan/pemberitahuan =	Rp120.000,00 
+17	Desa	Rancamaya	,	Kecamatan Cilongok	biaya panggilan/pemberitahuan =	Rp120.000,00 
+18	Desa	Sambirata	,	Kecamatan Cilongok	biaya panggilan/pemberitahuan =	Rp150.000,00 
+19	Desa	Sokawera	,	Kecamatan Cilongok	biaya panggilan/pemberitahuan =	Rp140.000,00 
+20	Desa	Sudimara	,	Kecamatan Cilongok	biaya panggilan/pemberitahuan =	Rp120.000,00 
+						
+	4. Kecamatan Gumelar					
+1	Desa	Cihonje	,	Kecamatan Gumelar	biaya panggilan/pemberitahuan =	Rp140.000,00 
+2	Desa	Cilangkap	,	Kecamatan Gumelar	biaya panggilan/pemberitahuan =	Rp140.000,00 
+3	Desa	Gancang	,	Kecamatan Gumelar	biaya panggilan/pemberitahuan =	Rp140.000,00 
+4	Desa	Gumelar	,	Kecamatan Gumelar	biaya panggilan/pemberitahuan =	Rp140.000,00 
+5	Desa	Karangkemojing	,	Kecamatan Gumelar	biaya panggilan/pemberitahuan =	Rp150.000,00 
+6	Desa	Kedungurang	,	Kecamatan Gumelar	biaya panggilan/pemberitahuan =	Rp140.000,00 
+7	Desa	Paningkaban	,	Kecamatan Gumelar	biaya panggilan/pemberitahuan =	Rp140.000,00 
+8	Desa	Samudra	,	Kecamatan Gumelar	biaya panggilan/pemberitahuan =	Rp140.000,00 
+						
+	5. Kecamatan Jatilawang					
+1	Desa	Adisara	,	Kecamatan Jatilawang	biaya panggilan/pemberitahuan =	Rp140.000,00 
+2	Desa	Bantar	,	Kecamatan Jatilawang	biaya panggilan/pemberitahuan =	Rp140.000,00 
+3	Desa	Gentawangi	,	Kecamatan Jatilawang	biaya panggilan/pemberitahuan =	Rp140.000,00 
+4	Desa	Gunung Wetan	,	Kecamatan Jatilawang	biaya panggilan/pemberitahuan =	Rp140.000,00 
+5	Desa	Jatilawang	,	Kecamatan Jatilawang	biaya panggilan/pemberitahuan =	Rp140.000,00 
+6	Desa	Karanganyar	,	Kecamatan Jatilawang	biaya panggilan/pemberitahuan =	Rp140.000,00 
+7	Desa	Karanglewas	,	Kecamatan Jatilawang	biaya panggilan/pemberitahuan =	Rp140.000,00 
+8	Desa	Kedungwringin	,	Kecamatan Jatilawang	biaya panggilan/pemberitahuan =	Rp140.000,00 
+9	Desa	Margasana	,	Kecamatan Jatilawang	biaya panggilan/pemberitahuan =	Rp140.000,00 
+10	Desa	Pekuncen	,	Kecamatan Jatilawang	biaya panggilan/pemberitahuan =	Rp140.000,00 
+11	Desa	Tinggarjaya	,	Kecamatan Jatilawang	biaya panggilan/pemberitahuan =	Rp140.000,00 
+12	Desa	Tunjung	,	Kecamatan Jatilawang	biaya panggilan/pemberitahuan =	Rp140.000,00 
+						
+	6. Kecamatan Karanglewas					
+1	Desa	Babakan	,	Kecamatan Karanglewas	biaya panggilan/pemberitahuan =	Rp120.000,00 
+2	Desa	Jipang	,	Kecamatan Karanglewas	biaya panggilan/pemberitahuan =	Rp120.000,00 
+3	Desa	Karanggude Kulon	,	Kecamatan Karanglewas	biaya panggilan/pemberitahuan =	Rp120.000,00 
+4	Desa	Karangkemiri	,	Kecamatan Karanglewas	biaya panggilan/pemberitahuan =	Rp120.000,00 
+5	Desa	Karanglewas Kidul	,	Kecamatan Karanglewas	biaya panggilan/pemberitahuan =	Rp120.000,00 
+6	Desa	Kediri	,	Kecamatan Karanglewas	biaya panggilan/pemberitahuan =	Rp120.000,00 
+7	Desa	Pangebatan	,	Kecamatan Karanglewas	biaya panggilan/pemberitahuan =	Rp120.000,00 
+8	Desa	Pasir Kulon	,	Kecamatan Karanglewas	biaya panggilan/pemberitahuan =	Rp120.000,00 
+9	Desa	Pasir Lor	,	Kecamatan Karanglewas	biaya panggilan/pemberitahuan =	Rp120.000,00 
+10	Desa	Pasir Wetan	,	Kecamatan Karanglewas	biaya panggilan/pemberitahuan =	Rp120.000,00 
+11	Desa	Singasari	,	Kecamatan Karanglewas	biaya panggilan/pemberitahuan =	Rp120.000,00 
+12	Desa	Sunyalangu	,	Kecamatan Karanglewas	biaya panggilan/pemberitahuan =	Rp140.000,00 
+13	Desa	Tamansari	,	Kecamatan Karanglewas	biaya panggilan/pemberitahuan =	Rp120.000,00 
+						
+	7. Kecamatan Kedungbanteng					
+1	Desa	Baseh	,	Kecamatan Kedungbanteng	biaya panggilan/pemberitahuan =	Rp150.000,00 
+2	Desa	Beji	,	Kecamatan Kedungbanteng	biaya panggilan/pemberitahuan =	Rp120.000,00 
+3	Desa	Dawuhan Kulon	,	Kecamatan Kedungbanteng	biaya panggilan/pemberitahuan =	Rp120.000,00 
+4	Desa	Dawuhan Wetan	,	Kecamatan Kedungbanteng	biaya panggilan/pemberitahuan =	Rp120.000,00 
+5	Desa	Kalikesur	,	Kecamatan Kedungbanteng	biaya panggilan/pemberitahuan =	Rp140.000,00 
+6	Desa	Kalisalak	,	Kecamatan Kedungbanteng	biaya panggilan/pemberitahuan =	Rp140.000,00 
+7	Desa	Karangnangka	,	Kecamatan Kedungbanteng	biaya panggilan/pemberitahuan =	Rp120.000,00 
+8	Desa	Karangsalam	,	Kecamatan Kedungbanteng	biaya panggilan/pemberitahuan =	Rp120.000,00 
+9	Desa	Kebocoran	,	Kecamatan Kedungbanteng	biaya panggilan/pemberitahuan =	Rp120.000,00 
+10	Desa	Kedungbanteng	,	Kecamatan Kedungbanteng	biaya panggilan/pemberitahuan =	Rp120.000,00 
+11	Desa	Keniten	,	Kecamatan Kedungbanteng	biaya panggilan/pemberitahuan =	Rp120.000,00 
+12	Desa	Kutaliman	,	Kecamatan Kedungbanteng	biaya panggilan/pemberitahuan =	Rp140.000,00 
+13	Desa	Melung	,	Kecamatan Kedungbanteng	biaya panggilan/pemberitahuan =	Rp150.000,00 
+14	Desa	Windujaya	,	Kecamatan Kedungbanteng	biaya panggilan/pemberitahuan =	Rp140.000,00 
+						
+	8. Kecamatan Lumbir					
+1	Desa	Besuki	,	Kecamatan Lumbir	biaya panggilan/pemberitahuan =	Rp140.000,00 
+2	Desa	Canduk	,	Kecamatan Lumbir	biaya panggilan/pemberitahuan =	Rp140.000,00 
+3	Desa	Cidora	,	Kecamatan Lumbir	biaya panggilan/pemberitahuan =	Rp150.000,00 
+4	Desa	Cingembul	,	Kecamatan Lumbir	biaya panggilan/pemberitahuan =	Rp150.000,00 
+5	Desa	Cirahab	,	Kecamatan Lumbir	biaya panggilan/pemberitahuan =	Rp140.000,00 
+6	Desa	Dermaji	,	Kecamatan Lumbir	biaya panggilan/pemberitahuan =	Rp140.000,00 
+7	Desa	Karanggayam	,	Kecamatan Lumbir	biaya panggilan/pemberitahuan =	Rp140.000,00 
+8	Desa	Kedunggede	,	Kecamatan Lumbir	biaya panggilan/pemberitahuan =	Rp140.000,00 
+9	Desa	Lumbir	,	Kecamatan Lumbir	biaya panggilan/pemberitahuan =	Rp140.000,00 
+10	Desa	Parungkamal	,	Kecamatan Lumbir	biaya panggilan/pemberitahuan =	Rp140.000,00 
+						
+	9. Kecamatan Pekuncen					
+1	Desa	Banjaranyar	,	Kecamatan Pekuncen	biaya panggilan/pemberitahuan =	Rp140.000,00 
+2	Desa	Candinegara	,	Kecamatan Pekuncen	biaya panggilan/pemberitahuan =	Rp140.000,00 
+3	Desa	Cibangkong	,	Kecamatan Pekuncen	biaya panggilan/pemberitahuan =	Rp140.000,00 
+4	Desa	Cikawung	,	Kecamatan Pekuncen	biaya panggilan/pemberitahuan =	Rp140.000,00 
+5	Desa	Cikembulan	,	Kecamatan Pekuncen	biaya panggilan/pemberitahuan =	Rp140.000,00 
+6	Desa	Glempang	,	Kecamatan Pekuncen	biaya panggilan/pemberitahuan =	Rp140.000,00 
+7	Desa	Karangkemiri	,	Kecamatan Pekuncen	biaya panggilan/pemberitahuan =	Rp140.000,00 
+8	Desa	Karangklesem	,	Kecamatan Pekuncen	biaya panggilan/pemberitahuan =	Rp140.000,00 
+9	Desa	Krajan	,	Kecamatan Pekuncen	biaya panggilan/pemberitahuan =	Rp140.000,00 
+10	Desa	Kranggan	,	Kecamatan Pekuncen	biaya panggilan/pemberitahuan =	Rp140.000,00 
+11	Desa	Pasiraman Lor	,	Kecamatan Pekuncen	biaya panggilan/pemberitahuan =	Rp140.000,00 
+12	Desa	Pasiraman Kidul	,	Kecamatan Pekuncen	biaya panggilan/pemberitahuan =	Rp140.000,00 
+13	Desa	Pekuncen	,	Kecamatan Pekuncen	biaya panggilan/pemberitahuan =	Rp140.000,00 
+14	Desa	Petaunan	,	Kecamatan Pekuncen	biaya panggilan/pemberitahuan =	Rp150.000,00 
+15	Desa	Semedo	,	Kecamatan Pekuncen	biaya panggilan/pemberitahuan =	Rp150.000,00 
+16	Desa	Tumiyang	,	Kecamatan Pekuncen	biaya panggilan/pemberitahuan =	Rp140.000,00 
+						
+	10. Kecamatan Purwojati					
+1	Desa	Gerduren	,	Kecamatan Purwojati	biaya panggilan/pemberitahuan =	Rp140.000,00 
+2	Desa	Kaliputih	,	Kecamatan Purwojati	biaya panggilan/pemberitahuan =	Rp140.000,00 
+3	Desa	Kalitapen	,	Kecamatan Purwojati	biaya panggilan/pemberitahuan =	Rp140.000,00 
+4	Desa	Kaliurip	,	Kecamatan Purwojati	biaya panggilan/pemberitahuan =	Rp140.000,00 
+5	Desa	Kaliwangi	,	Kecamatan Purwojati	biaya panggilan/pemberitahuan =	Rp140.000,00 
+6	Desa	Karangmangu	,	Kecamatan Purwojati	biaya panggilan/pemberitahuan =	Rp140.000,00 
+7	Desa	Karangtalun Kidul	,	Kecamatan Purwojati	biaya panggilan/pemberitahuan =	Rp140.000,00 
+8	Desa	Karangtalun Lor	,	Kecamatan Purwojati	biaya panggilan/pemberitahuan =	Rp140.000,00 
+9	Desa	Klapasawit	,	Kecamatan Purwojati	biaya panggilan/pemberitahuan =	Rp140.000,00 
+10	Desa	Purwojati	,	Kecamatan Purwojati	biaya panggilan/pemberitahuan =	Rp140.000,00 
+						
+	11. Kecamatan Purwokerto Barat					
+1	Kelurahan	Bantarsoka	,	Kecamatan Purwokerto Barat	biaya panggilan/pemberitahuan =	Rp100.000,00 
+2	Kelurahan	Karanglewas Lor	,	Kecamatan Purwokerto Barat	biaya panggilan/pemberitahuan =	Rp100.000,00 
+3	Kelurahan	Kedungwuluh	,	Kecamatan Purwokerto Barat	biaya panggilan/pemberitahuan =	Rp100.000,00 
+4	Kelurahan	Kober	,	Kecamatan Purwokerto Barat	biaya panggilan/pemberitahuan =	Rp100.000,00 
+5	Kelurahan	Pasir Kidul	,	Kecamatan Purwokerto Barat	biaya panggilan/pemberitahuan =	Rp100.000,00 
+6	Kelurahan	Pasirmuncang	,	Kecamatan Purwokerto Barat	biaya panggilan/pemberitahuan =	Rp100.000,00 
+7	Kelurahan	Rejasari	,	Kecamatan Purwokerto Barat	biaya panggilan/pemberitahuan =	Rp100.000,00 
+						
+	12. Kecamatan Purwokerto Selatan					
+1	Kelurahan	Berkoh	,	Kecamatan Purwokerto Selatan	biaya panggilan/pemberitahuan =	Rp100.000,00 
+2	Kelurahan	Karang Klesem	,	Kecamatan Purwokerto Selatan	biaya panggilan/pemberitahuan =	Rp100.000,00 
+3	Kelurahan	Karangpucung	,	Kecamatan Purwokerto Selatan	biaya panggilan/pemberitahuan =	Rp100.000,00 
+4	Kelurahan	Purwokerto Kidul	,	Kecamatan Purwokerto Selatan	biaya panggilan/pemberitahuan =	Rp100.000,00 
+5	Kelurahan	Purwokerto Kulon	,	Kecamatan Purwokerto Selatan	biaya panggilan/pemberitahuan =	Rp100.000,00 
+6	Kelurahan	Tanjung	,	Kecamatan Purwokerto Selatan	biaya panggilan/pemberitahuan =	Rp100.000,00 
+7	Kelurahan	Teluk	,	Kecamatan Purwokerto Selatan	biaya panggilan/pemberitahuan =	Rp100.000,00 
+						
+	13. Kecamatan Purwokerto Timur					
+1	Kelurahan	Arcawinangun	,	Kecamatan Purwokerto Timur	biaya panggilan/pemberitahuan =	Rp100.000,00 
+2	Kelurahan	Kranji	,	Kecamatan Purwokerto Timur	biaya panggilan/pemberitahuan =	Rp100.000,00 
+3	Kelurahan	Mersi	,	Kecamatan Purwokerto Timur	biaya panggilan/pemberitahuan =	Rp100.000,00 
+4	Kelurahan	Purwokerto Lor	,	Kecamatan Purwokerto Timur	biaya panggilan/pemberitahuan =	Rp100.000,00 
+5	Kelurahan	Purwokerto Wetan	,	Kecamatan Purwokerto Timur	biaya panggilan/pemberitahuan =	Rp100.000,00 
+						
+	14. Kecamatan Purwokerto Utara					
+1	Kelurahan	Sokanegara	,	Kecamatan Purwokerto Utara	biaya panggilan/pemberitahuan =	Rp100.000,00 
+2	Kelurahan	Bancarkembang	,	Kecamatan Purwokerto Utara	biaya panggilan/pemberitahuan =	Rp100.000,00 
+3	Kelurahan	Bobosan	,	Kecamatan Purwokerto Utara	biaya panggilan/pemberitahuan =	Rp100.000,00 
+4	Kelurahan	Grendeng	,	Kecamatan Purwokerto Utara	biaya panggilan/pemberitahuan =	Rp100.000,00 
+5	Kelurahan	Karangwangkal	,	Kecamatan Purwokerto Utara	biaya panggilan/pemberitahuan =	Rp100.000,00 
+6	Kelurahan	Pabuwaran	,	Kecamatan Purwokerto Utara	biaya panggilan/pemberitahuan =	Rp100.000,00 
+7	Kelurahan	Purwanagera	,	Kecamatan Purwokerto Utara	biaya panggilan/pemberitahuan =	Rp100.000,00 
+8	Kelurahan	Sumampir	,	Kecamatan Purwokerto Utara	biaya panggilan/pemberitahuan =	Rp100.000,00 
+						
+	15. Kecamatan Rawalo					
+1	Desa	Banjarparakan	,	Kecamatan Rawalo	biaya panggilan/pemberitahuan =	Rp120.000,00 
+2	Desa	Losari	,	Kecamatan Rawalo	biaya panggilan/pemberitahuan =	Rp120.000,00 
+3	Desa	Menganti	,	Kecamatan Rawalo	biaya panggilan/pemberitahuan =	Rp120.000,00 
+4	Desa	Pesawahan	,	Kecamatan Rawalo	biaya panggilan/pemberitahuan =	Rp120.000,00 
+5	Desa	Rawalo	,	Kecamatan Rawalo	biaya panggilan/pemberitahuan =	Rp120.000,00 
+6	Desa	Sanggreman	,	Kecamatan Rawalo	biaya panggilan/pemberitahuan =	Rp120.000,00 
+7	Desa	Sidamulih	,	Kecamatan Rawalo	biaya panggilan/pemberitahuan =	Rp120.000,00 
+8	Desa	Tambaknegara	,	Kecamatan Rawalo	biaya panggilan/pemberitahuan =	Rp120.000,00 
+9	Desa	Tipar	,	Kecamatan Rawalo	biaya panggilan/pemberitahuan =	Rp120.000,00 
+						
+	16. Kecamatan Wangon					
+1	Desa	Banteran	,	Kecamatan Wangon	biaya panggilan/pemberitahuan =	Rp140.000,00 
+2	Desa	Cikakak	,	Kecamatan Wangon	biaya panggilan/pemberitahuan =	Rp140.000,00 
+3	Desa	Jambu	,	Kecamatan Wangon	biaya panggilan/pemberitahuan =	Rp140.000,00 
+4	Desa	Jurangbahas	,	Kecamatan Wangon	biaya panggilan/pemberitahuan =	Rp140.000,00 
+5	Desa	Klapagading Kulon	,	Kecamatan Wangon	biaya panggilan/pemberitahuan =	Rp140.000,00 
+6	Desa	Klapagading Wetan	,	Kecamatan Wangon	biaya panggilan/pemberitahuan =	Rp140.000,00 
+7	Desa	Pengadegan	,	Kecamatan Wangon	biaya panggilan/pemberitahuan =	Rp140.000,00 
+8	Desa	Randegan	,	Kecamatan Wangon	biaya panggilan/pemberitahuan =	Rp140.000,00 
+9	Desa	Rawaheng	,	Kecamatan Wangon	biaya panggilan/pemberitahuan =	Rp140.000,00 
+10	Desa	Wangon	,	Kecamatan Wangon	biaya panggilan/pemberitahuan =	Rp140.000,00 
+11	Desa	Windunegara	,	Kecamatan Wangon	biaya panggilan/pemberitahuan =	Rp140.000,00 
+12	Desa	Wlahar	,	Kecamatan Wangon	biaya panggilan/pemberitahuan =	Rp140.000,00 
+
 
 
 4. INFORMASI PENGADILAN AGAMA Purwokerto
