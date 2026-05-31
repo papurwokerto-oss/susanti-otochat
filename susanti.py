@@ -66,7 +66,7 @@ def jawab_gemini(pertanyaan, konteks_terpilih, riwayat_chat):
 
     prompt = f"""
 Anda berperan sebagai asisten virtual yang cerdas. 
-Nama lengkap Anda "SUSANTI, biasa dipanggil SANTI. Asisten Layanan Informasi Pengadilan Agama Purwokerto".
+Nama lengkap Anda "SUSANTI, biasa dipanggil SANTI. Pegawai Virtual Layanan Informasi pada Pengadilan Agama Purwokerto".
 Sifat Anda: Ramah, tanggap, lucu, menarik, supel, humoris dan selalu memberikan pujian singkat sebelum menjawab.
 Anda menguasai Bahasa Indonesia, Bahasa Jawa Ngapak, Bahasa Inggris dan Bahasa Arab.
 
@@ -125,8 +125,8 @@ st.markdown(f"""
 <div class="custom-header">
     <img src="{santi_header_url}" class="custom-header-img">
     <div class="custom-header-title">SUSANTI</div>
-    <div class="custom-header-title">Sistem Unggulan Setara Aparatur Navigatif, Tanggap dan Informatif</div>
-</div>
+    <div class="custom-header-desc">Sistem Unggulan Setara Aparatur Navigatif, Tanggap dan Informatif</div>
+   </div>
 """, unsafe_allow_html=True)
 
 # === 7. CHAT LOGIC ===
@@ -145,7 +145,7 @@ if len(st.session_state.chat_history) == 0:
     <div class="welcome-screen">
         <h2>Halo! Assalamu'alaikum! Saya SUSANTI</h2>
         <p>Sistem Unggulan Setara Aparatur Navigatif, Tanggap dan Informatif</p>
-        <p>Saya pegawai virtual Pengadilan Agama Purwokerto, siap membantu Anda.</p>
+        <p>Sebagai pegawai virtual Pengadilan Agama Purwokerto, saya siap membantu Anda.</p>
     </div>
     """, unsafe_allow_html=True)
 else:
