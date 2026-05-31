@@ -141,7 +141,7 @@ st.markdown(f"""
 }}
 .custom-header-desc {{
     font-size: 16px;
-    color: #555;
+    color: #333;
     margin-top: 5px;
 }}
 </style>
