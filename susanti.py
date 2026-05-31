@@ -185,7 +185,7 @@ if len(st.session_state.chat_history) == 0:
     <div class="welcome-screen">
         <img src="{santi_header_url}" alt="Santi Logo"/>
         <h2>Assalamu'alaikum! Saya SUSANTI</h2>
-        <p>Saya adalah Sistem Unggulan Setara Aparatur yang Navigatif, Tanggap dan Informatif</p>
+        <p>Saya adalah Sistem Unggulan yang Setara dengan Aparatur, bersifat Navigatif, Tanggap dan Informatif</p>
         <p>Sebagai pegawai virtual Pengadilan Agama Purwokerto, saya siap membantu Anda.</p>
     </div>
     """, unsafe_allow_html=True)
@@ -207,7 +207,7 @@ if user_input:
     
     # 2. Proses jawaban bot dengan spinner
     with st.chat_message("bot", avatar=santi_avatar_url):
-        with st.spinner("Sabar ya Bos, Santi tak mikir disit..."):
+        with st.spinner("Sabar ya Lur, inyong tak mikir disit..."):
             # Ambil konteks
             konteks_terpilih = ambil_konteks_relevan(user_input, sumber_teks, top_n=3)
             
