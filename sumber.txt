@@ -504,7 +504,7 @@ Maka Jam Kerja pada Pengadilan Agama Purwokerto Kelas I-A adalah sebagai berikut
 Hari Kerja                  Jam Masuk      Jam Istirahat   Jam Pulang
 -----------------------------------------------------------------------------------------
 Senin – Jumat           08.00                 12.00 – 13.00   16.30
-Jum’at                         07.00                 12.00 – 13.30   16.00
+Jum’at                         07.00                 11.30 – 13.00   16.00
 -----------------------------------------------------------------------------------------
 Catatan :
 1. Hari Sabtu, Minggu dan Libur Nasional Tutup.
@@ -515,15 +515,15 @@ Catatan :
 D. ALAMAT DAN KONTAK PENGADILAN AGAMA Purwokerto
 Jalan Gerilya No. 7A, Kelurahan Tanjung, Kecamatan Purwokerto Selatan, Kabupaten Banyumas.
 Telp : (0281) 636366
-Fax : (061) 7851759
 Website : http://www.pa-purwokerto.go.id
 Email : pa.purwokerto@gmail.com
-Facebook : Pengadilan Agama Purwokerto Kelas I A
+Facebook : Pengadilan Agama Purwokerto
 Instagram : pa.purwokerto
 YouTube : ProlantasTV
+WhatsApp Layanan PTSP : 081330328867
 
 
-5. E-COURT
+5. E-COURT atau Ecourt
 A. PENGERTIAN
 e-Court adalah layanan bagi Pengguna Terdaftar untuk Pendaftaran Perkara Secara Online, Mendapatkan Taksiran Panjar Biaya Perkara secara online, Pembayaran secara online dan Pemanggilan yang dilakukan dengan saluran elektronik.
 a. e-Filing (Pendaftaran Perkara secara Online di Pengadilan Agama), pendaftaran perkara secara elektronik.
@@ -569,33 +569,35 @@ Pembuatan gugatan atau permohonan untuk cerai gugat dan cerai talak dapat dilaku
 7. PERSYARATAN PENGAMBILAN PRODUK PENGADILAN
 A. PENGAMBILAN AKTA CERAI (AC)
 Akta cerai merupakan akta otentik yang dikeluarkan oleh Pengadilan Agama sebagai bukti telah terjadi perceraian. Akta cerai bisa diterbitkan jika gugatan dikabulkan oleh majelis hakim dan perkara tersebut telah memperoleh kekuatan hukum tetap (inkracht). Perkara dikatakan telah berkekuatan hukum tetap jika dalam waktu 14 hari sejak putusan dibacakan (dalam hal para pihak hadir), salah satu atau para pihak tidak mengajukan upaya hukum banding. Dalam hal pihak tidak hadir, maka perkara baru inkracht terhitung 14 hari sejak pemberitahuan isi putusan disampaikan kepada pihak yang tidak hadir dan yang bersangkutan tidak melakukan upaya hukum banding (putusan kontradiktoir) atau verzet (putusan verstek).
-Syarat mengambil Akta Cerai:
+Akta cerai yang diterbitkan mulai tanggal 1 Juli 2025 dapat diunduh secara mandiri di https://eac.mahkamahagung.go.id/ dengan terlebih dahulu mengaktifkan akun EAC. Pemohon dapat mendaftarkan dan mengaktifkan akun EAC melalui PTSP secara langsung atau menghubungi whatsapp (WA) Layanan Pengadilan Agama Purwokerto. 
+
+Syarat mengambil Akta Cerai untuk Akta Cerai yang diterbitkan sebelum tanggal 1 Juli 2025:
     - Menyerahkan nomor perkara yang dimaksud.
-    - Memperlihatkan identitas diri baik KTP/domisili ataupun SIM.
+    - Menyerahkan fotokopi KTP dan menunjukkan aslinya.
     - Membayar Penerimaan Negara Bukan Pajak (PNBP) Akta Cerai Rp.10.000,- (Sepuluh ribu rupiah).
     - Jika menguasakan kepada orang lain untuk mengambil akta cerai, maka di samping fotokopi KTP pemberi dan penerima kuasa, juga menyerahkan Foto dan Kartu Keluarga juga menyerahkan Asli Surat Kuasa bermeterai Rp.10.000 yang diketahui oleh Kepala Desa/Lurah setempat.
 Syarat mengambil Akta Cerai oleh Orangtua Kandung/Saudara Kandung
     - Membuat surat kuasa yang ditandatangani oleh Pemberi dan Penerima Kuasa dan diberi materai 10.000;
     - Menyertakan Surat Keterangan dari Kelurahan yang menyatakan bahwa kuasa adalah orangtua kandung/saudara kandung;
-    - Fotocopy KTP dan Kartu Keluarga Pemberi dan Penerima Kuasa, beserta membawa KTP asli;
-    - Video Call dengan Pemberi Kuasa ketika pengambilan Akta Cerainya.
+    - Fotocopi KTP dan Kartu Keluarga Pemberi dan Penerima Kuasa, beserta membawa KTP asli;
+    - Video Call dengan Pemberi Kuasa ketika pengambilan Akta Cerainya jika dipandang perlu oleh petugas layanan.
     - Surat pernyataan Bermaterai 10.000 yang dibuat oleh Penerima Kuasa bahwa Akta Cerai tersebut tidak akan disalahgunakan, dan apabila hilang atau disalahgunakan maka Penerima Kuasa akan mempertanggungjawabkan sesuai dengan hukum yang berlaku.
 B. PENGAMBILAN SALINAN PUTUSAN
-Syarat mengambil Salinan Putusan;
+Salinan putusan untuk perkara yang didaftarkan secara e-court dapat secara langsung diunduh di akun ecourt.
+Untuk perkara non e-court, maka syarat mengambil Salinan Putusan;
     - Menyerahkan nomor perkara yang dimaksud.
     - Memperlihatkan KTP Asli  bahwa ia pihak berperkara dimaksud dan menyerahkan fotokopinya.
     - Membayar Penerimaan Negara Bukan Pajak (PNBP).
-    - Biaya salinan @lembar Rp. 500 (Tiga ratus rupiah per lembar)
+    - Biaya salinan @lembar Rp. 500 (lima ratus rupiah per lembar)
 Syarat mengambil Salinan Putusan oleh Orangtua Kandung/Saudara Kandung
     - Membuat surat kuasa yang ditandatangani oleh Pemberi dan Penerima Kuasa dan diberi materai 10.000;
     - Menyertakan Surat Keterangan dari Kelurahan yang menyatakan bahwa kuasa adalah orangtua kandung/saudara kandung;
     - Fotocopy KTP dan Kartu Keluarga Pemberi dan Penerima Kuasa, beserta membawa KTP asli.
-    - Video Call dengan Pemberi Kuasa ketika pengambilan Akta Cerainya.
-    - Surat pernyataan Bermaterai 10.000 yang dibuat oleh Penerima Kuasa bahwa Salinan Putusan tersebut tidak akan disalahgunakan, dan apabila hilang atau disalahgunakan maka Penerima Kuasa akan mempertanggungjawabkan sesuai dengan hukum yang berlaku.
+    - Video Call dengan Pemberi Kuasa ketika pengambilan salinan putusan jika dipandang perlu oleh petugas layanan.
 C. PENGAJUAN PERMOHONAN SURAT KETERANGAN (DUPLIKAT) AKTA CERAI
     - Pihak yang ingin mengajukan harus mengetahui Nomor Perkara atau Nomor Akta Cerai yang akan dimintakan Surat Keterangan / Duplikat.
     - Pengajuan permohonan dilakukan oleh Pihak yang bersangkutan (pengenalan identitas melalui KTP Asli ).
-    - Surat Keterangan Kehilangan dari Kepolisian setempat yang menerangkan bahwa Akte Cerai Nomor : xxx/AC/2002/PA.Mdn dengan Nomor Perkara : xxx/Pdt.G/2002/PA.Mdn telah hilang.
+    - Surat Keterangan Kehilangan dari Kepolisian setempat yang menerangkan bahwa Akta Cerai Nomor : xxx/AC/2002/PA.Pwt dengan Nomor Perkara : xxx/Pdt.G/2002/PA.Pwt telah hilang.
     - Lampirkan Foto Kopi Akta Cerai yang akan dimintakan Surat Keterangan/Duplikat (Jika Ada).
     - Surat Keterangan Domisili / tempat tinggal dari Kelurahan tempat tinggal sekarang (diketahui oleh Kecamatan setempat).
     - Surat Pernyataan bermeterai 10.000 dari Pihak, yang menerangkan bahwa Akta Cerai tersebut belum pernah digunakan untuk menikah.
