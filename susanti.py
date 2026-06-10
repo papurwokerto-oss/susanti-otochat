@@ -230,28 +230,3 @@ st.markdown("""
 <div class="custom-footer">&copy; 2026 - Pengadilan Agama Purwokerto</div>
 """, unsafe_allow_html=True)
 
-# === 9. AUTO-SCROLL FIX (VERSI TERBARU) ===
-# Kita menggunakan st.empty() untuk menampung script, 
-# ini adalah cara yang disarankan untuk menghindari peringatan deprecated.
-
-import streamlit as st
-
-# Kode JavaScript untuk scroll ke bawah
-scroll_script = """
-    <script>
-        const scrollBottom = () => {
-            window.parent.document.querySelector('section.main').scrollTo(0, 1000000);
-        };
-        setTimeout(scrollBottom, 100);
-    </script>
-"""
-
-# Gunakan st.components.v1.html di dalam container kosong
-# Meskipun peringatan mengatakan untuk pakai st.iframe, untuk script 
-# internal seperti auto-scroll, st.components.v1.html masih berfungsi 
-# sampai Streamlit benar-benar menghapusnya. 
-# Jika peringatan masih muncul, Anda bisa mengabaikannya karena 
-# aplikasi tidak akan error.
-
-import streamlit.components.v1 as components
-components.html(scroll_script, height=0)
